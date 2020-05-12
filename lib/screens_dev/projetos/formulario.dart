@@ -58,7 +58,7 @@ class FormularioPostState extends State<FormularioPost>{
             inputType: TextInputType.multiline,
           ),
           RaisedButton(
-            // onPressed: () => _criaPost(context),
+            onPressed: () => {},
             child: Text(
               _rotuloBotao,
               style: TextStyle(fontSize: 24),
@@ -79,9 +79,8 @@ class FormularioPostState extends State<FormularioPost>{
   //   if(tituloProjeto != '' &&
   //     subtituloProjeto != '' &&
   //     descricaoProjeto != ''){
-  //       // final postCriado = PostProjeto(tituloProjeto,
-  //       //   subtituloProjeto,
-  //       //   descricaoProjeto);
+  //       final postCriado = PostProjeto(tituloProjeto,
+  //         descricaoProjeto);
   //       _webClient.save(postCriado).then((postProjeto) {
   //         if(postProjeto != null) {
   //           Navigator.pop(context);

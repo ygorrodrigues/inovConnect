@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 
 class CampoTexto extends StatelessWidget {
 
-  final TextEditingController controlador;
-  final String rotulo;
+  final TextEditingController controller;
+  final String label;
   final String dica;
   final double tamanhoFonte;
   final double padLeft;
   final double padRight;
   final double padTop;
   final double padBottom;
-  final TextInputType tipoInput;
+  final TextInputType inputType;
   final bool obscuro;
+  final Color fontColor;
+  final double labelSize;
 
   const CampoTexto({
-   this.controlador,
-   this.rotulo, 
+   this.controller,
+   this.label, 
    this.tamanhoFonte,
-   this.tipoInput,
+   this.inputType,
    this.dica,
    this.padLeft,
    this.padRight,
    this.padTop,
    this.padBottom, 
-   this.obscuro
+   this.obscuro,
+   this.fontColor,
+   this.labelSize
   });
 
   @override
@@ -37,16 +41,33 @@ class CampoTexto extends StatelessWidget {
       ),
       child: TextField(
         obscureText: obscuro != null ? obscuro : false,
-        controller: controlador,
-        keyboardType: tipoInput != null ? tipoInput : TextInputType.text,
-        maxLines: tipoInput != null ? null : 1,
+        controller: controller,
+        keyboardType: inputType != null ? inputType : TextInputType.text,
+        maxLines: inputType != null ? null : 1,
         style: TextStyle(
+          color: fontColor,
           fontSize: tamanhoFonte
         ),
         decoration: InputDecoration(
-          labelText: rotulo != null ? rotulo : '',
+          labelText: label != null ? label : '',
+          labelStyle: TextStyle(
+            fontSize: labelSize
+          ),
           hintText: dica != null ? dica : '',
-          border: OutlineInputBorder()
+          border: OutlineInputBorder(
+            borderRadius: new BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.lightBlue[400],
+              width: 2,
+            ),
+            borderRadius: new BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
         ),
       ),
     );

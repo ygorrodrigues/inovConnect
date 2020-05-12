@@ -1,6 +1,6 @@
 // import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:inov_connect/screens/perfil/login.dart';
+import 'package:inov_connect/screens_dev/perfil/login.dart';
 
 void main() => runApp(InovConnect());
 

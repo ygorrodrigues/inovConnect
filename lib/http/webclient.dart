@@ -6,6 +6,6 @@ final Client client = HttpClientWithInterceptor.build(interceptors: [
   LoggingInterceptor()
 ]);
 
-const String url = 'http://192.168.0.2:3000';
-const String posts_url = '$url/posts';
-const String login_url = '$url/login';
+const String url = 'http://192.168.0.5:3000';
+const String allPosts_url = '$url/posts';
+const String login_url = '$url/users/login';
