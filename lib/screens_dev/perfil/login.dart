@@ -17,12 +17,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _controllerUser =
-      TextEditingController();
-  final TextEditingController _controllerPassword = TextEditingController();
 
-  bool auth = false;
   final LoginWebClient _webClient = LoginWebClient();
+
+  final TextEditingController _controllerUser =
+    TextEditingController();
+  final TextEditingController _controllerPassword = 
+    TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,23 +103,14 @@ class _LoginState extends State<Login> {
     final String usuario = _controllerUser.text;
     final String senha = _controllerPassword.text;
 
-    setState(() {
-      auth = !auth;
-    });
 
     _webClient.createToken(usuario, senha).then((resp) {
       print('Resposta: $resp');
       if (resp['accessToken'] != null) {
-        setState(() {
-          auth = !auth;
-        });
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return ProjectsFeed();
         }));
       } else {
-        setState(() {
-          auth = !auth;
-        });
         showDialog(
             context: context,
             builder: (context) {

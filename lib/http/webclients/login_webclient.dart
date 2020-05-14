@@ -5,10 +5,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginWebClient{
 
+  final storage = new FlutterSecureStorage();
+
   Future<Map<String, dynamic>> createToken(String user, String pwd) async{
-
-    final storage = new FlutterSecureStorage();
-
     final String userDataJson = jsonEncode({
       'raCode': user,
       'password': pwd
@@ -31,6 +30,19 @@ class LoginWebClient{
     catch(e){
       return {'message': 'Erro $e'};
     }    
+  }
+
+  Future<String> tokenValidation() async {
+    try {
+      return await storage.read(key: 'token');
+    } 
+    catch (e) {
+      return 'Erro $e';
+    }
+  }
+
+  Future<void> removeToken() async {
+    await storage.delete(key: 'token');
   }
 
 }
