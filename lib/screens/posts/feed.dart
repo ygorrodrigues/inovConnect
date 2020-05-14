@@ -3,8 +3,9 @@ import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/models/post_projeto.dart';
-import 'package:inov_connect/screens/projetos/descricao.dart';
-import 'package:inov_connect/screens/projetos/formulario.dart';
+import 'package:inov_connect/screens/projects/descricao.dart';
+import 'package:inov_connect/screens/projects/form.dart';
+
 
 const _tituloAppBar = 'Inov-Connect';
 
