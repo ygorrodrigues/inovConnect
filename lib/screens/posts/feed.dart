@@ -1,121 +1,254 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/centered_message.dart';
-import 'package:inov_connect/components/progress.dart';
-import 'package:inov_connect/http/webclients/posts_webclient.dart';
-import 'package:inov_connect/models/post_projeto.dart';
-import 'package:inov_connect/screens/projects/descricao.dart';
-import 'package:inov_connect/screens/projects/form.dart';
 
+class Feed extends StatelessWidget {
+  const Feed({
+    Key key,
+  }) : super(key: key);
 
-const _tituloAppBar = 'Inov-Connect';
-
-class ProjectsFeed extends StatefulWidget {
-
-  final PostsWebClient _webClient = PostsWebClient();
-
-  @override
-  State<StatefulWidget> createState() {
-    return ProjectsFeedState();
-  }  
-}
-
-class ProjectsFeedState extends State<ProjectsFeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_tituloAppBar),
-        actions: <Widget>[
-            
-        ],
-      ),
-      body: FutureBuilder<List<PostProjeto>>(
-        initialData: List(),
-        future: widget._webClient.findAll(),
-        builder: (context, snapshot){
-
-          switch(snapshot.connectionState) {
-            
-            case ConnectionState.none:
-              break;
-            case ConnectionState.waiting:
-              return ProgressLoading(message: 'Carregando');
-              break;
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              if(snapshot.hasData){
-                final List<PostProjeto> _postsProjetos = snapshot.data;
-                if(_postsProjetos.isNotEmpty){
-                  return ListView.builder(
-                    itemBuilder: (context, index){
-                      final PostProjeto post = _postsProjetos[index];
-                      return _ItemPostProjeto(post);
-                    },
-                    itemCount: _postsProjetos.length,
-                  );
-                }
-                return CenteredMessage('No posts found...', icon: Icons.warning);
-              }
-              break;
-          }
-          return CenteredMessage("Unknown error...", icon: Icons.close);          
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _goToForm(context),
-      ),
+      body: MyStatelessWidget(),
     );
-  }
-
-  void _goToForm(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return FormularioPost();
-      }
-    ));
   }
 }
 
-class _ItemPostProjeto extends StatelessWidget {
+class _FeedItem extends StatelessWidget {
+  _FeedItem({
+    Key key,
+    this.colorCard,
+    this.image,
+    this.type,
+    this.username,
+    this.publishDate,
+    this.title,
+    this.category,
+  }) : super(key: key);
 
-  final PostProjeto postProjeto;
-  final String botaoCard = 'Ver descrição';
-
-  const _ItemPostProjeto(this.postProjeto);
+  final Color colorCard;
+  final String image;
+  final String type;
+  final String username;
+  final String publishDate;
+  final String title;
+  final String category;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text(
-            postProjeto.title,
-            style: TextStyle(fontSize: 24),
-          ),
-          subtitle: Text(
-            postProjeto.subtitle,
-            style: TextStyle(fontSize: 16),
-          ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          12.0,
         ),
-        ButtonBar(children: <Widget>[
-          FlatButton(
-            child: Text(
-              botaoCard,
-              style: TextStyle(fontSize: 24),
+      ),
+      color: colorCard,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              textDirection: TextDirection.rtl,
+              children: <Widget>[
+                Text(
+                  '$type',
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context){
-                  return DescProjeto(postProjeto);
-                }
-              ));
-            },
-          )
-        ],)
-      ],),
+            Row(
+              children: <Widget>[
+                Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(36.0),
+                    ),
+                    child: Image.asset(
+                      '$image',
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                      child: Text(
+                        '$username',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                      child: Text(
+                        '$publishDate',
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                          color: Color.fromARGB(255, 69, 90, 100),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Título: ',
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '$title',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 4.0, 0, 6.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Categoria: ',
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '$category',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomListItemTwo extends StatelessWidget {
+  CustomListItemTwo({
+    Key key,
+    this.colorCard,
+    this.image,
+    this.type,
+    this.username,
+    this.publishDate,
+    this.title,
+    this.category,
+  }) : super(key: key);
+
+  final Color colorCard;
+  final String image;
+  final String type;
+  final String username;
+  final String publishDate;
+  final String title;
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: SizedBox(
+        height: 180,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: _FeedItem(
+                colorCard: colorCard,
+                image: image,
+                type: type,
+                username: username,
+                publishDate: publishDate,
+                title: title,
+                category: category,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// This is the stateless widget that the main application instantiates.
+class MyStatelessWidget extends StatelessWidget {
+  MyStatelessWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+      children: <Widget>[
+        CustomListItemTwo(
+          colorCard: Colors.red[400],
+          image: 'assets/images/person64.jpg',
+          type: 'PROJETO',
+          username: 'Guilherme',
+          publishDate: '01/05/2020 às 14:00',
+          title: 'TCC - InovConnect',
+          category: 'Hardware',
+        ),
+        CustomListItemTwo(
+          colorCard: Colors.lightBlue[400],
+          image: 'assets/images/person64.jpg',
+          type: 'DÚVIDA',
+          username: 'Guilherme',
+          publishDate: '01/05/2020 às 14:00',
+          title: 'TCC - InovConnect',
+          category: 'Hardware',
+        ),
+        CustomListItemTwo(
+          colorCard: Colors.green[400],
+          image: 'assets/images/person64.jpg',
+          type: 'GRUPO DE ESTUDOS',
+          username: 'Guilherme',
+          publishDate: '01/05/2020 às 14:00',
+          title: 'TCC - InovConnect',
+          category: 'Hardware',
+        ),
+        CustomListItemTwo(
+          colorCard: Colors.red[400],
+          image: 'assets/images/person64.jpg',
+          type: 'PROJETO',
+          username: 'Guilherme',
+          publishDate: '01/05/2020 às 14:00',
+          title: 'TCC - InovConnect',
+          category: 'Hardware',
+        ),
+      ],
     );
   }
 }
