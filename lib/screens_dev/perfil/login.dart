@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/campo_texto.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
-import 'package:inov_connect/screens/projetos/feed.dart';
+import 'package:inov_connect/screens_dev/projetos/feed.dart';
 
 const _labelRA = 'RA';
 const _labelPwd = 'Senha';

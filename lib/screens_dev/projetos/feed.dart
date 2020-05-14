@@ -3,8 +3,6 @@ import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/models/post_projeto.dart';
-import 'package:inov_connect/screens/projetos/descricao.dart';
-import 'package:inov_connect/screens/projetos/formulario.dart';
 
 const _tituloAppBar = 'Inov-Connect';
 
@@ -63,18 +61,18 @@ class ProjectsFeedState extends State<ProjectsFeed> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _goToForm(context),
+        onPressed: () => {},
       ),
     );
   }
 
-  void _goToForm(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return FormularioPost();
-      }
-    ));
-  }
+  // void _goToForm(BuildContext context) {
+  //   Navigator.push(context, MaterialPageRoute(
+  //     builder: (context) {
+  //       return FormularioPost();
+  //     }
+  //   ));
+  // }
 }
 
 class _ItemPostProjeto extends StatelessWidget {
@@ -105,13 +103,7 @@ class _ItemPostProjeto extends StatelessWidget {
               botaoCard,
               style: TextStyle(fontSize: 24),
             ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context){
-                  return DescProjeto(postProjeto);
-                }
-              ));
-            },
+            onPressed: () {},
           )
         ],)
       ],),
