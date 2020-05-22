@@ -1,7 +1,8 @@
 // import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/entry_loading.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
-import 'package:inov_connect/screens_dev/perfil/login.dart';
+import 'package:inov_connect/screens_dev/users/signin.dart';
 import 'package:inov_connect/screens_dev/projetos/feed.dart';
 
 void main() => runApp(InovConnect());
@@ -12,37 +13,39 @@ class InovConnect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
+    return FutureBuilder<void>(
       future: _webClient.tokenValidation(),
       builder: (context, response) {
-        if(response.hasError) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.grey[50],
-            ),
-            home: Login(),
-          );
+        switch(response.connectionState) {
+          case ConnectionState.none:
+            break;
+          case ConnectionState.waiting:
+            return MaterialApp (home: EntryLoading());
+          case ConnectionState.active:
+            break;
+          case ConnectionState.done:
+            if(response.hasError) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  scaffoldBackgroundColor: Colors.grey[50],
+                ),
+                home: Signin()
+              );
+            } 
+            else {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  scaffoldBackgroundColor: Colors.grey[50],
+                ),
+                home: ProjectsFeed()
+              );
+            }
+            break;
         }
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.grey[50],
-          ),
-          home: ProjectsFeed(),
-        );
+          return Signin();
       }
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     theme: ThemeData(
-  //       scaffoldBackgroundColor: Colors.grey[50],
-  //     ),
-  //     home: Login(),
-  //   );
-  // }
 }

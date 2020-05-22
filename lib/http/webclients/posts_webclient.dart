@@ -22,6 +22,7 @@ class PostsWebClient{
         .catchError((err){
           print('Erro -> err');
         });
+        
     final List<dynamic> data = jsonDecode(response.body);
     final List<PostProjeto> posts = data
       .map((dynamic json) => PostProjeto.fromJson(json)).toList();

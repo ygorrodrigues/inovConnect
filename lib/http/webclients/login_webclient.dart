@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 import 'package:inov_connect/http/webclient.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,30 +20,43 @@ class LoginWebClient{
       body: userDataJson
       )
         .timeout(Duration(seconds: 5)).catchError((err) {
-          print("Erro -> $err");
+          throw Exception('Tente novamente mais tarde');
         });
 
+    Map<String, dynamic> resp = jsonDecode(response.body);
     try{
-      Map<String, dynamic> resp = jsonDecode(response.body);
       await storage.write(key: 'token', value: resp['accessToken']);
       return resp;
     }
     catch(e){
-      return {'message': 'Erro $e'};
-    }    
+      throw Exception(resp['message']);
+    }
   }
 
-  Future<String> tokenValidation() async {
-    try {
-      return await storage.read(key: 'token');
-    } 
-    catch (e) {
-      return 'Erro $e';
+  Future<void> tokenValidation() async {
+    String token = await storage.read(key: 'token');
+    if(token != null) {
+      final Response response = 
+      await client.get(first_auth_url, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      })
+        .timeout(Duration(seconds: 5))
+        .catchError((err){
+          print('Erro ao contactar o servidor');
+        });
+
+      if(response.statusCode == 401) {
+        throw Exception('Sessão finalizada');
+      }
+    }
+    else {
+      throw Exception('No token found');
     }
   }
 
   Future<void> removeToken() async {
-    await storage.delete(key: 'token');
+    print('Deletando key');
+    return await storage.delete(key: 'token');
   }
 
 }

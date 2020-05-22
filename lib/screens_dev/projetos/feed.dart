@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/progress.dart';
+import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/models/post_projeto.dart';
+import 'package:inov_connect/screens_dev/users/signin.dart';
 
 const _tituloAppBar = 'Inov-Connect';
+
+final LoginWebClient _loginWebClient = LoginWebClient();
 
 class ProjectsFeed extends StatefulWidget {
 
@@ -23,7 +27,16 @@ class ProjectsFeedState extends State<ProjectsFeed> {
       appBar: AppBar(
         title: Text(_tituloAppBar),
         actions: <Widget>[
-            
+            IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              _loginWebClient.removeToken().then((response) {
+                Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return Signin();
+                }));
+              });
+            },)
         ],
       ),
       body: FutureBuilder<List<PostProjeto>>(

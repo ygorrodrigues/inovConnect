@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/campo_texto.dart';
+import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
-import 'package:inov_connect/models/post_projeto.dart';
 
 const _tituloAppBar = 'Criando Post';
 
@@ -38,27 +37,27 @@ class FormularioPostState extends State<FormularioPost>{
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          CampoTexto(
+          InovTextField(
             controller: _controladorCampoTituloProjeto,
             label: _rotuloTitulo,
-            tamanhoFonte: 32,
+            labelSize: 32,
             padTop: 8,
           ),
-          CampoTexto(
+          InovTextField(
             controller: _controladorCampoSubtituloProjeto,
             label: _rotuloSubtitulo,
-            tamanhoFonte: 24,
+            labelSize: 24,
             padTop: 8,
           ),
-          CampoTexto(
+          InovTextField(
             controller: _controladorCampoDescricaoProjeto,
             label: _rotuloDescricao,
-            tamanhoFonte: 16,
+            labelSize: 16,
             padTop: 8,
             inputType: TextInputType.multiline,
           ),
           RaisedButton(
-            // onPressed: () => _criaPost(context),
+            onPressed: () => {},
             child: Text(
               _rotuloBotao,
               style: TextStyle(fontSize: 24),

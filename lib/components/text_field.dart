@@ -1,59 +1,69 @@
 import 'package:flutter/material.dart';
 
-class CampoTexto extends StatelessWidget {
+class InovTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final String label;
-  final String dica;
-  final double tamanhoFonte;
+  final String hint;
+  final double inputSize;
   final double padLeft;
   final double padRight;
   final double padTop;
   final double padBottom;
   final TextInputType inputType;
-  final bool obscuro;
+  final bool obscure;
   final Color fontColor;
   final double labelSize;
+  final IconData icon;
 
-  const CampoTexto({
+  const InovTextField({
    this.controller,
    this.label, 
-   this.tamanhoFonte,
+   this.inputSize,
    this.inputType,
-   this.dica,
+   this.hint,
    this.padLeft,
    this.padRight,
    this.padTop,
    this.padBottom, 
-   this.obscuro,
+   this.obscure,
    this.fontColor,
-   this.labelSize
+   this.labelSize,
+   this.icon
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        padLeft != null ? padLeft : 8,
+        padLeft != null ? padLeft : 0,
         padTop != null ? padTop : 0,
-        padRight != null ? padRight : 8,
+        padRight != null ? padRight : 0,
         padBottom != null ? padBottom : 0
       ),
       child: TextField(
-        obscureText: obscuro != null ? obscuro : false,
+        obscureText: obscure != null ? obscure : false,
         controller: controller,
         keyboardType: inputType != null ? inputType : TextInputType.text,
         maxLines: inputType != null ? null : 1,
         style: TextStyle(
-          color: fontColor,
-          fontSize: tamanhoFonte
+          color: fontColor != null ? fontColor : Colors.black,
+          fontSize: inputSize != null ? inputSize : 16.0
         ),
         decoration: InputDecoration(
-          labelText: label != null ? label : '',
-          labelStyle: TextStyle(
-            fontSize: labelSize
+          contentPadding: const EdgeInsets.all(8.0),
+          fillColor: Colors.white,
+          filled: true,
+          prefixIcon: Icon(
+            icon,
+            size: 32.0,
+            color: Colors.black45
           ),
-          hintText: dica != null ? dica : '',
+          labelText: label != null ? label : null,
+          labelStyle: TextStyle(
+            fontSize: labelSize != null ? labelSize : 16.0
+          ),
+          hintText: hint != null ? hint : '',
           border: OutlineInputBorder(
             borderRadius: new BorderRadius.all(
               Radius.circular(8),
@@ -61,7 +71,7 @@ class CampoTexto extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.lightBlue[400],
+              color: Colors.lightBlue[300],
               width: 2,
             ),
             borderRadius: new BorderRadius.all(
