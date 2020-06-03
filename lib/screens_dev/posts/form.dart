@@ -78,8 +78,9 @@ class FormularioPostState extends State<FormularioPost>{
   //   if(tituloProjeto != '' &&
   //     subtituloProjeto != '' &&
   //     descricaoProjeto != ''){
-  //       final postCriado = PostProjeto(tituloProjeto,
-  //         descricaoProjeto);
+  //       // final postCriado = PostProjeto(tituloProjeto,
+  //       //   subtituloProjeto,
+  //       //   descricaoProjeto);
   //       _webClient.save(postCriado).then((postProjeto) {
   //         if(postProjeto != null) {
   //           Navigator.pop(context);

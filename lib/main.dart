@@ -1,9 +1,8 @@
-// import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/entry_loading.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
+import 'package:inov_connect/screens_dev/posts/feed.dart';
 import 'package:inov_connect/screens_dev/users/signin.dart';
-import 'package:inov_connect/screens_dev/projetos/feed.dart';
 
 void main() => runApp(InovConnect());
 
@@ -39,7 +38,7 @@ class InovConnect extends StatelessWidget {
                 theme: ThemeData(
                   scaffoldBackgroundColor: Colors.grey[50],
                 ),
-                home: ProjectsFeed()
+                home: Feed()
               );
             }
             break;

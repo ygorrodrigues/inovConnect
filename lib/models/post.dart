@@ -1,24 +1,33 @@
-class PostProjeto {
+class Post {
+  final int id;
+  final String username;
   final String title;
   final String description;
   final List<dynamic> categories;
   final String status;
   final String type;
+  final String creationDate;
 
-  PostProjeto(
+  Post(
+    this.id,
+    this.username,
     this.title,
     this.description,
     this.categories,
     this.status,
-    this.type
+    this.type,
+    this.creationDate
   );
 
-  PostProjeto.fromJson(Map<String,dynamic> json) 
-    : title = json['title'],
+  Post.fromJson(Map<String,dynamic> json) 
+    : id = json['id'],
+      title = json['title'],
       description = json['description'],
       categories = json['categories'],
       status = json['status']['name'],
-      type = json['type']['name'];
+      type = json['type']['name'],
+      username = json['user']['name'],
+      creationDate = json['created_at'];
 
   Map<String,dynamic> toJson() => 
     {
@@ -29,8 +38,9 @@ class PostProjeto {
   @override
   String toString() {
     return 
-      'Post{Titulo: $title, '
-      'descrição: $description}, '
+      'Post{usuário: $username, '
+      'titulo: $title, '
+      'descrição: $description, '
       'categorias: $categories, '
       'status: $status, '
       'type: $type}';

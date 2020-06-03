@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/models/post_projeto.dart';
+import 'package:inov_connect/models/post.dart';
 
 class DescProjeto extends StatelessWidget {
 
-  final PostProjeto _postProjeto;
+  final Post _postProjeto;
 
   DescProjeto(this._postProjeto);
 

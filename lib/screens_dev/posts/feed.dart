@@ -3,49 +3,46 @@ import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
-import 'package:inov_connect/models/post_projeto.dart';
+import 'package:inov_connect/models/post.dart';
+import 'package:inov_connect/screens/posts/form.dart';
+import 'package:inov_connect/screens_dev/posts/feed_item.dart';
 import 'package:inov_connect/screens_dev/users/signin.dart';
-
-const _tituloAppBar = 'Inov-Connect';
 
 final LoginWebClient _loginWebClient = LoginWebClient();
 
-class ProjectsFeed extends StatefulWidget {
+class Feed extends StatefulWidget {
 
   final PostsWebClient _webClient = PostsWebClient();
 
   @override
-  State<StatefulWidget> createState() {
-    return ProjectsFeedState();
-  }  
+  _FeedState createState() => _FeedState();
 }
 
-class ProjectsFeedState extends State<ProjectsFeed> {
+class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_tituloAppBar),
+        title: Text('Inov-Connect'),
         actions: <Widget>[
             IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
               _loginWebClient.removeToken().then((response) {
                 Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return Signin();
-                }));
+                  builder: (context) {
+                    return Signin();
+                  })
+                );
               });
             },)
         ],
       ),
-      body: FutureBuilder<List<PostProjeto>>(
+      body: FutureBuilder<List<Post>>(
         initialData: List(),
         future: widget._webClient.findAll(),
         builder: (context, snapshot){
-
           switch(snapshot.connectionState) {
-            
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
@@ -55,12 +52,12 @@ class ProjectsFeedState extends State<ProjectsFeed> {
               break;
             case ConnectionState.done:
               if(snapshot.hasData){
-                final List<PostProjeto> _postsProjetos = snapshot.data;
+                final List<Post> _postsProjetos = snapshot.data;
                 if(_postsProjetos.isNotEmpty){
                   return ListView.builder(
                     itemBuilder: (context, index){
-                      final PostProjeto post = _postsProjetos[index];
-                      return _ItemPostProjeto(post);
+                      final Post post = _postsProjetos[index];
+                      return FeedItem(post);
                     },
                     itemCount: _postsProjetos.length,
                   );
@@ -74,52 +71,16 @@ class ProjectsFeedState extends State<ProjectsFeed> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => {},
+        onPressed: () {
+          Navigator.push(context, 
+            MaterialPageRoute(
+              builder: (context) {
+                return FormularioPost();
+              }
+            )
+          );
+        },
       ),
-    );
-  }
-
-  // void _goToForm(BuildContext context) {
-  //   Navigator.push(context, MaterialPageRoute(
-  //     builder: (context) {
-  //       return FormularioPost();
-  //     }
-  //   ));
-  // }
-}
-
-class _ItemPostProjeto extends StatelessWidget {
-
-  final PostProjeto postProjeto;
-  final String botaoCard = 'Ver descrição';
-
-  const _ItemPostProjeto(this.postProjeto);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text(
-            postProjeto.title,
-            style: TextStyle(fontSize: 24),
-          ),
-          subtitle: Text(
-            postProjeto.description,
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-        ButtonBar(children: <Widget>[
-          FlatButton(
-            child: Text(
-              botaoCard,
-              style: TextStyle(fontSize: 24),
-            ),
-            onPressed: () {},
-          )
-        ],)
-      ],),
     );
   }
 }
