@@ -11,7 +11,6 @@ import 'package:inov_connect/screens_dev/users/signin.dart';
 final LoginWebClient _loginWebClient = LoginWebClient();
 
 class Feed extends StatefulWidget {
-
   final PostsWebClient _webClient = PostsWebClient();
 
   @override
@@ -19,30 +18,31 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue[300],
         title: Text('Inov-Connect'),
         actions: <Widget>[
-            IconButton(
+          IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
               _loginWebClient.removeToken().then((response) {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return Signin();
-                  })
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Signin();
+                }));
               });
-            },)
+            },
+          )
         ],
       ),
       body: FutureBuilder<List<Post>>(
         initialData: List(),
         future: widget._webClient.findAll(),
-        builder: (context, snapshot){
-          switch(snapshot.connectionState) {
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
@@ -51,34 +51,32 @@ class _FeedState extends State<Feed> {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-              if(snapshot.hasData){
+              if (snapshot.hasData) {
                 final List<Post> _postsProjetos = snapshot.data;
-                if(_postsProjetos.isNotEmpty){
+                if (_postsProjetos.isNotEmpty) {
                   return ListView.builder(
-                    itemBuilder: (context, index){
+                    itemBuilder: (context, index) {
                       final Post post = _postsProjetos[index];
                       return FeedItem(post);
                     },
                     itemCount: _postsProjetos.length,
                   );
                 }
-                return CenteredMessage('No posts found...', icon: Icons.warning);
+                return CenteredMessage('No posts found...',
+                    icon: Icons.warning);
               }
               break;
           }
-          return CenteredMessage("Unknown error...", icon: Icons.close);          
+          return CenteredMessage("Unknown error...", icon: Icons.close);
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlue[300],
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.push(context, 
-            MaterialPageRoute(
-              builder: (context) {
-                return FormularioPost();
-              }
-            )
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return FormularioPost();
+          }));
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
+import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
 import 'package:inov_connect/screens_dev/posts/feed.dart';
 import 'package:inov_connect/screens_dev/users/signup.dart';
 
@@ -138,7 +139,7 @@ class _SigninState extends State<Signin> {
     _webClient.createToken(usuario, senha).then((resp) {
       if (resp['accessToken'] != null) {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Feed();
+          return BottomTemplate();
         }));
       }
     })
