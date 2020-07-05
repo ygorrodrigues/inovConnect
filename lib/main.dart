@@ -1,6 +1,6 @@
 // import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:inov_connect/screens/posts/form.dart';
+import 'package:inov_connect/screens/users/forgot.dart';
 
 void main() => runApp(InovConnect());
 
@@ -12,7 +12,7 @@ class InovConnect extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[50],
       ),
-      home: FormPost(),
+      home: Forgot(),
     );
   }
 }
