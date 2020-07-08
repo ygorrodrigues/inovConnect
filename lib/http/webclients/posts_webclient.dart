@@ -8,15 +8,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PostsWebClient{
 
-  Future<List<Post>> findAll() async{
-
+  Future<List<Post>> findAll(int typeId, int categoryId) async{
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
+    String type = typeId.toString();
+    String category = categoryId.toString();
 
+    var uri = filtered_posts_url + '?type=$type&category=$category';
     final Response response =
       await client.get(
-        allPosts_url,
-        headers: { HttpHeaders.authorizationHeader: 'Bearer $token' }
+        uri,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
       )
         .timeout(Duration(seconds: 5))
         .catchError((err){
@@ -31,7 +36,7 @@ class PostsWebClient{
 
   Future<Post> save(Post postProjeto) async{
     final String postProjetoJson = jsonEncode(postProjeto.toJson());
-    final Response response = await client.post(allPosts_url, headers: {
+    final Response response = await client.post(all_posts_url, headers: {
       'Content-type': 'application/json'
       },
       body: postProjetoJson
