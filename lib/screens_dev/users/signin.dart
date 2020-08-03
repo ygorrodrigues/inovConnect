@@ -4,6 +4,7 @@ import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
 import 'package:inov_connect/screens_dev/posts/feed.dart';
+import 'package:inov_connect/screens_dev/users/forgot.dart';
 import 'package:inov_connect/screens_dev/users/signup.dart';
 
 class Signin extends StatefulWidget {
@@ -56,7 +57,10 @@ class _SigninState extends State<Signin> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Forgot()));
+                  },
                   child: Text(
                     'Esqueci minha senha',
                     style: TextStyle(

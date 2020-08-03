@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/screens_dev/posts/feed.dart';
+import 'package:inov_connect/screens_dev/users/chat_page.dart';
 import 'package:inov_connect/screens_dev/users/perfil.dart';
 import 'package:inov_connect/screens_dev/users/notification.dart';
 
@@ -15,6 +16,7 @@ class _BottomTemplateState extends State<BottomTemplate> {
     Perfil(),            //[0]
     Feed(),              //[1]
     NotificationPage(),  //[2]
+    ChatPage(),          //[3]
   ];
 
   void onTappedBar(int index)
@@ -45,6 +47,10 @@ class _BottomTemplateState extends State<BottomTemplate> {
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             title: Text('Notificações'),
+          ),
+          BottomNavigationBarItem(
+            icon:   Icon(Icons.chat),
+            title: Text('Chats'),
           ),
         ],
         backgroundColor: Colors.lightBlue[300],

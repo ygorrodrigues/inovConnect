@@ -4,7 +4,7 @@ import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens/posts/form.dart';
+import 'package:inov_connect/screens_dev/posts/form.dart';
 import 'package:inov_connect/screens_dev/posts/feed_item.dart';
 import 'package:inov_connect/screens_dev/posts/filter_dialog.dart';
 import 'package:inov_connect/screens_dev/users/signin.dart';
@@ -18,11 +18,10 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-
   List<Post> _postsProjetos;
   int typeSelected = 0;
   int categorySelected = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,22 +43,20 @@ class _FeedState extends State<Feed> {
             icon: Icon(Icons.filter_list),
             onPressed: () {
               showDialog(
-                context: context,
-                builder: (context) {
-                  return FilterDialog(
-                    message: 'Escolha seus filtros!',
-                    onSelectedOkDialog: (valuesOfDialog) {
-                      if(typeSelected != valuesOfDialog[0] || 
-                        categorySelected != valuesOfDialog[1]) {
-                          setState(() {
-                            typeSelected = valuesOfDialog[0];
-                            categorySelected = valuesOfDialog[1];
-                          });
-                        }
-                    }
-                  );
-                }
-              );
+                  context: context,
+                  builder: (context) {
+                    return FilterDialog(
+                        message: 'Escolha seus filtros!',
+                        onSelectedOkDialog: (valuesOfDialog) {
+                          if (typeSelected != valuesOfDialog[0] ||
+                              categorySelected != valuesOfDialog[1]) {
+                            setState(() {
+                              typeSelected = valuesOfDialog[0];
+                              categorySelected = valuesOfDialog[1];
+                            });
+                          }
+                        });
+                  });
             },
           )
         ],
@@ -101,7 +98,7 @@ class _FeedState extends State<Feed> {
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return FormularioPost();
+            return FormPost();
           }));
         },
       ),

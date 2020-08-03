@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/models/post.dart';
+import 'package:inov_connect/screens_dev/posts/descpost.dart';
 import 'package:inov_connect/screens_dev/posts/open_post.dart';
 
 class FeedItem extends StatelessWidget {
-
   final Post postProjeto;
   const FeedItem(this.postProjeto);
   final String image = 'assets/images/person64.jpg';
@@ -12,8 +12,10 @@ class FeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onDoubleTap: () {
-        Navigator.push(context, 
-          MaterialPageRoute(builder: (context) => OpenPost(postProjeto)));
+        //Navigator.push(context,
+        //  MaterialPageRoute(builder: (context) => OpenPost(postProjeto)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DescPost(postProjeto)));
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -21,11 +23,11 @@ class FeedItem extends StatelessWidget {
             12.0,
           ),
         ),
-        color: 
-          postProjeto.type == 'Projeto' ? Colors.red[400] : (
-            postProjeto.type == 'Grupo de estudo' ? Colors.green[400] :
-            Colors.blue[400]
-          ),
+        color: postProjeto.type == 'Projeto'
+            ? Colors.red[400]
+            : (postProjeto.type == 'Grupo de estudo'
+                ? Colors.green[400]
+                : Colors.blue[400]),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -111,32 +113,28 @@ class FeedItem extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 4.0, 0, 6.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'Categorias: ',
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                child: Row(children: [
+                  Text(
+                    'Categorias: ',
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    Row(
-                      children: 
-                        postProjeto.categories.map((dynamic category) =>
-                          new Padding(
-                            padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                            child: Text(
-                              category['name'],
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white
-                              ),
-                            ),
-                          )
-                        ).toList()
-                    )
-                  ]),
+                  ),
+                  Row(
+                      children: postProjeto.categories
+                          .map((dynamic category) => new Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                                child: Text(
+                                  category['name'],
+                                  style: const TextStyle(
+                                      fontSize: 16.0, color: Colors.white),
+                                ),
+                              ))
+                          .toList())
+                ]),
               ),
             ],
           ),
