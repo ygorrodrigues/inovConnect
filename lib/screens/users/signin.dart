@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/screens/users/forgot.dart';
 import 'package:inov_connect/screens/users/signup.dart';
 // import 'package:inov_connect/components/campo_texto.dart';
 // import 'package:inov_connect/components/example_dialog.dart';
@@ -117,7 +118,10 @@ class _SigninState extends State<Signin> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Forgot()));
+                  },
                   child: Text(
                     'Esqueci minha senha',
                     style: TextStyle(

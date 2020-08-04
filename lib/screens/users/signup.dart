@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
@@ -96,7 +95,9 @@ class _SignupState extends State<Signup> {
                           ),
                           hintText: 'Entre com seu email institucional',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8),
+                            ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
