@@ -1,7 +1,6 @@
 // import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:inov_connect/screens/users/perfil.dart';
-
 void main() => runApp(InovConnect());
 
 class InovConnect extends StatelessWidget {

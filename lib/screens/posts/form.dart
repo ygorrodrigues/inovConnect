@@ -8,6 +8,9 @@ class FormPost extends StatefulWidget {
 }
 
 class FormPostState extends State<FormPost> {
+  String dropdownCategory = 'Selecione uma categoria';
+  String dropdownType = 'Selecione o tipo';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +108,7 @@ class FormPostState extends State<FormPost> {
                       ),
                       child: DropdownButton<String>(
                         isExpanded: true,
+                        value: dropdownCategory,
                         icon: Icon(Icons.keyboard_arrow_down),
                         style: TextStyle(
                           fontSize: 16,
@@ -113,7 +117,11 @@ class FormPostState extends State<FormPost> {
                         underline: Container(
                           color: Colors.white,
                         ),
-                        onChanged: (String newValue) {},
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownCategory = newValue;
+                          });
+                        },
                         items: <String>[
                           'Selecione uma categoria',
                           'Hardware',
@@ -170,7 +178,7 @@ class FormPostState extends State<FormPost> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Curso',
+                    'Tipo',
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.lightBlue[400],
@@ -194,6 +202,7 @@ class FormPostState extends State<FormPost> {
                       ),
                       child: DropdownButton<String>(
                         isExpanded: true,
+                        value: dropdownType,
                         icon: Icon(Icons.keyboard_arrow_down),
                         style: TextStyle(
                           fontSize: 16,
@@ -202,7 +211,11 @@ class FormPostState extends State<FormPost> {
                         underline: Container(
                           color: Colors.white,
                         ),
-                        onChanged: (String newValue) {},
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownType = newValue;
+                          });
+                        },
                         items: <String>[
                           'Selecione o tipo',
                           'PROJETO',
@@ -210,9 +223,7 @@ class FormPostState extends State<FormPost> {
                           'GRUPO DE ESTUDOS',
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
+                              value: value, child: Text(value));
                         }).toList(),
                       ),
                     ),

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Forgot extends StatelessWidget {
+class Forgot extends StatefulWidget {
+
+  @override
+  _ForgotState createState() => _ForgotState();
+}
+
+class _ForgotState extends State<Forgot> {
+  String dropdownEmail = '@unisanta.br';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +46,7 @@ class Forgot extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
                       child: TextField(
                         keyboardType: TextInputType.text,
                         style: TextStyle(
@@ -72,6 +80,34 @@ class Forgot extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(left: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: dropdownEmail,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black54,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              dropdownEmail = newValue;
+                            });
+                          },
+                          items: <String>['@alunos.unisanta.br', '@unisanta.br']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value, child: Text(value));
+                          }).toList(),
+                        ),
+                      ))
                 ],
               ),
               Align(
