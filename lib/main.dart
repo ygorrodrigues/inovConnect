@@ -1,6 +1,7 @@
 // import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:inov_connect/screens/users/perfil.dart';
+import 'package:inov_connect/screens/users/notification.dart';
+
 void main() => runApp(InovConnect());
 
 class InovConnect extends StatelessWidget {
@@ -11,7 +12,7 @@ class InovConnect extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[50],
       ),
-      home: Perfil(),
+      home: NotificationPage(),
     );
   }
 }

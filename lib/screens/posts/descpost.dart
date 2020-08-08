@@ -153,7 +153,6 @@ class DescPost extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0,100.0,0,0),
                   child: Row(
-
                     children: <Widget>[
                       ButtonTheme(
                         height: 30,

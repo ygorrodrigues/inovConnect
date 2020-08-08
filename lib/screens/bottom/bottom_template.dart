@@ -15,7 +15,7 @@ class _BottomTemplateState extends State<BottomTemplate> {
   final List<Widget> _children = [
     Perfil(),            //[0]
     Feed(),              //[1]
-    NotificationPage(),  //[2]
+    NotificationPage(),      //[2]
     ChatPage(),          //[3]
   ];
 
