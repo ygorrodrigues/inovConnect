@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/models/post.dart';
 import 'package:inov_connect/screens_dev/posts/descpost.dart';
-import 'package:inov_connect/screens_dev/posts/open_post.dart';
 
 class FeedItem extends StatelessWidget {
   final Post postProjeto;
@@ -12,8 +11,6 @@ class FeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onDoubleTap: () {
-        //Navigator.push(context,
-        //  MaterialPageRoute(builder: (context) => OpenPost(postProjeto)));
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => DescPost(postProjeto)));
       },

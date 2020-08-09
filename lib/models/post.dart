@@ -38,9 +38,10 @@ class Post {
   @override
   String toString() {
     return 
-      'Post{usuário: $username, '
+      'Post{id: $id, '
       'titulo: $title, '
       'descrição: $description, '
+      'usuário: $username, '
       'categorias: $categories, '
       'status: $status, '
       'type: $type}';

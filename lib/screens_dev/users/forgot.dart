@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/text_field.dart';
+import 'package:inov_connect/http/webclients/login_webclient.dart';
+import 'package:inov_connect/screens/users/signin.dart';
 
 class Forgot extends StatefulWidget {
 
@@ -8,6 +12,8 @@ class Forgot extends StatefulWidget {
 
 class _ForgotState extends State<Forgot> {
   String dropdownEmail = '@unisanta.br';
+  final LoginWebClient _loginWebClient = LoginWebClient();
+  final TextEditingController _controllerEmail = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,39 +51,12 @@ class _ForgotState extends State<Forgot> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(8.0),
-                          fillColor: Colors.white,
-                          filled: true,
-                          prefixIcon: Icon(
-                            Icons.mail,
-                            size: 32.0,
-                            color: Colors.black45,
-                          ),
-                          hintText: 'Digite seu email institucional',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.lightBlue[400],
-                            ),
-                            borderRadius: new BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ),
+                    child: InovTextField(
+                      controller: _controllerEmail,
+                      icon: Icons.mail,
+                      hint: 'Digite seu email institucional',
+                      padBottom: 8.0,
+                      padRight: 8.0,
                     ),
                   ),
                   Expanded(
@@ -110,51 +89,6 @@ class _ForgotState extends State<Forgot> {
                       ))
                 ],
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'RA',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(8.0),
-                    fillColor: Colors.white,
-                    filled: true,
-                    prefixIcon: Icon(
-                      Icons.account_box,
-                      size: 32.0,
-                      color: Colors.black45,
-                    ),
-                    hintText: 'Digite seu RA',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.lightBlue[400],
-                      ),
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.only(top: 96.0, bottom: 16.0),
                 child: ButtonTheme(
@@ -164,7 +98,9 @@ class _ForgotState extends State<Forgot> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _sendEmail(context);
+                    },
                     color: Colors.white,
                     child: Text(
                       'Recuperar',
@@ -210,5 +146,40 @@ class _ForgotState extends State<Forgot> {
         ),
       ),
     );
+  }
+
+  void _sendEmail(BuildContext context) {
+    final String email = _controllerEmail.text + dropdownEmail;
+    _loginWebClient.resetPassword(email).then((resp) {
+      String message = resp['message'];
+      if(resp['user']) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: message,
+              redirWidget: Signin(),
+            );
+        });
+      }
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ExampleDialog(
+            message: message
+          );
+      });
+    })
+    .catchError((err) {
+      String error = err.toString();
+      List<dynamic> message = error.split(': ');
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ExampleDialog(
+            message: message[message.length - 1]
+          );
+        });
+    });
   }
 }

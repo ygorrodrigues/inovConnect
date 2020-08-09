@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/models/post.dart';
 
 class DescPost extends StatelessWidget {
   final Post _postProjeto;
-
   DescPost(this._postProjeto);
+  final MembersWebClient _membersWebClient = MembersWebClient();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlue[300],
+        title: Text(_postProjeto.title)
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            //color: Colors.red[400],
             color: _postProjeto.type == 'Projeto'
-                ? Colors.red[400]
-                : (_postProjeto.type == 'Grupo de estudo'
-                    ? Colors.green[400]
-                    : Colors.blue[400]),
+              ? Colors.red[400]
+              : (_postProjeto.type == 'Grupo de estudo'
+                  ? Colors.green[400]
+                  : Colors.blue[400]),
           ),
           child: Column(
             children: <Widget>[
@@ -32,7 +37,6 @@ class DescPost extends StatelessWidget {
                       textDirection: TextDirection.rtl,
                       children: <Widget>[
                         Text(
-                          //'PROJETO',
                           _postProjeto.type,
                           style: TextStyle(
                             fontSize: 14.0,
@@ -60,7 +64,6 @@ class DescPost extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
                               child: Text(
-                                //'Guilherme',
                                 _postProjeto.username,
                                 style: const TextStyle(
                                   fontSize: 16.0,
@@ -71,7 +74,6 @@ class DescPost extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
                               child: Text(
-                                //'01/05/2020 às 14:00',
                                 _postProjeto.creationDate,
                                 style: const TextStyle(
                                   fontSize: 12.0,
@@ -96,7 +98,6 @@ class DescPost extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            //'TCC - InovConnect',
                             _postProjeto.title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -130,27 +131,18 @@ class DescPost extends StatelessWidget {
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _postProjeto.categories
-                                  .map((dynamic category) => new Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 4.0, 0),
-                                        child: Text(
-                                          category['name'],
-                                          style: const TextStyle(
-                                            fontSize: 22.0,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ))
-                                  .toList()),
-                          /*Text(
-                        'Software',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 22.0,
-                          color: Colors.white,
-                        ),
-                      ),*/
+                                .map((dynamic category) => new Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0, 0, 4.0, 0),
+                                  child: Text(
+                                    category['name'],
+                                    style: const TextStyle(
+                                      fontSize: 22.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ))
+                                .toList()),
                         ],
                       ),
                     ),
@@ -177,7 +169,6 @@ class DescPost extends StatelessWidget {
                             width: 360,
                             child: Text(
                               _postProjeto.description,
-                              //'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 10,
                               style: const TextStyle(
@@ -195,7 +186,6 @@ class DescPost extends StatelessWidget {
               Spacer(),
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                //padding: const EdgeInsets.fromLTRB(0, 100.0, 0, 0),
                 child: Row(
                   children: <Widget>[
                     ButtonTheme(
@@ -226,10 +216,12 @@ class DescPost extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _addMemberToPost(context);
+                        },
                         color: Color.fromARGB(255, 2, 136, 209),
                         child: Text(
-                          'Enviar Mensagem',
+                          'Participar',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -245,5 +237,23 @@ class DescPost extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _addMemberToPost(BuildContext context) {
+    _membersWebClient.addMember(_postProjeto.id)
+      .then((resp) {
+        print(resp);
+      })
+      .catchError((err) {
+        String error = err.toString();
+        List<dynamic> message = error.split(': ');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: message[message.length - 1]
+            );
+          });
+      });
   }
 }

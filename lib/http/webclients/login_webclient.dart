@@ -59,4 +59,29 @@ class LoginWebClient{
     return await storage.delete(key: 'token');
   }
 
+  Future<Map<String, dynamic>> resetPassword(String email) async {
+    final String emailJson = jsonEncode({
+      'email': email,
+    });
+    final Response response =
+      await client.post(
+        reset_password_url, 
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: emailJson
+      )
+        .timeout(Duration(seconds: 5)).catchError((err) {
+          throw Exception('Tente novamente mais tarde');
+        });
+
+    Map<String, dynamic> resp = jsonDecode(response.body);
+    try{
+      return resp;
+    }
+    catch(e){
+      throw Exception(resp['message']);
+    }
+  }
+
 }

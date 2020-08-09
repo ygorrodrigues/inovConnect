@@ -45,4 +45,30 @@ class PostsWebClient{
     return post;
   }
 
+  Future<void> saveNewPost(Map<String, dynamic> newPost) async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    final String newPostJson = jsonEncode(newPost);
+    if(newPost['anotherCategory'].length > 1) {
+      client.post(
+        add_post_with_category_url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: newPostJson
+      );
+    }
+    else {
+      client.post(
+        all_posts_url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: newPostJson
+      );
+    }
+  }
+
 }
