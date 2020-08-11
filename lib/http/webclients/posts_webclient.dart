@@ -34,6 +34,29 @@ class PostsWebClient{
     return posts;
   }
 
+  Future<Post> findOne(int postId) async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    String uri = all_posts_url + '/id/$postId';
+    final Response response =
+      await client.get(
+        uri,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+      )
+        .timeout(Duration(seconds: 5))
+        .catchError((err){
+          print('Erro -> err');
+        });
+
+    final List<dynamic> data = jsonDecode(response.body);
+    print(data[0]);
+    final Post post = Post.fromJson(data.first);
+    return post;
+  }
+
   Future<Post> save(Post postProjeto) async{
     final String postProjetoJson = jsonEncode(postProjeto.toJson());
     final Response response = await client.post(all_posts_url, headers: {

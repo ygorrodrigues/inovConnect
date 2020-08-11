@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/screens_dev/posts/feed.dart';
 import 'package:inov_connect/screens_dev/users/chat_page.dart';
 import 'package:inov_connect/screens_dev/users/perfil.dart';
-import 'package:inov_connect/screens_dev/users/notification.dart';
+import 'package:inov_connect/screens_dev/notifications/notification.dart';
 
 class BottomTemplate extends StatefulWidget {
   @override

@@ -15,7 +15,6 @@ class SignupWebClient {
         'raCode': ra,
         'courseId': int.parse(course)
       });
-      print(userDataJson);
       final Response response =
         await client.post(registration_url, headers: {
           'Content-type': 'application/json'

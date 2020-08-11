@@ -18,3 +18,6 @@ const String list_categories_url = '$url/categories';
 const String reset_password_url = '$url/resetpass';
 const String add_member_url = '$url/members';
 const String add_post_with_category_url = '$url/posts/new-category';
+const String user_info_url = '$url/user/profile';
+const String list_members_url = '$url/members-status';
+const String update_members_url = '$url/member-status-change';

@@ -45,7 +45,7 @@ class LoginWebClient{
           print('Erro ao contactar o servidor');
         });
 
-      if(response.statusCode == 401) {
+      if(response.statusCode == 500) {
         throw Exception('Sessão finalizada');
       }
     }
