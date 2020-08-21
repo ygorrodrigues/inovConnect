@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/http/webclients/categories_webclient.dart';
-import 'package:inov_connect/http/webclients/types_webclient.dart';
+import 'package:inov_connect/http/webclients/types_and_categories.dart';
 
-final TypesWebClient _typesWebClient = TypesWebClient();
-final CategoriesWebClient _categoriesWebClient = CategoriesWebClient();
+final TypesAndCategoriesWebClient _typesAndCategoriesWebClient = 
+  TypesAndCategoriesWebClient();
 
 class FilterDialog extends StatefulWidget {
 
@@ -31,14 +30,12 @@ class _FilterDialogState extends State<FilterDialog> {
   @override
   void initState() {
     super.initState();
-    _typesWebClient.listTypes().then((result) {
-      _dropdownTypes = result;
-      setState(() {});
-    });
-    _categoriesWebClient.listCategories().then((result) {
-      _dropdownCategories = result;
-      setState(() {});
-    });
+    _typesAndCategoriesWebClient.listTypesAndCategories()
+      .then((result) {
+        _dropdownTypes = result['types'];
+        _dropdownCategories = result['categories'];
+        setState(() {});
+      });
   }
 
   @override

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/centered_message.dart';
+import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
+import 'package:inov_connect/screens_dev/users/signin.dart';
 import 'package:inov_connect/screens_dev/notifications/participation.dart';
 import 'package:inov_connect/screens_dev/notifications/request.dart';
 
@@ -35,12 +37,10 @@ class _NotificationPageState extends State<NotificationPage> {
             case ConnectionState.done:
               if (snapshot.hasData) {
                 _myData = snapshot.data['data'];
-
-                if (snapshot.data.isNotEmpty) {
+                if (_myData.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       final Map<String, dynamic> item = _myData[index];
-                      print(item);
                       if(item['participation']) {
                         return ParticipationItem(
                           postId: item['post']['id'],
@@ -60,6 +60,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           title: item['post']['title'],
                           notification: 'Solicitou a entrada no seu projeto',
                           status: item['member_status']['name'],
+                          callback: this.notificationsCallback,
                         );
                       }
                     },
@@ -71,9 +72,23 @@ class _NotificationPageState extends State<NotificationPage> {
               }
               break;
           }
+          if(snapshot.hasError) {
+            Map<String, dynamic> error = snapshot.error;
+            if(error['statusCode'] == 401) {
+              return ExampleDialog(
+                message: 'Sessão expirada',
+                redirWidget: Signin(),
+              );
+            }
+            else print(error);
+          }
           return CenteredMessage('Unknown error...', icon: Icons.close);
         }
       )
     );
+  }
+
+  void notificationsCallback() {
+    setState(() {});
   }
 }

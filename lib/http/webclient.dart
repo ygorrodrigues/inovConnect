@@ -15,6 +15,7 @@ const String registration_url = '$url/users/register';
 const String list_courses_url = '$url/courses';
 const String list_types_url = '$url/types';
 const String list_categories_url = '$url/categories';
+const String list_types_and_categories_url = '$url/types-and-categories';
 const String reset_password_url = '$url/resetpass';
 const String add_member_url = '$url/members';
 const String add_post_with_category_url = '$url/posts/new-category';

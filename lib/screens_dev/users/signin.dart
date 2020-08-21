@@ -139,23 +139,34 @@ class _SigninState extends State<Signin> {
     final String usuario = _controllerRA.text;
     final String senha = _controllerPassword.text;
 
-    _webClient.createToken(usuario, senha).then((resp) {
-      if (resp['accessToken'] != null) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BottomTemplate();
-        }));
-      }
-    })
-    .catchError((err) {
-      String error = err.toString();
-      List<dynamic> message = error.split(': ');
+    if(usuario != '') {
+      _webClient.createToken(usuario, senha).then((resp) {
+        if (resp['accessToken'] != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return BottomTemplate(firstIndex: 1);
+          }));
+        }
+      })
+      .catchError((err) {
+        String error = err.toString();
+        List<dynamic> message = error.split(': ');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: message[message.length - 1]
+            );
+          });
+      });
+    }
+    else {
       showDialog(
         context: context,
         builder: (context) {
           return ExampleDialog(
-            message: message[message.length - 1]
+            message: 'Digite um RA válido.'
           );
         });
-    });
+    }
   }
 }

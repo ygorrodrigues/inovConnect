@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/centered_message.dart';
+import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
+import 'package:inov_connect/screens_dev/users/signin.dart';
 import 'package:inov_connect/screens_dev/chat/chat_item.dart';
 
 class ChatPage extends StatefulWidget {
@@ -34,7 +36,6 @@ class _ChatPageState extends State<ChatPage> {
             case ConnectionState.done:
               if (snapshot.hasData) {
                 _myData = snapshot.data;
-
                 if (snapshot.data.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
@@ -48,6 +49,7 @@ class _ChatPageState extends State<ChatPage> {
                         updateDate: '12/08/2020 16:13',
                         postTitle: item['post_title'],
                         users: item['users'],
+                        callback: this.chatsCallback
                       );
                     },
                     itemCount: _myData.length,
@@ -58,9 +60,23 @@ class _ChatPageState extends State<ChatPage> {
               }
               break;
           }
+          if(snapshot.hasError) {
+            Map<String, dynamic> error = snapshot.error;
+            if(error['statusCode'] == 401) {
+              return ExampleDialog(
+                message: 'Sessão expirada',
+                redirWidget: Signin(),
+              );
+            }
+            else print(error);
+          }
           return CenteredMessage('Unknown error...', icon: Icons.close);
         }
       )
     );
+  }
+
+  void chatsCallback() {
+    setState(() {});
   }
 }

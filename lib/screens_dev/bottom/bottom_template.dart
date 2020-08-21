@@ -5,12 +5,26 @@ import 'package:inov_connect/screens_dev/users/perfil.dart';
 import 'package:inov_connect/screens_dev/notifications/notification.dart';
 
 class BottomTemplate extends StatefulWidget {
+
+  final int firstIndex;
+
+  const BottomTemplate({
+    Key key,
+    this.firstIndex
+  }) : super(key: key );
+
   @override
   _BottomTemplateState createState() => _BottomTemplateState();
 }
 
 class _BottomTemplateState extends State<BottomTemplate> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    _currentIndex = this.widget.firstIndex;
+    super.initState();
+  }
 
   final List<Widget> _children = [
     Perfil(),            //[0]

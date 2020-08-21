@@ -149,7 +149,7 @@ class ParticipationItem extends StatelessWidget {
       .then((result) {
         print(result);
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DescPost(result)));
+          MaterialPageRoute(builder: (context) => DescPost(result, 0)));
       })
       .catchError((err) {
         print('Erro: $err');

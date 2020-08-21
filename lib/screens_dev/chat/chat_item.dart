@@ -16,6 +16,7 @@ class ChatItem extends StatelessWidget {
     this.users,
     this.updateDate,
     this.postTitle,
+    this.callback
   }) : super(key: key);
 
   final int chatId;
@@ -26,6 +27,7 @@ class ChatItem extends StatelessWidget {
   final List users;
   final String updateDate;
   final String postTitle;
+  final Function callback;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class ChatItem extends StatelessWidget {
           )));
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
@@ -107,30 +109,32 @@ class ChatItem extends StatelessWidget {
                 memberUserId != yourId ?
                 Row(
                   children: <Widget>[
-                    Text('Decisão sobre a participação: '),
-                    ButtonTheme(
-                      height: 30,
-                      minWidth: 90,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        onPressed: () {
-                          _changeMemberStatus(context, 4);
-                        },
-                        color: Color.fromARGB(255, 241, 78, 78),
-                        child: Text(
-                          'Recusar',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
+                    Text('Participação: '),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                      child: ButtonTheme(
+                        height: 15,
+                        minWidth: 90,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          onPressed: () {
+                            _changeMemberStatus(context, 4);
+                          },
+                          color: Color.fromARGB(255, 241, 78, 78),
+                          child: Text(
+                            'Recusar',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Spacer(),
                     ButtonTheme(
-                      height: 30,
+                      height: 15,
                       minWidth: 90,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -150,8 +154,7 @@ class ChatItem extends StatelessWidget {
                       ),
                     ),
                   ],
-                ) :
-                Text('')
+                ) : Container()
               ],
             ),
           ),
@@ -171,14 +174,39 @@ class ChatItem extends StatelessWidget {
   void _changeMemberStatus(BuildContext context, int newStatus) {
     _membersWebClient.changeMemberStatus(memberId, newStatus)
       .then((resp) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(
-              message: 'Chat finalizado.'
+        switch(newStatus) {
+          case 3:
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ExampleDialog(
+                  message: 'Usuário aceito na publicação.',
+                );
+              }
             );
-          }
-        );
+            callback();
+            break;
+          case 4:
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ExampleDialog(
+                  message: 'Usuário recusado na publicação.',
+                );
+              }
+            );
+            callback();
+            break;
+          default:
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ExampleDialog(
+                  message: 'Um erro ocorreu...',
+                );
+              }
+            );
+        }
       })
       .catchError((err) {
         print(err);

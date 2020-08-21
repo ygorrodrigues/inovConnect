@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/models/post.dart';
+import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
 
 class DescPost extends StatelessWidget {
   final Post _postProjeto;
-  DescPost(this._postProjeto);
+  final int _yourId;
+  DescPost(
+    this._postProjeto,
+    this._yourId
+  );
   final MembersWebClient _membersWebClient = MembersWebClient();
 
   @override
@@ -209,7 +214,7 @@ class DescPost extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    ButtonTheme(
+                    _yourId != _postProjeto.ownerId ? ButtonTheme(
                       height: 30,
                       minWidth: 150,
                       child: RaisedButton(
@@ -228,7 +233,7 @@ class DescPost extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
+                    ) : Text(''),
                   ],
                 ),
               ),
@@ -242,7 +247,14 @@ class DescPost extends StatelessWidget {
   void _addMemberToPost(BuildContext context) {
     _membersWebClient.addMember(_postProjeto.id)
       .then((resp) {
-        print(resp);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: 'Solicitação de participação enviada.',
+              redirWidget: BottomTemplate(firstIndex: 1),
+            );
+          });
       })
       .catchError((err) {
         String error = err.toString();

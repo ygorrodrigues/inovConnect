@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/centered_message.dart';
+import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
@@ -61,8 +62,8 @@ class _FeedState extends State<Feed> {
           )
         ],
       ),
-      body: FutureBuilder<List<Post>>(
-        initialData: List(),
+      body: FutureBuilder<Map<String, dynamic>>(
+        initialData: {},
         future: widget._postsWebClient.findAll(typeSelected, categorySelected),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -75,12 +76,14 @@ class _FeedState extends State<Feed> {
               break;
             case ConnectionState.done:
               if (snapshot.hasData) {
-                _postsProjetos = snapshot.data;
+                List<dynamic> data = snapshot.data['data'];
+                _postsProjetos = data
+                  .map((dynamic json) => Post.fromJson(json)).toList();
                 if (_postsProjetos.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       final Post post = _postsProjetos[index];
-                      return FeedItem(post);
+                      return FeedItem(post, snapshot.data['yourId']);
                     },
                     itemCount: _postsProjetos.length,
                   );
@@ -89,6 +92,16 @@ class _FeedState extends State<Feed> {
                     icon: Icons.warning);
               }
               break;
+          }
+          if(snapshot.hasError) {
+            Map<String, dynamic> error = snapshot.error;
+            if(error['statusCode'] == 401) {
+              return ExampleDialog(
+                message: 'Sessão expirada',
+                redirWidget: Signin(),
+              );
+            }
+            else print(error);
           }
           return CenteredMessage('Unknown error...', icon: Icons.close);
         },

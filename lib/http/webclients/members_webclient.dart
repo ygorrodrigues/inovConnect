@@ -12,12 +12,14 @@ class MembersWebClient {
     });
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
-    final Response response = await client.post(add_member_url,
-    headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-      HttpHeaders.contentTypeHeader: 'application/json',
-    },
-    body: postJson);
+    final Response response = await client.post(
+      add_member_url,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+      body: postJson
+    );
     try {
       Map<String, dynamic> resp = jsonDecode(response.body);
       return resp;
@@ -42,14 +44,17 @@ class MembersWebClient {
       .catchError((err){
         print('Erro -> $err');
       });
-    
+
+    if(response.statusCode > 300) {
+      throw jsonDecode(response.body);
+    }
+      
     Map<String, dynamic> data = jsonDecode(response.body);
-    print(data);
     try{
       return data;
     }
     catch(e){
-      throw Exception('Erro');
+      throw Exception(e);
     }
   }
 

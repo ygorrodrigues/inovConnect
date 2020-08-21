@@ -38,7 +38,7 @@ class InovConnect extends StatelessWidget {
                 theme: ThemeData(
                   scaffoldBackgroundColor: Colors.grey[50],
                 ),
-                home: BottomTemplate()
+                home: BottomTemplate(firstIndex: 1)
               );
             }
             break;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
-import 'package:inov_connect/screens/users/signin.dart';
+import 'package:inov_connect/screens_dev/users/signin.dart';
 
 class Forgot extends StatefulWidget {
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
+import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
 
 class RequestItem extends StatelessWidget {
   final MembersWebClient _membersWebClient = MembersWebClient();
@@ -14,6 +15,7 @@ class RequestItem extends StatelessWidget {
     this.title,
     this.notification,
     this.status,
+    this.callback
   }) : super(key: key);
 
   final int memberId;
@@ -23,6 +25,7 @@ class RequestItem extends StatelessWidget {
   final String title;
   final String notification;
   final String status;
+  final Function callback;
 
   @override
   Widget build(BuildContext context) {
@@ -175,14 +178,45 @@ class RequestItem extends StatelessWidget {
   void _changeMemberStatus(BuildContext context, int newStatus) {
     _membersWebClient.changeMemberStatus(memberId, newStatus)
       .then((resp) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(
-              message: 'Obrigado.'
-            );
+        if(newStatus == 2) {
+          Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => BottomTemplate(firstIndex: 3)));
+        }
+        else {
+          switch (newStatus) {
+            case 3:
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ExampleDialog(
+                    message: 'Usuário aceito na publicação.',
+                  );
+                }
+              );
+              callback();
+              break;
+            case 4:
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ExampleDialog(
+                    message: 'Usuário recusado na publicação.',
+                  );
+                }
+              );
+              callback();
+              break;
+            default:
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ExampleDialog(
+                    message: 'Um erro ocorreu...',
+                  );
+                }
+              );
           }
-        );
+        }
       })
       .catchError((err) {
         print(err);

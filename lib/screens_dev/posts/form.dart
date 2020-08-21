@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
-import 'package:inov_connect/http/webclients/categories_webclient.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
-import 'package:inov_connect/http/webclients/types_webclient.dart';
+import 'package:inov_connect/http/webclients/types_and_categories.dart';
 import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
 
-final TypesWebClient _typesWebClient = TypesWebClient();
-final CategoriesWebClient _categoriesWebClient = CategoriesWebClient();
+final TypesAndCategoriesWebClient _typesAndCategoriesWebClient = 
+  TypesAndCategoriesWebClient();
 final PostsWebClient _postsWebClient = PostsWebClient();
 
 class FormPost extends StatefulWidget {
@@ -33,14 +32,12 @@ class FormPostState extends State<FormPost> {
   @override
   void initState() {
     super.initState();
-    _typesWebClient.listTypes().then((result) {
-      _dropdownTypes = result;
-      setState(() {});
-    });
-    _categoriesWebClient.listCategories().then((result) {
-      _dropdownCategories = result;
-      setState(() {});
-    });
+    _typesAndCategoriesWebClient.listTypesAndCategories()
+      .then((result) {
+        _dropdownTypes = result['types'];
+        _dropdownCategories = result['categories'];
+        setState(() {});
+      });
   }
 
   @override
@@ -238,7 +235,7 @@ class FormPostState extends State<FormPost> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: TextField(
                     controller: _controllerAnotherCategory,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.black,
@@ -410,7 +407,7 @@ class FormPostState extends State<FormPost> {
     final int sumOfCategories = firstCategorySelected + secondCategorySelected;
 
     if((_firstCategorySelection != _secondCategorySelection) || 
-      (sumOfCategories == 0)) {
+      (sumOfCategories == 0 && anotherCategory.length > 0)) {
       Map<String, dynamic> newPost = {
         'title': title,
         'anotherCategory': anotherCategory,
@@ -427,20 +424,31 @@ class FormPostState extends State<FormPost> {
             builder: (context) {
               return ExampleDialog(
                 message: 'Publicação criada, verifique suas publicações.',
-                redirWidget: BottomTemplate(),
+                redirWidget: BottomTemplate(firstIndex: 1),
               );
             }
           );
         })
         .catchError((err) {
-          print(err);
+          String error = err.toString();
+          List<dynamic> message = error.split(': ');
+          showDialog(
+            context: context,
+            builder: (context) {
+              return ExampleDialog(
+                message: message[message.length - 1]
+              );
+            }
+          );
         });
-    } else {
+    }
+    else {
       showDialog(
         context: context,
         builder: (context) {
           return ExampleDialog(
-            message: 'Selecione categorias diferentes',
+            message: 'Selecione categorias diferentes ' +
+              'ou digite uma categoria para sua publicação',
           );
         }
       );

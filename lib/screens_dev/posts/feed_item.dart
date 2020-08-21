@@ -4,7 +4,11 @@ import 'package:inov_connect/screens_dev/posts/descpost.dart';
 
 class FeedItem extends StatelessWidget {
   final Post postProjeto;
-  const FeedItem(this.postProjeto);
+  final int yourId;
+  const FeedItem(
+    this.postProjeto,
+    this.yourId
+  );
   final String image = 'assets/images/person64.jpg';
 
   @override
@@ -12,7 +16,7 @@ class FeedItem extends StatelessWidget {
     return InkWell(
       onDoubleTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DescPost(postProjeto)));
+            MaterialPageRoute(builder: (context) => DescPost(postProjeto, yourId)));
       },
       child: Card(
         shape: RoundedRectangleBorder(

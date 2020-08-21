@@ -7,6 +7,7 @@ class Post {
   final String status;
   final String type;
   final String creationDate;
+  final int ownerId;
 
   Post(
     this.id,
@@ -16,7 +17,8 @@ class Post {
     this.categories,
     this.status,
     this.type,
-    this.creationDate
+    this.creationDate,
+    this.ownerId
   );
 
   Post.fromJson(Map<String,dynamic> json) 
@@ -27,7 +29,8 @@ class Post {
       status = json['status']['name'],
       type = json['type']['name'],
       username = json['user']['name'],
-      creationDate = json['created_at'];
+      creationDate = json['created_at'],
+      ownerId = json['user']['id'];
 
   Map<String,dynamic> toJson() => 
     {

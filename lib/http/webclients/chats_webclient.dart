@@ -21,14 +21,18 @@ class ChatsWebClient {
         .catchError((err){
           print('Erro -> $err');
         });
-      
-      List<dynamic> data = jsonDecode(response.body);
-      try{
-        return data;
-      }
-      catch(e){
-        throw Exception('Erro');
-      }
+
+    if(response.statusCode > 300) {
+      throw jsonDecode(response.body);
+    }
+    
+    List<dynamic> data = jsonDecode(response.body);
+    try{
+      return data;
+    }
+    catch(e){
+      throw Exception('Erro');
+    }
   }
 
   Future<void> sendMessage(int chatId, String message) async {
