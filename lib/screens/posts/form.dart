@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/http/webclients/types_and_categories.dart';
-import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
 final TypesAndCategoriesWebClient _typesAndCategoriesWebClient = 
   TypesAndCategoriesWebClient();

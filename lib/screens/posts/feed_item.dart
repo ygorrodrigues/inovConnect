@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens_dev/posts/descpost.dart';
-import 'package:inov_connect/screens_dev/posts/descpost_profile.dart';
+import 'package:inov_connect/screens/posts/descpost.dart';
+import 'package:inov_connect/screens/posts/descpost_profile.dart';
 
 class FeedItem extends StatelessWidget {
   final Post postProjeto;

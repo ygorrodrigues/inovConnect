@@ -3,9 +3,9 @@ import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
-import 'package:inov_connect/screens_dev/users/signin.dart';
-import 'package:inov_connect/screens_dev/notifications/participation.dart';
-import 'package:inov_connect/screens_dev/notifications/request.dart';
+import 'package:inov_connect/screens/users/signin.dart';
+import 'package:inov_connect/screens/notifications/participation.dart';
+import 'package:inov_connect/screens/notifications/request.dart';
 
 class NotificationPage extends StatefulWidget {
   final MembersWebClient _membersWebClient = MembersWebClient();

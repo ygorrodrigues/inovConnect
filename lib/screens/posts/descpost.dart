@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens_dev/posts/edit_post.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
+import 'package:inov_connect/screens/users/other_profile.dart';
 
-class DescPostProfile extends StatelessWidget {
+class DescPost extends StatelessWidget {
   final Post _postProjeto;
-  DescPostProfile(
-    this._postProjeto,
+  DescPost(
+    this._postProjeto
   );
+  final MembersWebClient _membersWebClient = MembersWebClient();
 
   @override
   Widget build(BuildContext context) {
@@ -46,44 +50,52 @@ class DescPostProfile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(36.0),
-                            ),
-                            child: Image.asset(
-                              'assets/images/person64.jpg',
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => OtherProfile(
+                            otherUserId: _postProjeto.ownerId
+                          )));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(36.0),
+                              ),
+                              child: Image.asset(
+                                'assets/images/person64.jpg',
+                              ),
                             ),
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                              child: Text(
-                                _postProjeto.username,
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.white,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                                child: Text(
+                                  _postProjeto.username,
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                              child: Text(
-                                _postProjeto.creationDate,
-                                style: const TextStyle(
-                                  fontSize: 12.0,
-                                  color: Color.fromARGB(255, 69, 90, 100),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                                child: Text(
+                                  _postProjeto.creationDate,
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color.fromARGB(255, 69, 90, 100),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 6.0),
@@ -217,21 +229,18 @@ class DescPostProfile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                         onPressed: () {
-                          Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => EditPost(
-                              post: _postProjeto,
-                            )));
+                          _addMemberToPost(context);
                         },
                         color: Color.fromARGB(255, 2, 136, 209),
                         child: Text(
-                          'Editar',
+                          'Participar',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -240,5 +249,30 @@ class DescPostProfile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _addMemberToPost(BuildContext context) {
+    _membersWebClient.addMember(_postProjeto.id)
+      .then((resp) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: 'Solicitação de participação enviada.',
+              redirWidget: BottomTemplate(firstIndex: 1),
+            );
+          });
+      })
+      .catchError((err) {
+        String error = err.toString();
+        List<dynamic> message = error.split(': ');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: message[message.length - 1]
+            );
+          });
+      });
   }
 }

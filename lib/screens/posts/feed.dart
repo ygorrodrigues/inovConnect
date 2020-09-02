@@ -4,10 +4,10 @@ import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens_dev/posts/form.dart';
-import 'package:inov_connect/screens_dev/posts/feed_item.dart';
-import 'package:inov_connect/screens_dev/posts/filter_dialog.dart';
-import 'package:inov_connect/screens_dev/users/signin.dart';
+import 'package:inov_connect/screens/posts/form.dart';
+import 'package:inov_connect/screens/posts/feed_item.dart';
+import 'package:inov_connect/screens/posts/filter_dialog.dart';
+import 'package:inov_connect/screens/users/signin.dart';
 
 class Feed extends StatefulWidget {
   final PostsWebClient _postsWebClient = PostsWebClient();

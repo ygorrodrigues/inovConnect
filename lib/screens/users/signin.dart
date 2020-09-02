@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
-import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
-import 'package:inov_connect/screens_dev/users/forgot.dart';
-import 'package:inov_connect/screens_dev/users/signup.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
+import 'package:inov_connect/screens/users/forgot.dart';
+import 'package:inov_connect/screens/users/signup.dart';
 
 class Signin extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
-import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
 class RequestItem extends StatelessWidget {
   final MembersWebClient _membersWebClient = MembersWebClient();

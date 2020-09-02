@@ -3,8 +3,8 @@ import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
-import 'package:inov_connect/screens_dev/users/signin.dart';
-import 'package:inov_connect/screens_dev/chat/chat_item.dart';
+import 'package:inov_connect/screens/users/signin.dart';
+import 'package:inov_connect/screens/chat/chat_item.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatsWebClient _chatsWebClient = ChatsWebClient();

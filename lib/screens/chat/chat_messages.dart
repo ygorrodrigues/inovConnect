@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
-import 'package:inov_connect/screens_dev/users/other_profile.dart';
+import 'package:inov_connect/screens/users/other_profile.dart';
 
 import 'message.dart';
 

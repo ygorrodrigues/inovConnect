@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
-import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens_dev/bottom/bottom_template.dart';
-import 'package:inov_connect/screens_dev/users/other_profile.dart';
+import 'package:inov_connect/screens/posts/edit_post.dart';
 
-class DescPost extends StatelessWidget {
+class DescPostProfile extends StatelessWidget {
   final Post _postProjeto;
-  DescPost(
-    this._postProjeto
+  DescPostProfile(
+    this._postProjeto,
   );
-  final MembersWebClient _membersWebClient = MembersWebClient();
 
   @override
   Widget build(BuildContext context) {
@@ -50,52 +46,44 @@ class DescPost extends StatelessWidget {
                         ),
                       ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => OtherProfile(
-                            otherUserId: _postProjeto.ownerId
-                          )));
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(36.0),
-                              ),
-                              child: Image.asset(
-                                'assets/images/person64.jpg',
-                              ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(36.0),
+                            ),
+                            child: Image.asset(
+                              'assets/images/person64.jpg',
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                                child: Text(
-                                  _postProjeto.username,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
-                                  ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                              child: Text(
+                                _postProjeto.username,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                                child: Text(
-                                  _postProjeto.creationDate,
-                                  style: const TextStyle(
-                                    fontSize: 12.0,
-                                    color: Color.fromARGB(255, 69, 90, 100),
-                                  ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                              child: Text(
+                                _postProjeto.creationDate,
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                  color: Color.fromARGB(255, 69, 90, 100),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 6.0),
@@ -229,18 +217,21 @@ class DescPost extends StatelessWidget {
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                         onPressed: () {
-                          _addMemberToPost(context);
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => EditPost(
+                              post: _postProjeto,
+                            )));
                         },
                         color: Color.fromARGB(255, 2, 136, 209),
                         child: Text(
-                          'Participar',
+                          'Editar',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -249,30 +240,5 @@ class DescPost extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _addMemberToPost(BuildContext context) {
-    _membersWebClient.addMember(_postProjeto.id)
-      .then((resp) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(
-              message: 'Solicitação de participação enviada.',
-              redirWidget: BottomTemplate(firstIndex: 1),
-            );
-          });
-      })
-      .catchError((err) {
-        String error = err.toString();
-        List<dynamic> message = error.split(': ');
-        showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(
-              message: message[message.length - 1]
-            );
-          });
-      });
   }
 }

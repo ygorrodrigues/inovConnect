@@ -4,7 +4,7 @@ import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/courses.dart';
 import 'package:inov_connect/http/webclients/signup_webclient.dart';
-import 'package:inov_connect/screens_dev/users/signin.dart';
+import 'package:inov_connect/screens/users/signin.dart';
 
 class Signup extends StatefulWidget {
   @override

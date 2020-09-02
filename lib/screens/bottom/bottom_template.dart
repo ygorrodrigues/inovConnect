@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/screens_dev/posts/feed.dart';
-import 'package:inov_connect/screens_dev/chat/chat_page.dart';
-import 'package:inov_connect/screens_dev/users/profile.dart';
-import 'package:inov_connect/screens_dev/notifications/notification.dart';
+import 'package:inov_connect/screens/posts/feed.dart';
+import 'package:inov_connect/screens/chat/chat_page.dart';
+import 'package:inov_connect/screens/users/profile.dart';
+import 'package:inov_connect/screens/notifications/notification.dart';
 
 class BottomTemplate extends StatefulWidget {
 

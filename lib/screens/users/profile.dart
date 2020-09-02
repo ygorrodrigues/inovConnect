@@ -5,10 +5,10 @@ import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/http/webclients/user_webclient.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens_dev/posts/feed_item.dart';
-import 'package:inov_connect/screens_dev/posts/form.dart';
-import 'package:inov_connect/screens_dev/users/edit_profile.dart';
-import 'package:inov_connect/screens_dev/users/signin.dart';
+import 'package:inov_connect/screens/posts/feed_item.dart';
+import 'package:inov_connect/screens/posts/form.dart';
+import 'package:inov_connect/screens/users/edit_profile.dart';
+import 'package:inov_connect/screens/users/signin.dart';
 
 final LoginWebClient _loginWebClient = LoginWebClient();
 

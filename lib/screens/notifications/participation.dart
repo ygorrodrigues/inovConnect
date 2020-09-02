@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
-import 'package:inov_connect/screens_dev/posts/descpost.dart';
+import 'package:inov_connect/screens/posts/descpost.dart';
 
 class ParticipationItem extends StatelessWidget {
   final PostsWebClient _postsWebClient = PostsWebClient();

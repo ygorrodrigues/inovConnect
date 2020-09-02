@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
-import 'package:inov_connect/screens_dev/chat/chat_messages.dart';
+import 'package:inov_connect/screens/chat/chat_messages.dart';
 
 class ChatItem extends StatelessWidget {
   final MembersWebClient _membersWebClient = MembersWebClient();
