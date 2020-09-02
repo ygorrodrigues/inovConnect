@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/text_field.dart';
+import 'package:inov_connect/http/webclients/login_webclient.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
 import 'package:inov_connect/screens/users/forgot.dart';
 import 'package:inov_connect/screens/users/signup.dart';
-// import 'package:inov_connect/components/campo_texto.dart';
-// import 'package:inov_connect/components/example_dialog.dart';
-// import 'package:inov_connect/http/webclients/login_webclient.dart';
-// import 'package:inov_connect/screens/projetos/feed.dart';
-
-// const _dicaUsuario = '1234';
-// const _dicaSenha = '*****';
-// const _rotuloBotaoLogin = 'Entrar';
-// const _rotuloBotaoAguarde = 'Aguarde...';
 
 class Signin extends StatefulWidget {
   @override
@@ -17,12 +12,12 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  // final TextEditingController _controladorCampoUsuario =
-  //     TextEditingController();
-  // final TextEditingController _controladorCampoSenha = TextEditingController();
+  final LoginWebClient _webClient = LoginWebClient();
 
-  // bool auth = false;
-  // final LoginWebClient _webClient = LoginWebClient();
+  final TextEditingController _controllerRA =
+    TextEditingController();
+  final TextEditingController _controllerPassword = 
+    TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,76 +39,19 @@ class _SigninState extends State<Signin> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(8.0),
-                    prefixIcon: Icon(
-                      Icons.account_box,
-                      size: 32.0,
-                      color: Colors.black45,
-                    ),
-                    labelText: 'RA',
-                    labelStyle: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.lightBlue[300],
-                        width: 2,
-                      ),
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                  ),
-                ),
+              InovTextField(
+                controller: _controllerRA,
+                inputType: TextInputType.number,
+                icon: Icons.account_box,
+                label: 'RA',
+                padBottom: 16.0,
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: TextField(
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(8.0),
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      size: 32.0,
-                      color: Colors.black45,
-                    ),
-                    labelText: 'Senha',
-                    labelStyle: TextStyle(
-                      fontSize: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.lightBlue[300],
-                        width: 2,
-                      ),
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                  ),
-                ),
+              InovTextField(
+                controller: _controllerPassword,
+                obscure: true,
+                icon: Icons.lock,
+                label: 'Senha',
+                padBottom: 8.0,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -140,7 +78,9 @@ class _SigninState extends State<Signin> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _loginValidation(context);
+                    },
                     color: Colors.lightBlue[300],
                     child: Text(
                       'Entrar',
@@ -154,12 +94,18 @@ class _SigninState extends State<Signin> {
               ),
               Stack(
                 children: <Widget>[
-                  Text(
-                    'Ainda não criou sua conta? ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.lightBlue[300],
+                  InkWell(
+                    child: Text(
+                      'Ainda não criou sua conta? ',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.lightBlue[300],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Signup()));
+                    }
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -168,7 +114,7 @@ class _SigninState extends State<Signin> {
                     child: InkWell(
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Signup()));
+                          MaterialPageRoute(builder: (context) => Signup()));
                       },
                       child: Text(
                         'Criar',
@@ -189,33 +135,38 @@ class _SigninState extends State<Signin> {
     );
   }
 
-  // void _validaLogin(BuildContext context) {
-  //   final String usuario = _controladorCampoUsuario.text;
-  //   final String senha = _controladorCampoSenha.text;
+  void _loginValidation(BuildContext context) {
+    final String usuario = _controllerRA.text;
+    final String senha = _controllerPassword.text;
 
-  //   setState(() {
-  //     auth = !auth;
-  //   });
-
-  //   _webClient.createToken(usuario, senha).then((resp) {
-  //     print('Resposta: $resp');
-  //     if (resp['accessToken'] != null) {
-  //       setState(() {
-  //         auth = !auth;
-  //       });
-  //       Navigator.push(context, MaterialPageRoute(builder: (context) {
-  //         return ProjectsFeed();
-  //       }));
-  //     } else {
-  //       setState(() {
-  //         auth = !auth;
-  //       });
-  //       showDialog(
-  //           context: context,
-  //           builder: (context) {
-  //             return ExampleDialog();
-  //           });
-  //     }
-  //   });
-  // }
+    if(usuario != '') {
+      _webClient.createToken(usuario, senha).then((resp) {
+        if (resp['accessToken'] != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return BottomTemplate(firstIndex: 1);
+          }));
+        }
+      })
+      .catchError((err) {
+        String error = err.toString();
+        List<dynamic> message = error.split(': ');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ExampleDialog(
+              message: message[message.length - 1]
+            );
+          });
+      });
+    }
+    else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ExampleDialog(
+            message: 'Digite um RA válido.'
+          );
+        });
+    }
+  }
 }

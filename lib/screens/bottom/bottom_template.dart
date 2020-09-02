@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/screens/posts/feed.dart';
-import 'package:inov_connect/screens/users/chat_page.dart';
-import 'package:inov_connect/screens/users/notification.dart';
-import 'package:inov_connect/screens/users/perfil.dart';
+import 'package:inov_connect/screens/chat/chat_page.dart';
+import 'package:inov_connect/screens/users/profile.dart';
+import 'package:inov_connect/screens/notifications/notification.dart';
 
 class BottomTemplate extends StatefulWidget {
+
+  final int firstIndex;
+
+  const BottomTemplate({
+    Key key,
+    this.firstIndex
+  }) : super(key: key );
+
   @override
   _BottomTemplateState createState() => _BottomTemplateState();
 }
 
 class _BottomTemplateState extends State<BottomTemplate> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    _currentIndex = this.widget.firstIndex;
+    super.initState();
+  }
 
   final List<Widget> _children = [
-    Perfil(),            //[0]
+    Profile(),           //[0]
     Feed(),              //[1]
-    NotificationPage(),      //[2]
+    NotificationPage(),  //[2]
     ChatPage(),          //[3]
   ];
 
@@ -51,7 +65,7 @@ class _BottomTemplateState extends State<BottomTemplate> {
           BottomNavigationBarItem(
             icon:   Icon(Icons.chat),
             title: Text('Chats'),
-          )
+          ),
         ],
         backgroundColor: Colors.lightBlue[300],
         unselectedItemColor: Colors.white,

@@ -1,254 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/centered_message.dart';
+import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/progress.dart';
+import 'package:inov_connect/http/webclients/posts_webclient.dart';
+import 'package:inov_connect/models/post.dart';
+import 'package:inov_connect/screens/posts/form.dart';
+import 'package:inov_connect/screens/posts/feed_item.dart';
+import 'package:inov_connect/screens/posts/filter_dialog.dart';
+import 'package:inov_connect/screens/users/signin.dart';
 
-class Feed extends StatelessWidget {
-  const Feed({
-    Key key,
-  }) : super(key: key);
+class Feed extends StatefulWidget {
+  final PostsWebClient _postsWebClient = PostsWebClient();
+  @override
+  _FeedState createState() => _FeedState();
+}
+
+class _FeedState extends State<Feed> {
+  List<Post> _postsProjetos;
+  int typeSelected = 0;
+  int categorySelected = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MyStatelessWidget(),
-    );
-  }
-}
-
-class _FeedItem extends StatelessWidget {
-  _FeedItem({
-    Key key,
-    this.colorCard,
-    this.image,
-    this.type,
-    this.username,
-    this.publishDate,
-    this.title,
-    this.category,
-  }) : super(key: key);
-
-  final Color colorCard;
-  final String image;
-  final String type;
-  final String username;
-  final String publishDate;
-  final String title;
-  final String category;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          12.0,
-        ),
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlue[300],
+        title: Text('Inov-Connect'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return FilterDialog(
+                        message: 'Escolha seus filtros!',
+                        onSelectedOkDialog: (valuesOfDialog) {
+                          if (typeSelected != valuesOfDialog[0] ||
+                              categorySelected != valuesOfDialog[1]) {
+                            setState(() {
+                              typeSelected = valuesOfDialog[0];
+                              categorySelected = valuesOfDialog[1];
+                            });
+                          }
+                        });
+                  });
+            },
+          )
+        ],
       ),
-      color: colorCard,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              textDirection: TextDirection.rtl,
-              children: <Widget>[
-                Text(
-                  '$type',
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(36.0),
-                    ),
-                    child: Image.asset(
-                      '$image',
-                    ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                      child: Text(
-                        '$username',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                      child: Text(
-                        '$publishDate',
-                        style: const TextStyle(
-                          fontSize: 12.0,
-                          color: Color.fromARGB(255, 69, 90, 100),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Título: ',
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '$title',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 4.0, 0, 6.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Categoria: ',
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '$category',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: FutureBuilder<Map<String, dynamic>>(
+        initialData: {},
+        future: widget._postsWebClient.findAll(typeSelected, categorySelected),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return ProgressLoading(message: 'Carregando');
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              if (snapshot.hasData) {
+                List<dynamic> data = snapshot.data['data'];
+                _postsProjetos = data
+                  .map((dynamic json) => Post.fromJson(json)).toList();
+                if (_postsProjetos.isNotEmpty) {
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      final Post post = _postsProjetos[index];
+                      return FeedItem(post, snapshot.data['yourId']);
+                    },
+                    itemCount: _postsProjetos.length,
+                  );
+                }
+                return CenteredMessage('No posts found...',
+                    icon: Icons.warning);
+              }
+              break;
+          }
+          if(snapshot.hasError) {
+            Map<String, dynamic> error = snapshot.error;
+            if(error['statusCode'] == 401) {
+              return ExampleDialog(
+                message: 'Sessão expirada',
+                redirWidget: Signin(),
+              );
+            }
+            else print(error);
+          }
+          return CenteredMessage('Unknown error...', icon: Icons.close);
+        },
       ),
-    );
-  }
-}
-
-class CustomListItemTwo extends StatelessWidget {
-  CustomListItemTwo({
-    Key key,
-    this.colorCard,
-    this.image,
-    this.type,
-    this.username,
-    this.publishDate,
-    this.title,
-    this.category,
-  }) : super(key: key);
-
-  final Color colorCard;
-  final String image;
-  final String type;
-  final String username;
-  final String publishDate;
-  final String title;
-  final String category;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: SizedBox(
-        height: 180,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: _FeedItem(
-                colorCard: colorCard,
-                image: image,
-                type: type,
-                username: username,
-                publishDate: publishDate,
-                title: title,
-                category: category,
-              ),
-            ),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlue[300],
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return FormPost();
+          }));
+        },
       ),
-    );
-  }
-}
-
-/// This is the stateless widget that the main application instantiates.
-class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-      children: <Widget>[
-        CustomListItemTwo(
-          colorCard: Colors.red[400],
-          image: 'assets/images/person64.jpg',
-          type: 'PROJETO',
-          username: 'Guilherme',
-          publishDate: '01/05/2020 às 14:00',
-          title: 'TCC - InovConnect',
-          category: 'Hardware',
-        ),
-        CustomListItemTwo(
-          colorCard: Colors.lightBlue[400],
-          image: 'assets/images/person64.jpg',
-          type: 'DÚVIDA',
-          username: 'Guilherme',
-          publishDate: '01/05/2020 às 14:00',
-          title: 'TCC - InovConnect',
-          category: 'Hardware',
-        ),
-        CustomListItemTwo(
-          colorCard: Colors.green[400],
-          image: 'assets/images/person64.jpg',
-          type: 'GRUPO DE ESTUDOS',
-          username: 'Guilherme',
-          publishDate: '01/05/2020 às 14:00',
-          title: 'TCC - InovConnect',
-          category: 'Hardware',
-        ),
-        CustomListItemTwo(
-          colorCard: Colors.red[400],
-          image: 'assets/images/person64.jpg',
-          type: 'PROJETO',
-          username: 'Guilherme',
-          publishDate: '01/05/2020 às 14:00',
-          title: 'TCC - InovConnect',
-          category: 'Hardware',
-        ),
-      ],
     );
   }
 }

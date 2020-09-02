@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/http/webclients/members_webclient.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
-class NotificationPage extends StatelessWidget {
-  const NotificationPage({
+class RequestItem extends StatelessWidget {
+  final MembersWebClient _membersWebClient = MembersWebClient();
+
+  RequestItem({
     Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightBlue[400],
-      body: MyStatelessWidget(),
-    );
-  }
-}
-
-class _NotificationItem extends StatelessWidget {
-  _NotificationItem({
-    Key key,
+    this.memberId,
     this.image,
     this.username,
     this.publishDate,
     this.title,
     this.notification,
     this.status,
+    this.callback
   }) : super(key: key);
 
+  final int memberId;
   final String image;
   final String username;
   final String publishDate;
   final String title;
   final String notification;
   final String status;
+  final Function callback;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +81,7 @@ class _NotificationItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Text(
-                          '$publishDate',
+                          _timeFormat(publishDate),
                           style: const TextStyle(
                             fontSize: 14.0,
                             color: Color.fromARGB(255, 69, 90, 100),
@@ -109,7 +104,9 @@ class _NotificationItem extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _changeMemberStatus(context, 4);
+                      },
                       color: Color.fromARGB(255, 241, 78, 78),
                       child: Text(
                         'Recusar',
@@ -128,7 +125,9 @@ class _NotificationItem extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _changeMemberStatus(context, 3);
+                      },
                       color: Color.fromARGB(255, 71, 198, 83),
                       child: Text(
                         'Aceitar',
@@ -147,7 +146,9 @@ class _NotificationItem extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _changeMemberStatus(context, 2);
+                      },
                       color: Color.fromARGB(255, 58, 137, 193),
                       child: Text(
                         'Chat',
@@ -161,124 +162,64 @@ class _NotificationItem extends StatelessWidget {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(3.0, 10.0, 3.0, 0),
-            //   child: Row(
-            //     children: <Widget>[
-            //       Text(
-            //         'Status: ',
-            //         style: const TextStyle(
-            //           fontSize: 16.0,
-            //           color: Colors.black,
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //       ),
-            //       Text(
-            //         '$status',
-            //         style: const TextStyle(
-            //           fontSize: 16.0,
-            //           color: Colors.black,
-            //         ),
-            //       ),
-            //       Spacer(),
-            //       ButtonTheme(
-            //         height: 30,
-            //         minWidth: 90,
-            //         child: RaisedButton(
-            //           shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(40.0),
-            //           ),
-            //           onPressed: () {},
-            //           color: Color.fromARGB(255, 58, 137, 193),
-            //           child: Text(
-            //             'Ver Projeto',
-            //             style: TextStyle(
-            //               fontSize: 16,
-            //               color: Colors.white,
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            //),
           ],
         ),
       ),
     );
   }
-}
 
-class CustomListItemTwo extends StatelessWidget {
-  CustomListItemTwo({
-    Key key,
-    this.image,
-    this.username,
-    this.publishDate,
-    this.title,
-    this.notification,
-    this.status,
-  }) : super(key: key);
-
-  final String image;
-  final String username;
-  final String publishDate;
-  final String title;
-  final String notification;
-  final String status;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: SizedBox(
-        height: 180,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: _NotificationItem(
-                image: image,
-                username: username,
-                publishDate: publishDate,
-                title: title,
-                notification: notification,
-                status: status,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  String _timeFormat(String publishDate) {
+    int startHour = publishDate.indexOf('T');
+    String date = publishDate.substring(0, startHour);
+    String hour = publishDate.substring(startHour + 1, startHour + 6);
+    return date + ' às ' + hour;
   }
-}
 
-/// This is the stateless widget that the main application instantiates.
-class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-      children: <Widget>[
-        CustomListItemTwo(
-          image: 'assets/images/person76.jpeg',
-          username: 'Guilherme L.Fernandez',
-          publishDate: '01/05/2020 às 14:00',
-          title: 'TCC - InovConnect',
-          notification: 'Solicitou a entrada no seu projeto',
-          status: 'Pendente',
-        ),
-        CustomListItemTwo(
-          image: 'assets/images/person76.jpeg',
-          username: 'Guilherme L.Fernandez',
-          publishDate: '01/05/2020 às 14:00',
-          title: 'TCC - InovConnect',
-          notification: 'Solicitou a entrada no seu projeto',
-          status: 'Pendente',
-        ),
-      ],
-    );
+  void _changeMemberStatus(BuildContext context, int newStatus) {
+    _membersWebClient.changeMemberStatus(memberId, newStatus)
+      .then((resp) {
+        if(newStatus == 2) {
+          Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => BottomTemplate(firstIndex: 3)));
+        }
+        else {
+          switch (newStatus) {
+            case 3:
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ExampleDialog(
+                    message: 'Usuário aceito na publicação.',
+                  );
+                }
+              );
+              callback();
+              break;
+            case 4:
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ExampleDialog(
+                    message: 'Usuário recusado na publicação.',
+                  );
+                }
+              );
+              callback();
+              break;
+            default:
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ExampleDialog(
+                    message: 'Um erro ocorreu...',
+                  );
+                }
+              );
+          }
+        }
+      })
+      .catchError((err) {
+        print(err);
+      });
   }
 }

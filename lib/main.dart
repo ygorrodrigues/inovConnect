@@ -1,18 +1,50 @@
-// import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:inov_connect/screens/users/edit_perfil.dart';
+import 'package:inov_connect/components/entry_loading.dart';
+import 'package:inov_connect/http/webclients/login_webclient.dart';
+import 'package:inov_connect/screens/bottom/bottom_template.dart';
+import 'package:inov_connect/screens/users/signin.dart';
 
 void main() => runApp(InovConnect());
 
 class InovConnect extends StatelessWidget {
+
+  final LoginWebClient _webClient = LoginWebClient();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[50],
-      ),
-      home:EditPerfil(),
+    return FutureBuilder<void>(
+      future: _webClient.tokenValidation(),
+      builder: (context, response) {
+        switch(response.connectionState) {
+          case ConnectionState.none:
+            break;
+          case ConnectionState.waiting:
+            return MaterialApp (home: EntryLoading());
+          case ConnectionState.active:
+            break;
+          case ConnectionState.done:
+            if(response.hasError) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  scaffoldBackgroundColor: Colors.grey[50],
+                ),
+                home: Signin()
+              );
+            } 
+            else {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  scaffoldBackgroundColor: Colors.grey[50],
+                ),
+                home: BottomTemplate(firstIndex: 1)
+              );
+            }
+            break;
+        }
+          return Signin();
+      }
     );
   }
 }
