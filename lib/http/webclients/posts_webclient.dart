@@ -54,7 +54,6 @@ class PostsWebClient{
         });
 
     final List<dynamic> data = jsonDecode(response.body);
-    print(data[0]);
     final Post post = Post.fromJson(data.first);
     return post;
   }
@@ -108,6 +107,60 @@ class PostsWebClient{
         throw response.body;
       }
     }
+  }
+
+  Future<List<Map>> listPostStatuses() async {
+    final Response response =
+      await client.get(post_status_url)
+        .timeout(Duration(seconds: 5)).catchError((err) {
+          throw Exception('Tente novamente mais tarde');
+        });
+    try{
+      List<dynamic> resp = jsonDecode(response.body);
+      List<Map> statuses = resp.map((status) {
+        return {
+          'id': status['id'],
+          'name': status['name']
+          };
+      }).toList();
+      return statuses;
+    }
+    catch(e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> updatePost(int postId, String description, String newStatus) async {
+    if(!isNumeric(newStatus))
+      throw 'Selecione o status.';
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    if(token != null) {
+      final String updatedPostJson = jsonEncode({
+        'description': description,
+        'statusId': newStatus,
+      });
+
+      client.patch(
+        all_posts_url + '/$postId',
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: updatedPostJson
+      )
+      .catchError((e) => throw Exception(e));
+    }
+    else {
+      throw Exception('Erro de autenticação');
+    }
+  }
+
+  bool isNumeric(String s) {
+    if(s == null) {
+      return false;
+    }
+    return double.parse(s) != null;
   }
 
 }

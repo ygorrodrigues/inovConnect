@@ -24,3 +24,5 @@ const String list_members_url = '$url/members-status';
 const String update_members_url = '$url/member-status-change';
 const String list_chats_url = '$url/chats';
 const String messages_url = '$url/messages';
+const String post_status_url = '$url/posts-status';
+const String other_user_info_url = '$url/other-user/profile';

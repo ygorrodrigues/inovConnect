@@ -38,6 +38,7 @@ class ChatItem extends StatelessWidget {
             chatId: chatId,
             yourId: yourId,
             contact: _otherUser(users),
+            contactId: _otherUserId(yourId),
           )));
       },
       child: Padding(
@@ -169,6 +170,14 @@ class ChatItem extends StatelessWidget {
         return users[i]['name'];
     }
     return 'Erro';
+  }
+
+  int _otherUserId(int yourId) {
+    for (var i=0; i<users.length; i++) {
+      if (users[i]['id'] != yourId)
+        return users[i]['id'];
+    }
+    return 0;
   }
 
   void _changeMemberStatus(BuildContext context, int newStatus) {

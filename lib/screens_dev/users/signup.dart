@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
+import 'package:inov_connect/http/webclients/courses.dart';
 import 'package:inov_connect/http/webclients/signup_webclient.dart';
 import 'package:inov_connect/screens_dev/users/signin.dart';
 
@@ -14,7 +15,8 @@ bool _pwdVisibility = true;
 
 class _SignupState extends State<Signup> {
 
-  final SignupWebClient _webClient = SignupWebClient();
+  final SignupWebClient _signupWebClient = SignupWebClient();
+  final CoursesWebClient _coursesWebClient = CoursesWebClient();
 
   final TextEditingController _controllerName =
     TextEditingController();
@@ -33,7 +35,7 @@ class _SignupState extends State<Signup> {
   @override
   void initState() {
     super.initState();
-    _webClient.listCourses().then((result) {
+    _coursesWebClient.listCourses().then((result) {
       _dropdownCourses = result;
       setState(() {});
     });
@@ -304,7 +306,7 @@ class _SignupState extends State<Signup> {
     final String password = _controllerPassword.text;
     final String ra = _controllerRA.text;
 
-    _webClient.registerUser(name, email, password, ra, _courseSelection)
+    _signupWebClient.registerUser(name, email, password, ra, _courseSelection)
       .then((resp) {
         showDialog(
           context: context,

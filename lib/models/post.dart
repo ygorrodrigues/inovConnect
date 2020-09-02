@@ -4,7 +4,7 @@ class Post {
   final String title;
   final String description;
   final List<dynamic> categories;
-  final String status;
+  final String postStatus;
   final String type;
   final String creationDate;
   final int ownerId;
@@ -15,7 +15,7 @@ class Post {
     this.title,
     this.description,
     this.categories,
-    this.status,
+    this.postStatus,
     this.type,
     this.creationDate,
     this.ownerId
@@ -26,7 +26,7 @@ class Post {
       title = json['title'],
       description = json['description'],
       categories = json['categories'],
-      status = json['status']['name'],
+      postStatus = json['post_status']['name'],
       type = json['type']['name'],
       username = json['user']['name'],
       creationDate = json['created_at'],
@@ -46,7 +46,7 @@ class Post {
       'descrição: $description, '
       'usuário: $username, '
       'categorias: $categories, '
-      'status: $status, '
+      'post_status: $postStatus, '
       'type: $type}';
   }
 }

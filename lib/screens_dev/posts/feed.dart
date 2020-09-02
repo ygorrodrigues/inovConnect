@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inov_connect/components/centered_message.dart';
 import 'package:inov_connect/components/example_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
-import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/models/post.dart';
 import 'package:inov_connect/screens_dev/posts/form.dart';
 import 'package:inov_connect/screens_dev/posts/feed_item.dart';
 import 'package:inov_connect/screens_dev/posts/filter_dialog.dart';
 import 'package:inov_connect/screens_dev/users/signin.dart';
-
-final LoginWebClient _loginWebClient = LoginWebClient();
 
 class Feed extends StatefulWidget {
   final PostsWebClient _postsWebClient = PostsWebClient();
@@ -30,16 +27,6 @@ class _FeedState extends State<Feed> {
         backgroundColor: Colors.lightBlue[300],
         title: Text('Inov-Connect'),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () {
-              _loginWebClient.removeToken().then((response) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Signin();
-                }));
-              });
-            },
-          ),
           IconButton(
             icon: Icon(Icons.filter_list),
             onPressed: () {

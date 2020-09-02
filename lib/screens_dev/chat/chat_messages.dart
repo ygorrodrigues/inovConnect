@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
+import 'package:inov_connect/screens_dev/users/other_profile.dart';
 
 import 'message.dart';
 
@@ -11,11 +12,13 @@ class ChatMessages extends StatefulWidget {
   final int chatId;
   final int yourId;
   final String contact;
+  final int contactId;
   const ChatMessages({
     Key key,
     this.chatId,
     this.yourId,
-    this.contact
+    this.contact,
+    this.contactId
   }) : super(key: key);
 
   @override
@@ -68,27 +71,35 @@ class _ChatMessagesState extends State<ChatMessages> {
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 4.0, 8.0, 4.0),
-                child: Row(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(36.0),
-                      ),
-                      child: Image.asset(
-                        'assets/images/person64.jpg',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30.0, 0, 0, 0),
-                      child: Text(
-                        widget.contact,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => OtherProfile(
+                        otherUserId: widget.contactId
+                      )));
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(36.0),
+                        ),
+                        child: Image.asset(
+                          'assets/images/person64.jpg',
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0, 0, 0, 0),
+                        child: Text(
+                          widget.contact,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

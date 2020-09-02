@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/screens_dev/posts/feed.dart';
 import 'package:inov_connect/screens_dev/chat/chat_page.dart';
-import 'package:inov_connect/screens_dev/users/perfil.dart';
+import 'package:inov_connect/screens_dev/users/profile.dart';
 import 'package:inov_connect/screens_dev/notifications/notification.dart';
 
 class BottomTemplate extends StatefulWidget {
@@ -27,7 +27,7 @@ class _BottomTemplateState extends State<BottomTemplate> {
   }
 
   final List<Widget> _children = [
-    Perfil(),            //[0]
+    Profile(),           //[0]
     Feed(),              //[1]
     NotificationPage(),  //[2]
     ChatPage(),          //[3]

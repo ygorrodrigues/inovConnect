@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/models/post.dart';
 import 'package:inov_connect/screens_dev/posts/descpost.dart';
+import 'package:inov_connect/screens_dev/posts/descpost_profile.dart';
 
 class FeedItem extends StatelessWidget {
   final Post postProjeto;
@@ -15,8 +16,14 @@ class FeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onDoubleTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DescPost(postProjeto, yourId)));
+        if(yourId != postProjeto.ownerId) {
+          Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DescPost(postProjeto)));
+        }
+        else {
+          Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DescPostProfile(postProjeto)));
+        }
       },
       child: Card(
         shape: RoundedRectangleBorder(

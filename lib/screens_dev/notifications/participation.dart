@@ -147,9 +147,8 @@ class ParticipationItem extends StatelessWidget {
   void _seePost(BuildContext context) {
     _postsWebClient.findOne(postId)
       .then((result) {
-        print(result);
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DescPost(result, 0)));
+          MaterialPageRoute(builder: (context) => DescPost(result)));
       })
       .catchError((err) {
         print('Erro: $err');
