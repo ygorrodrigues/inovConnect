@@ -51,7 +51,7 @@ class ChatItem extends StatelessWidget {
           ),
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -81,7 +81,6 @@ class ChatItem extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 240,
                             child: Text(
                               '$postTitle',
                               overflow: TextOverflow.ellipsis,

@@ -54,7 +54,7 @@ class DescPostProfile extends StatelessWidget {
                               Radius.circular(36.0),
                             ),
                             child: Image.asset(
-                              'assets/images/person64.jpg',
+                              'assets/images/personIcon64.jpg',
                             ),
                           ),
                         ),
@@ -110,11 +110,11 @@ class DescPostProfile extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 6.0),
+                      padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 0.0),
                       child: Row(
                         children: <Widget>[
                           Text(
-                            'Categoria: ',
+                            'Categoria(s): ',
                             style: const TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
@@ -129,56 +129,44 @@ class DescPostProfile extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: _postProjeto.categories
-                                .map((dynamic category) => new Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    0, 0, 4.0, 0),
-                                  child: Text(
-                                    category['name'],
-                                    style: const TextStyle(
-                                      fontSize: 22.0,
-                                      color: Colors.white,
-                                    ),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: _postProjeto.categories
+                              .map((dynamic category) => new Text(
+                                  category['name'],
+                                  style: const TextStyle(
+                                    fontSize: 22.0,
+                                    color: Colors.white,
                                   ),
-                                ))
-                                .toList()),
+                                ),
+                              )
+                              .toList()),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 64.0, 0, 6.0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            'Descrição: ',
-                            style: const TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: RichText(
+                        maxLines: 10,
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                          text: 'Descrição:\n',
+                          style: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 12.0, 0, 6.0),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 360,
-                            child: Text(
-                              _postProjeto.description,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 10,
+                          children: [
+                            TextSpan(
+                              text: _postProjeto.description,
                               style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.white,
+                                fontWeight: FontWeight.normal
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
+                            )
+                          ]
+                        )
+                      )
                     ),
                   ],
                 ),

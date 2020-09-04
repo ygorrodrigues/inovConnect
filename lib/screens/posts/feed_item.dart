@@ -10,7 +10,7 @@ class FeedItem extends StatelessWidget {
     this.postProjeto,
     this.yourId
   );
-  final String image = 'assets/images/person64.jpg';
+  final String image = 'assets/images/personIcon64.jpg';
 
   @override
   Widget build(BuildContext context) {
@@ -121,33 +121,39 @@ class FeedItem extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 4.0, 0, 6.0),
-                child: Row(children: [
-                  Text(
-                    'Categorias: ',
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Categorias:',
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                  ),
-                  Row(
-                      children: postProjeto.categories
-                          .map((dynamic category) => new Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                                child: Text(
-                                  category['name'],
-                                  style: const TextStyle(
-                                      fontSize: 16.0, color: Colors.white),
-                                ),
-                              ))
-                          .toList())
-                ]),
+                    children: [
+                      TextSpan(
+                        text: _mountCategoriesString(),
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal
+                        )
+                      ),
+                    ]
+                  )
+                )
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  String _mountCategoriesString() {
+    String categories = ' ';
+    for(dynamic category in postProjeto.categories) {
+      categories += category['name'] + ' ';
+    }
+    return categories;
   }
 }

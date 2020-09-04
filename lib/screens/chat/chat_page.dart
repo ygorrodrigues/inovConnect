@@ -45,7 +45,7 @@ class _ChatPageState extends State<ChatPage> {
                         yourId: item['yourId'],
                         memberId: item['member']['id'],
                         memberUserId: item['member']['user_id'],
-                        image: 'assets/images/person76.jpeg',
+                        image: 'assets/images/personIcon76.jpg',
                         updateDate: '12/08/2020 16:13',
                         postTitle: item['post_title'],
                         users: item['users'],

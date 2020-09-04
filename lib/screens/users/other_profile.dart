@@ -114,7 +114,7 @@ class OtherUserInformation extends StatelessWidget {
                       Radius.circular(68.0),
                     ),
                     child: Image.asset(
-                      'assets/images/person128.jpg',
+                      'assets/images/personIcon128.jpg',
                     ),
                   ),
                 ),

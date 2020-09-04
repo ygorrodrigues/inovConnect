@@ -112,7 +112,7 @@ class _ChatMessagesState extends State<ChatMessages> {
                           Radius.circular(36.0),
                         ),
                         child: Image.asset(
-                          'assets/images/person64.jpg',
+                          'assets/images/personIcon64.jpg',
                         ),
                       ),
                       Padding(

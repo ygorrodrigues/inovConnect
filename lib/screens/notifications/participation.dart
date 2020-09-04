@@ -32,7 +32,7 @@ class ParticipationItem extends StatelessWidget {
       ),
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15.0, 35.0, 15.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -54,7 +54,6 @@ class ParticipationItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        width: 240,
                         child: Text(
                           '$notification',
                           overflow: TextOverflow.ellipsis,

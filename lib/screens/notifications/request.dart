@@ -37,7 +37,7 @@ class RequestItem extends StatelessWidget {
       ),
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15.0, 35.0, 15.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -67,7 +67,7 @@ class RequestItem extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 240,
+                        width: MediaQuery.of(context).size.width * 0.60,
                         child: Text(
                           '$notification: $title',
                           overflow: TextOverflow.ellipsis,

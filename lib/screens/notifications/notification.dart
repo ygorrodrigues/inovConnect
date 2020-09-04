@@ -44,7 +44,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       if(item['participation']) {
                         return ParticipationItem(
                           postId: item['post']['id'],
-                          image: 'assets/images/person76.jpeg',
+                          image: 'assets/images/personIcon76.jpg',
                           publishDate: item['updated_at'],
                           title: item['post']['title'],
                           notification: item['status_message'],
@@ -54,7 +54,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       else {
                         return RequestItem(
                           memberId: item['id'],
-                          image: 'assets/images/person76.jpeg',
+                          image: 'assets/images/personIcon76.jpg',
                           username: item['user']['name'],
                           publishDate: item['updated_at'],
                           title: item['post']['title'],
