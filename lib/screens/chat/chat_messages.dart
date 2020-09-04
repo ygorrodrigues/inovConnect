@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_socket_io/flutter_socket_io.dart';
+import 'package:flutter_socket_io/socket_io_manager.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
 import 'package:inov_connect/screens/users/other_profile.dart';
+import 'package:inov_connect/http/webclient.dart';
 
 import 'message.dart';
 
@@ -29,33 +34,55 @@ class _ChatMessagesState extends State<ChatMessages> {
   List<Message> messages;
   TextEditingController _controllerMessage = TextEditingController();
   ScrollController _scrollController = ScrollController();
+  List<dynamic> resultMessages;
   StreamController<List<dynamic>> _messagesController;
-  Timer _messageTimer;
+  SocketIO socketIO;
 
   @override
   void initState() {
     _messagesController = new StreamController();
-    _messageTimer = Timer.periodic(Duration(microseconds: 800), (_) => loadMessages());
+    loadFirstMessages();
+    socketIO = SocketIOManager().createSocketIO(
+      url, '/',
+      query: 'chatId=${widget.chatId}');
+    socketIO.init();
+
+    socketIO.subscribe('receive_message', (jsonData) {
+      Map<String, dynamic> received = jsonDecode(jsonData);
+      resultMessages += received['data'];
+      _messagesController.add(resultMessages);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.ease,
+        );
+      });
+    });
+
+    socketIO.connect();
     super.initState();
   }
 
-  loadMessages() async {
+  loadFirstMessages() async {
     _chatsWebClient.listMessages(widget.chatId)
       .then((res) async {
-        print('LoadDetails of $res');
+        resultMessages = res;
         _messagesController.add(res);
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeOut
-        );
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.ease,
+          );
+        });
         return res;
       });
   }
 
   @override
   void dispose() {
-    _messageTimer.cancel();
+    socketIO.disconnect();
     _messagesController.close();
     super.dispose();
   }
@@ -118,6 +145,7 @@ class _ChatMessagesState extends State<ChatMessages> {
                       me: item['user']['id'] == widget.yourId,
                       time: item['created_at'],
                     )).toList();
+                    
                   return ListView.builder(
                     controller: _scrollController,
                     itemBuilder: (context, index) {
@@ -189,13 +217,23 @@ class _ChatMessagesState extends State<ChatMessages> {
           print(err);
         })
         .then((r) {
+          final String messageJson = jsonEncode({
+            'created_at': r['created_at'],
+            'chatId': widget.chatId,            
+            'userId': widget.yourId,
+            'message': _controllerMessage.text,
+          });
+          socketIO.sendMessage(
+            'send_message',
+            messageJson
+          );
           _controllerMessage.clear();
           _scrollController.animateTo(
             _scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: 300),
+            duration: Duration(milliseconds: 100),
             curve: Curves.easeOut
           );
-        });      
+        });
     }
   }
 }
