@@ -84,16 +84,24 @@ class _ProfileState extends State<Profile> {
 
   int _countParticipations(String keyword) {
     int count = 0;
-    for(Map<String, dynamic> participation in _userParticipations) {
-      if(participation['post']['type']['name'] == keyword) {
-        count++;
+    try {
+      for(Map<String, dynamic> participation in _userParticipations) {
+        if(participation['post'] != null) {
+          if(participation['post']['type']['name'] == keyword) {
+            count++;
+          }
+        }
+      }
+      for(Map<String, dynamic> post in _userData['posts']) {
+        if(post['type']['name'] == keyword && post['post_status']['name'] == 'Concluído') {
+          count++;
+        }
       }
     }
-    for(Map<String, dynamic> post in _userData['posts']) {
-      if(post['type']['name'] == keyword && post['post_status']['name'] == 'Concluído') {
-        count++;
-      }
+    catch (e) {
+      print(e);
     }
+    
     return count;
   }
 }

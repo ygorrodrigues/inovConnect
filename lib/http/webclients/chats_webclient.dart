@@ -35,13 +35,13 @@ class ChatsWebClient {
     }
   }
 
-  Future<void> sendMessage(int chatId, String message) async {
+  Future<Map<String, dynamic>> sendMessage(int chatId, String message) async {
     final String messageJson = jsonEncode({
       'message': message,
     });
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
-    client.post(
+    final Response response = await client.post(
       messages_url + '/$chatId',
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
@@ -53,6 +53,14 @@ class ChatsWebClient {
       .catchError((err){
         print('Erro -> $err');
       });
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+    try{
+      return data;
+    }
+    catch(e){
+      throw Exception('Erro');
+    }
   }
 
   Future<List<dynamic>> listMessages(int chatId) async {
