@@ -54,6 +54,7 @@ class ParticipationItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
+                        width: MediaQuery.of(context).size.width * 0.60,
                         child: Text(
                           '$notification',
                           overflow: TextOverflow.ellipsis,

@@ -70,8 +70,14 @@ class _ProfileState extends State<Profile> {
                     itemCount: _userPosts.length + 1,
                   );
                 }
-                return Container(
-                  child: Text('Você não possui projetos ainda...')
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                  child: UserInformation(
+                    userInfo: _userData,
+                    projects: _nProjects,
+                    studyGroups: _nStudyGroups,
+                    doubts: _nDoubts,
+                  ),
                 );
               }
               break;
