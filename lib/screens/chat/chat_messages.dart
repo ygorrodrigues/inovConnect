@@ -3,8 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
 import 'package:inov_connect/screens/users/other_profile.dart';
 import 'package:inov_connect/http/webclient.dart';
@@ -36,20 +35,29 @@ class _ChatMessagesState extends State<ChatMessages> {
   ScrollController _scrollController = ScrollController();
   List<dynamic> resultMessages;
   StreamController<List<dynamic>> _messagesController;
-  SocketIO socketIO;
+  IO.Socket socket;
 
   @override
   void initState() {
+    print(widget.chatId);
     _messagesController = new StreamController();
     loadFirstMessages();
-    socketIO = SocketIOManager().createSocketIO(
-      url, '/',
-      query: 'chatId=${widget.chatId}');
-    socketIO.init();
-
-    socketIO.subscribe('receive_message', (jsonData) {
+    socket = IO.io(url, <String, dynamic> {
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.io.options['extraHeaders'] = {'chatId': '${widget.chatId}'};
+    socket.on('receive_message', (jsonData) {
       Map<String, dynamic> received = jsonDecode(jsonData);
-      resultMessages += received['data'];
+      List data = [{
+        'created_at': received['created_at'],
+        'chatId': received['chatId'],
+        'user': {
+          'id': received['userId']
+        },
+        'message': received['message']
+      }];
+      resultMessages += data;
       _messagesController.add(resultMessages);
       SchedulerBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
@@ -59,8 +67,7 @@ class _ChatMessagesState extends State<ChatMessages> {
         );
       });
     });
-
-    socketIO.connect();
+    socket.connect();
     super.initState();
   }
 
@@ -82,7 +89,7 @@ class _ChatMessagesState extends State<ChatMessages> {
 
   @override
   void dispose() {
-    socketIO.disconnect();
+    socket.dispose();
     _messagesController.close();
     super.dispose();
   }
@@ -223,7 +230,7 @@ class _ChatMessagesState extends State<ChatMessages> {
             'userId': widget.yourId,
             'message': _controllerMessage.text,
           });
-          socketIO.sendMessage(
+          socket.emit(
             'send_message',
             messageJson
           );
