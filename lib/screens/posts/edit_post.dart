@@ -119,6 +119,10 @@ class _EditPostState extends State<EditPost> {
                         fontSize: 16,
                         color: Colors.black54,
                       ),
+                      hint: DropdownMenuItem<String>(
+                        value: widget.post.postStatusId.toString(),
+                        child: Text(widget.post.postStatus)
+                      ),
                       onChanged: (String newValue) {
                         setState(() {
                           _statusSelection = newValue;
@@ -126,11 +130,11 @@ class _EditPostState extends State<EditPost> {
                       },
                       items: _dropdownStatus
                         .map<DropdownMenuItem<String>>((Map map) {
-                      return DropdownMenuItem<String>(
-                        value: map['id'].toString(),
-                        child: Text(map['name'])
-                      );
-                        }).toList(),
+                          return DropdownMenuItem<String>(
+                            value: map['id'].toString(),
+                            child: Text(map['name'])
+                          );
+                        }).toList(),                      
                     ),
                   ),
                   Padding(
@@ -194,7 +198,7 @@ class _EditPostState extends State<EditPost> {
     final String description = _controllerDescription.text == '' ?
       widget.post.description : _controllerDescription.text;
     final String finalStatusSelection = _statusSelection == null ?
-      null : _statusSelection;
+      widget.post.postStatusId.toString() : _statusSelection;
 
     _postsWebClient.updatePost(widget.post.id, description, finalStatusSelection)
       .then((resp) {
