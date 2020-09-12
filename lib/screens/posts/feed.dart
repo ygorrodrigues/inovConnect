@@ -64,33 +64,36 @@ class _FeedState extends State<Feed> {
             case ConnectionState.done:
               if (snapshot.hasData) {
                 List<dynamic> data = snapshot.data['data'];
-                _postsProjetos = data
-                  .map((dynamic json) => Post.fromJson(json)).toList();
+                _postsProjetos =
+                    data.map((dynamic json) => Post.fromJson(json)).toList();
                 if (_postsProjetos.isNotEmpty) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      final Post post = _postsProjetos[index];
-                      return FeedItem(post, snapshot.data['yourId']);
-                    },
-                    itemCount: _postsProjetos.length,
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        final Post post = _postsProjetos[index];
+                        return FeedItem(post, snapshot.data['yourId']);
+                      },
+                      itemCount: _postsProjetos.length,
+                    ),
                   );
                 }
-                return CenteredMessage('No posts found...',
+                return CenteredMessage('No posts found',
                     icon: Icons.warning);
               }
               break;
           }
-          if(snapshot.hasError) {
+          if (snapshot.hasError) {
             Map<String, dynamic> error = snapshot.error;
-            if(error['statusCode'] == 401) {
+            if (error['statusCode'] == 401) {
               return ExampleDialog(
                 message: 'Sessão expirada',
                 redirWidget: Signin(),
               );
-            }
-            else print(error);
+            } else
+              print(error);
           }
-          return CenteredMessage('Unknown error...', icon: Icons.close);
+          return CenteredMessage('Unknown error', icon: Icons.close);
         },
       ),
       floatingActionButton: FloatingActionButton(

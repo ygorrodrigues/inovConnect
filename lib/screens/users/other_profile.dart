@@ -94,111 +94,137 @@ class OtherUserInformation extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          margin: EdgeInsets.only(
-            top: 25,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(68.0),
-                    ),
-                    child: Image.asset(
-                      'assets/images/personIcon128.jpg',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      userInfo['name'],
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.lightBlue[400],
-                        fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            margin: EdgeInsets.only(
+              top: 25,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(68.0),
+                      ),
+                      child: Image.asset(
+                        'assets/images/personIcon128.jpg',
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
-                  child: Row(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          'Curso:',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.lightBlue[400],
-                            fontWeight: FontWeight.bold,
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        userInfo['name'],
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.lightBlue[400],
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
-                        child: Text(
-                          userInfo['course']['name'],
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Color.fromARGB(255, 142, 142, 142),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
+                    child: Row(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            'Curso:',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.lightBlue[400],
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
+                          child: Text(
+                            userInfo['course']['name'],
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Color.fromARGB(255, 142, 142, 142),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-                //   child: Row(
-                //     children: <Widget>[
-                //       Align(
-                //         alignment: Alignment.bottomLeft,
-                //         child: Text(
-                //           'Semestre:',
-                //           style: TextStyle(
-                //             fontSize: 16.0,
-                //             color: Colors.lightBlue[400],
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
-                //         child: Text(
-                //           '10º',
-                //           style: TextStyle(
-                //             fontSize: 14.0,
-                //             color: Color.fromARGB(255, 142, 142, 142),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
-                        child: Align(
+                  // Padding(
+                  //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                  //   child: Row(
+                  //     children: <Widget>[
+                  //       Align(
+                  //         alignment: Alignment.bottomLeft,
+                  //         child: Text(
+                  //           'Semestre:',
+                  //           style: TextStyle(
+                  //             fontSize: 16.0,
+                  //             color: Colors.lightBlue[400],
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Padding(
+                  //         padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
+                  //         child: Text(
+                  //           '10º',
+                  //           style: TextStyle(
+                  //             fontSize: 14.0,
+                  //             color: Color.fromARGB(255, 142, 142, 142),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Descrição: ',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.lightBlue[400],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: userInfo['description'],
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Color.fromARGB(255, 142, 142, 142),
+                                      fontWeight: FontWeight.normal
+                                    )
+                                  ),
+                                ],
+                              )
+                            ),
+                          ),
+                        ),
+                        Align(
                           alignment: Alignment.bottomLeft,
                           child: RichText(
                             text: TextSpan(
-                              text: 'Descrição: ',
+                              text: 'Atividades concluídas:\n',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.lightBlue[400],
@@ -206,7 +232,23 @@ class OtherUserInformation extends StatelessWidget {
                               ),
                               children: [
                                 TextSpan(
-                                  text: userInfo['description'],
+                                  text: 'Projetos: $projects\n',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Color.fromARGB(255, 142, 142, 142),
+                                    fontWeight: FontWeight.normal
+                                  )
+                                ),
+                                TextSpan(
+                                  text: 'Dúvidas: $doubts\n',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Color.fromARGB(255, 142, 142, 142),
+                                    fontWeight: FontWeight.normal
+                                  )
+                                ),
+                                TextSpan(
+                                  text: 'Grupos de estudo: $studyGroups',
                                   style: TextStyle(
                                     fontSize: 14.0,
                                     color: Color.fromARGB(255, 142, 142, 142),
@@ -217,54 +259,15 @@ class OtherUserInformation extends StatelessWidget {
                             )
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Atividades concluídas:\n',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.lightBlue[400],
-                              fontWeight: FontWeight.bold,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: 'Projetos: $projects\n',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color.fromARGB(255, 142, 142, 142),
-                                  fontWeight: FontWeight.normal
-                                )
-                              ),
-                              TextSpan(
-                                text: 'Dúvidas: $doubts\n',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color.fromARGB(255, 142, 142, 142),
-                                  fontWeight: FontWeight.normal
-                                )
-                              ),
-                              TextSpan(
-                                text: 'Grupos de estudo: $studyGroups',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color.fromARGB(255, 142, 142, 142),
-                                  fontWeight: FontWeight.normal
-                                )
-                              ),
-                            ],
-                          )
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -7,9 +7,7 @@ import 'package:inov_connect/screens/users/other_profile.dart';
 
 class DescPost extends StatelessWidget {
   final Post _postProjeto;
-  DescPost(
-    this._postProjeto
-  );
+  DescPost(this._postProjeto);
   final MembersWebClient _membersWebClient = MembersWebClient();
 
   @override
@@ -17,7 +15,7 @@ class DescPost extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[300],
-        title: Text(_postProjeto.title)
+        title: Text(_postProjeto.title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -25,10 +23,10 @@ class DescPost extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: _postProjeto.type == 'Projeto'
-              ? Colors.red[400]
-              : (_postProjeto.type == 'Grupo de estudo'
-                  ? Colors.green[400]
-                  : Colors.blue[400]),
+                ? Colors.red[400]
+                : (_postProjeto.type == 'Grupo de estudo'
+                    ? Colors.green[400]
+                    : Colors.blue[400]),
           ),
           child: Column(
             children: <Widget>[
@@ -52,10 +50,13 @@ class DescPost extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => OtherProfile(
-                            otherUserId: _postProjeto.ownerId
-                          )));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                OtherProfile(otherUserId: _postProjeto.ownerId),
+                          ),
+                        );
                       },
                       child: Row(
                         children: <Widget>[
@@ -73,7 +74,8 @@ class DescPost extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
                                 child: Text(
                                   _postProjeto.username,
                                   style: const TextStyle(
@@ -83,12 +85,13 @@ class DescPost extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
                                 child: Text(
                                   _postProjeto.creationDate,
                                   style: const TextStyle(
                                     fontSize: 12.0,
-                                    color: Color.fromARGB(255, 69, 90, 100),
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -143,93 +146,68 @@ class DescPost extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: _postProjeto.categories
-                              .map((dynamic category) => new Text(
-                                  category['name'],
-                                  style: const TextStyle(
-                                    fontSize: 22.0,
-                                    color: Colors.white,
+                                .map(
+                                  (dynamic category) => new Text(
+                                    category['name'],
+                                    style: const TextStyle(
+                                      fontSize: 22.0,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              )
-                              .toList()),
+                                )
+                                .toList(),
+                          ),
                         ],
                       ),
                     ),
                     Align(
-                      alignment: Alignment.bottomLeft,
-                      child: RichText(
-                        maxLines: 10,
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
-                          text: 'Descrição:\n',
-                          style: const TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: _postProjeto.description,
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal
-                              ),
-                            )
-                          ]
-                        )
-                      )
-                    ),
+                        alignment: Alignment.bottomLeft,
+                        child: RichText(
+                            maxLines: 10,
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                                text: 'Descrição:\n',
+                                style: const TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: _postProjeto.description,
+                                    style: const TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  )
+                                ]))),
                   ],
                 ),
               ),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: <Widget>[
-                    ButtonTheme(
-                      height: 30,
-                      minWidth: 50,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        color: Color.fromARGB(255, 211, 47, 47),
-                        child: Text(
-                          'Voltar',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 30,
+                  child: ButtonTheme(
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
+                      onPressed: () {
+                        _addMemberToPost(context);
+                      },
+                      color: Color.fromARGB(255, 2, 136, 209),
+                      child: Text(
+                        'Participar',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    Spacer(),
-                    ButtonTheme(
-                      height: 30,
-                      minWidth: 150,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        onPressed: () {
-                          _addMemberToPost(context);
-                        },
-                        color: Color.fromARGB(255, 2, 136, 209),
-                        child: Text(
-                          'Participar',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -240,9 +218,8 @@ class DescPost extends StatelessWidget {
   }
 
   void _addMemberToPost(BuildContext context) {
-    _membersWebClient.addMember(_postProjeto.id)
-      .then((resp) {
-        showDialog(
+    _membersWebClient.addMember(_postProjeto.id).then((resp) {
+      showDialog(
           context: context,
           builder: (context) {
             return ExampleDialog(
@@ -250,17 +227,14 @@ class DescPost extends StatelessWidget {
               redirWidget: BottomTemplate(firstIndex: 1),
             );
           });
-      })
-      .catchError((err) {
-        String error = err.toString();
-        List<dynamic> message = error.split(': ');
-        showDialog(
+    }).catchError((err) {
+      String error = err.toString();
+      List<dynamic> message = error.split(': ');
+      showDialog(
           context: context,
           builder: (context) {
-            return ExampleDialog(
-              message: message[message.length - 1]
-            );
+            return ExampleDialog(message: message[message.length - 1]);
           });
-      });
+    });
   }
 }

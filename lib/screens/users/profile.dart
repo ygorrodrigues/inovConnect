@@ -120,91 +120,35 @@ class UserInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  textDirection: TextDirection.rtl,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EditProfile(
-                            name: userInfo['name'],
-                            description: userInfo['description'],
-                            courseId: userInfo['course']['id'],
-                          )));
-                      },
-                      child: Text(
-                        'Editar',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.lightBlue[400],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _loginWebClient.removeToken().then((response) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return Signin();
-                          }));
-                        });
-                      },
-                      child: Text(
-                        'Sair',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.lightBlue[400],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(68.0),
-                    ),
-                    child: Image.asset(
-                      'assets/images/personIcon128.jpg',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      userInfo['name'],
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.lightBlue[400],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
-                  child: Row(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    textDirection: TextDirection.rtl,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.bottomLeft,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => EditProfile(
+                              name: userInfo['name'],
+                              description: userInfo['description'],
+                              courseId: userInfo['course']['id'],
+                            )));
+                        },
                         child: Text(
-                          'Curso:',
+                          'Editar',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.lightBlue[400],
@@ -212,30 +156,112 @@ class UserInformation extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
+                      InkWell(
+                        onTap: () {
+                          _loginWebClient.removeToken().then((response) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return Signin();
+                            }));
+                          });
+                        },
                         child: Text(
-                          userInfo['course']['name'],
+                          'Sair',
                           style: TextStyle(
-                            fontSize: 14.0,
-                            color: Color.fromARGB(255, 142, 142, 142),
+                            fontSize: 16.0,
+                            color: Colors.lightBlue[400],
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
-                        child: Align(
+                  Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(68.0),
+                      ),
+                      child: Image.asset(
+                        'assets/images/personIcon128.jpg',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        userInfo['name'],
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.lightBlue[400],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
+                    child: Row(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            'Curso:',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.lightBlue[400],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
+                          child: Text(
+                            userInfo['course']['name'],
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Color.fromARGB(255, 142, 142, 142),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Descrição: ',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.lightBlue[400],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: userInfo['description'],
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Color.fromARGB(255, 142, 142, 142),
+                                      fontWeight: FontWeight.normal
+                                    )
+                                  ),
+                                ],
+                              )
+                            ),
+                          ),
+                        ),
+                        Align(
                           alignment: Alignment.bottomLeft,
                           child: RichText(
                             text: TextSpan(
-                              text: 'Descrição: ',
+                              text: 'Atividades concluídas:\n',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.lightBlue[400],
@@ -243,7 +269,23 @@ class UserInformation extends StatelessWidget {
                               ),
                               children: [
                                 TextSpan(
-                                  text: userInfo['description'],
+                                  text: 'Projetos: $projects\n',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Color.fromARGB(255, 142, 142, 142),
+                                    fontWeight: FontWeight.normal
+                                  )
+                                ),
+                                TextSpan(
+                                  text: 'Dúvidas: $doubts\n',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Color.fromARGB(255, 142, 142, 142),
+                                    fontWeight: FontWeight.normal
+                                  )
+                                ),
+                                TextSpan(
+                                  text: 'Grupos de estudo: $studyGroups',
                                   style: TextStyle(
                                     fontSize: 14.0,
                                     color: Color.fromARGB(255, 142, 142, 142),
@@ -254,74 +296,35 @@ class UserInformation extends StatelessWidget {
                             )
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Atividades concluídas:\n',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.lightBlue[400],
-                              fontWeight: FontWeight.bold,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: 'Projetos: $projects\n',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color.fromARGB(255, 142, 142, 142),
-                                  fontWeight: FontWeight.normal
-                                )
-                              ),
-                              TextSpan(
-                                text: 'Dúvidas: $doubts\n',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color.fromARGB(255, 142, 142, 142),
-                                  fontWeight: FontWeight.normal
-                                )
-                              ),
-                              TextSpan(
-                                text: 'Grupos de estudo: $studyGroups',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color.fromARGB(255, 142, 142, 142),
-                                  fontWeight: FontWeight.normal
-                                )
-                              ),
-                            ],
-                          )
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.95,
-          child: RaisedButton(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0)
-            ),
-            child: Text(
-              'Criar publicação',
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.lightBlue[400]
+                ],
               ),
             ),
-            onPressed: () {
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => FormPost()));
-            }
           ),
-        ),
-      ],
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: RaisedButton(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)
+              ),
+              child: Text(
+                'Criar publicação',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.lightBlue[400]
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => FormPost()));
+              }
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

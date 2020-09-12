@@ -12,19 +12,18 @@ class DescPostProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue[300],
-        title: Text(_postProjeto.title)
-      ),
+          backgroundColor: Colors.lightBlue[300],
+          title: Text(_postProjeto.title)),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: _postProjeto.type == 'Projeto'
-              ? Colors.red[400]
-              : (_postProjeto.type == 'Grupo de estudo'
-                  ? Colors.green[400]
-                  : Colors.blue[400]),
+                ? Colors.red[400]
+                : (_postProjeto.type == 'Grupo de estudo'
+                    ? Colors.green[400]
+                    : Colors.blue[400]),
           ),
           child: Column(
             children: <Widget>[
@@ -77,7 +76,7 @@ class DescPostProfile extends StatelessWidget {
                                 _postProjeto.creationDate,
                                 style: const TextStyle(
                                   fontSize: 12.0,
-                                  color: Color.fromARGB(255, 69, 90, 100),
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -129,17 +128,18 @@ class DescPostProfile extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: _postProjeto.categories
-                              .map((dynamic category) => new Text(
-                                  category['name'],
-                                  style: const TextStyle(
-                                    fontSize: 22.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                              .toList()),
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: _postProjeto.categories
+                                  .map(
+                                    (dynamic category) => new Text(
+                                      category['name'],
+                                      style: const TextStyle(
+                                        fontSize: 22.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                  .toList()),
                         ],
                       ),
                     ),
@@ -159,68 +159,48 @@ class DescPostProfile extends StatelessWidget {
                             TextSpan(
                               text: _postProjeto.description,
                               style: const TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal
-                              ),
-                            )
-                          ]
-                        )
-                      )
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               Spacer(),
               Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: <Widget>[
-                    ButtonTheme(
-                      height: 30,
-                      minWidth: 50,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        color: Color.fromARGB(255, 211, 47, 47),
-                        child: Text(
-                          'Voltar',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 30,
+                  child: ButtonTheme(
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditPost(
+                              post: _postProjeto,
+                            ),
                           ),
+                        );
+                      },
+                      color: Color.fromARGB(255, 2, 136, 209),
+                      child: Text(
+                        'Editar',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    Spacer(),
-                    ButtonTheme(
-                      height: 30,
-                      minWidth: 150,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        onPressed: () {
-                          Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => EditPost(
-                              post: _postProjeto,
-                            )));
-                        },
-                        color: Color.fromARGB(255, 2, 136, 209),
-                        child: Text(
-                          'Editar',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ),
             ],

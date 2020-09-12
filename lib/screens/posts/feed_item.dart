@@ -87,7 +87,7 @@ class FeedItem extends StatelessWidget {
                           postProjeto.creationDate,
                           style: const TextStyle(
                             fontSize: 12.0,
-                            color: Color.fromARGB(255, 69, 90, 100),
+                            color: Colors.white,
                           ),
                         ),
                       ),
