@@ -14,22 +14,19 @@ class Signup extends StatefulWidget {
 bool _pwdVisibility = true;
 
 class _SignupState extends State<Signup> {
-
   final SignupWebClient _signupWebClient = SignupWebClient();
   final CoursesWebClient _coursesWebClient = CoursesWebClient();
 
-  final TextEditingController _controllerName =
-    TextEditingController();
-  final TextEditingController _controllerEmail =
-    TextEditingController();
-  final TextEditingController _controllerRA =
-    TextEditingController();
-  final TextEditingController _controllerPassword =
-    TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerRA = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
 
   String dropdownEmail = '@unisanta.br';
   String _courseSelection;
-  List<Map> _dropdownCourses = [{ 'id': 0, 'name': 'Selecione seu curso' }];
+  List<Map> _dropdownCourses = [
+    {'id': 0, 'name': 'Selecione seu curso'}
+  ];
   List<String> _emailOptions = ['@unisanta.br', '@alunos.unisanta.br'];
 
   @override
@@ -81,50 +78,47 @@ class _SignupState extends State<Signup> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 6,
-                    child: 
-                    InovTextField(
-                      controller: _controllerEmail,
-                      icon: Icons.mail,
-                      hint: 'Email institucional',
-                      padBottom: 8.0,
-                      padRight: 8.0,
-                    )
-                  ),
+                      flex: 6,
+                      child: InovTextField(
+                        controller: _controllerEmail,
+                        icon: Icons.mail,
+                        hint: 'Email institucional',
+                        padBottom: 8.0,
+                        padRight: 8.0,
+                      )),
                   Expanded(
-                    flex: 4,
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.only(left: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: dropdownEmail,
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black54,
+                      flex: 4,
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(left: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            dropdownEmail = newValue;
-                          });
-                        },
-                        items: _emailOptions
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        );
-                      }).toList(),
-                    ),
-                  ))
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: dropdownEmail,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black54,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              dropdownEmail = newValue;
+                            });
+                          },
+                          items: _emailOptions
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  overflow: TextOverflow.ellipsis,
+                                ));
+                          }).toList(),
+                        ),
+                      ))
                 ],
               ),
               Align(
@@ -159,36 +153,33 @@ class _SignupState extends State<Signup> {
               Stack(
                 children: <Widget>[
                   Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.only(left: 48.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                    ),
-                    child: 
-                    DropdownButton<String>(
-                      isExpanded: true,
-                      hint: Text('Selecione seu curso'),
-                      value: _courseSelection,
-                      icon: Icon(Icons.keyboard_arrow_down),
-                        style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black54,
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.only(left: 48.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          _courseSelection = newValue;
-                        });
-                      },
-                      items: _dropdownCourses
-                        .map<DropdownMenuItem<String>>((Map map) {
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: Text('Selecione seu curso'),
+                        value: _courseSelection,
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            _courseSelection = newValue;
+                          });
+                        },
+                        items: _dropdownCourses
+                            .map<DropdownMenuItem<String>>((Map map) {
                           return DropdownMenuItem<String>(
-                            value: map['id'].toString(),
-                            child: Text(map['name'])
-                          );
+                              value: map['id'].toString(),
+                              child: Text(map['name']));
                         }).toList(),
-                    )
-                  ),
+                      )),
                   Container(
                     padding: const EdgeInsets.only(
                         right: 8, left: 8, bottom: 8, top: 8),
@@ -228,7 +219,9 @@ class _SignupState extends State<Signup> {
                     child: IconButton(
                       padding: EdgeInsets.only(bottom: 8.0),
                       icon: Icon(
-                        _pwdVisibility ? Icons.visibility_off : Icons.visibility,
+                        _pwdVisibility
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         size: 32.0,
                         color: Colors.black54,
                       ),
@@ -264,35 +257,30 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
               ),
-              Stack(
-                children: <Widget>[
-                  Text(
-                    'Você já tem uma conta? ',
+              InkWell(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Você já tem uma conta? ',
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 176.0,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Entrar',
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Entrar',
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              )
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
             ],
           ),
         ),
@@ -306,29 +294,25 @@ class _SignupState extends State<Signup> {
     final String password = _controllerPassword.text;
     final String ra = _controllerRA.text;
 
-    _signupWebClient.registerUser(name, email, password, ra, _courseSelection)
-      .then((resp) {
-        showDialog(
+    _signupWebClient
+        .registerUser(name, email, password, ra, _courseSelection)
+        .then((resp) {
+      showDialog(
           context: context,
           builder: (context) {
             return ExampleDialog(
               message: 'E-mail de confirmação enviado. Obrigado!',
               redirWidget: Signin(),
             );
-          }
-        );
-      })
-      .catchError((err) {
-        String error = err.toString();
-        List<dynamic> message = error.split(': ');
-        showDialog(
+          });
+    }).catchError((err) {
+      String error = err.toString();
+      List<dynamic> message = error.split(': ');
+      showDialog(
           context: context,
           builder: (context) {
-            return ExampleDialog(
-              message: message[message.length - 1]
-            );
-          }
-        );
-      });
+            return ExampleDialog(message: message[message.length - 1]);
+          });
+    });
   }
 }

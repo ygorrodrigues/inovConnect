@@ -14,10 +14,8 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
   final LoginWebClient _webClient = LoginWebClient();
 
-  final TextEditingController _controllerRA =
-    TextEditingController();
-  final TextEditingController _controllerPassword = 
-    TextEditingController();
+  final TextEditingController _controllerRA = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -92,41 +90,30 @@ class _SigninState extends State<Signin> {
                   ),
                 ),
               ),
-              Stack(
-                children: <Widget>[
-                  InkWell(
-                    child: Text(
-                      'Ainda não criou sua conta? ',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.lightBlue[300],
-                      ),
+              InkWell(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Ainda não criou sua conta? ',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.lightBlue[300],
                     ),
-                    onTap: () {
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Signup()));
-                    }
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 200.0,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Signup()));
-                      },
-                      child: Text(
-                        'Criar',
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Criar',
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.lightBlue[300],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Signup()));
+                },
               ),
             ],
           ),
@@ -139,34 +126,28 @@ class _SigninState extends State<Signin> {
     final String usuario = _controllerRA.text;
     final String senha = _controllerPassword.text;
 
-    if(usuario != '') {
+    if (usuario != '') {
       _webClient.createToken(usuario, senha).then((resp) {
         if (resp['accessToken'] != null) {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return BottomTemplate(firstIndex: 1);
           }));
         }
-      })
-      .catchError((err) {
+      }).catchError((err) {
         String error = err.toString();
         List<dynamic> message = error.split(': ');
         showDialog(
+            context: context,
+            builder: (context) {
+              return ExampleDialog(message: message[message.length - 1]);
+            });
+      });
+    } else {
+      showDialog(
           context: context,
           builder: (context) {
-            return ExampleDialog(
-              message: message[message.length - 1]
-            );
+            return ExampleDialog(message: 'Digite um RA válido.');
           });
-      });
-    }
-    else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return ExampleDialog(
-            message: 'Digite um RA válido.'
-          );
-        });
     }
   }
 }
