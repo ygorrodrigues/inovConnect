@@ -14,7 +14,6 @@ class ChatItem extends StatelessWidget {
     this.memberUserId,
     this.image,
     this.users,
-    this.updateDate,
     this.postTitle,
     this.callback
   }) : super(key: key);
@@ -25,7 +24,6 @@ class ChatItem extends StatelessWidget {
   final int memberUserId;
   final String image;
   final List users;
-  final String updateDate;
   final String postTitle;
   final Function callback;
 
@@ -51,7 +49,7 @@ class ChatItem extends StatelessWidget {
           ),
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -88,16 +86,6 @@ class ChatItem extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: Text(
-                              '$updateDate',
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                                color: Color.fromARGB(255, 69, 90, 100),
                               ),
                             ),
                           ),

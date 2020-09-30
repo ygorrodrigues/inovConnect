@@ -15,6 +15,7 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   List<dynamic> _myData;
+  int _yourId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +38,12 @@ class _NotificationPageState extends State<NotificationPage> {
             case ConnectionState.done:
               if (snapshot.hasData) {
                 _myData = snapshot.data['data'];
+                _yourId = snapshot.data['yourId'];
                 if (_myData.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       final Map<String, dynamic> item = _myData[index];
-                      if(item['participation']) {
+                      if(item['user']['id'] == _yourId) {
                         return ParticipationItem(
                           postId: item['post']['id'],
                           image: 'assets/images/personIcon76.jpg',

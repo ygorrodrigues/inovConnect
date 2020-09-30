@@ -76,7 +76,7 @@ class ParticipationItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Text(
-                          _timeFormat(publishDate),
+                          publishDate,
                           style: const TextStyle(
                             fontSize: 14.0,
                             color: Color.fromARGB(255, 69, 90, 100),
@@ -135,13 +135,6 @@ class ParticipationItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _timeFormat(String publishDate) {
-    int startHour = publishDate.indexOf('T');
-    String date = publishDate.substring(0, startHour);
-    String hour = publishDate.substring(startHour + 1, startHour + 6);
-    return date + ' às ' + hour;
   }
 
   void _seePost(BuildContext context) {
