@@ -6,7 +6,7 @@ final Client client = HttpClientWithInterceptor.build(interceptors: [
   LoggingInterceptor()
 ]);
 
-const String url = 'http://192.168.0.8:3000';
+const String url = 'https://inov-connect.herokuapp.com';
 const String all_posts_url = '$url/posts';
 const String filtered_posts_url = '$url/posts/filter';
 const String login_url = '$url/users/login';

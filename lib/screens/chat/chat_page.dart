@@ -46,7 +46,6 @@ class _ChatPageState extends State<ChatPage> {
                         memberId: item['member']['id'],
                         memberUserId: item['member']['user_id'],
                         image: 'assets/images/personIcon76.jpg',
-                        updateDate: '12/08/2020 16:13',
                         postTitle: item['post_title'],
                         users: item['users'],
                         callback: this.chatsCallback
