@@ -268,6 +268,7 @@ class _EditProfileState extends State<EditProfile> {
     _userWebCliente.updateUserData(name, description, finalCourseSelection)
       .then((resp) {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return ExampleDialog(
@@ -280,6 +281,7 @@ class _EditProfileState extends State<EditProfile> {
       .catchError((err) {
         String error = err.toString();
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return ExampleDialog(

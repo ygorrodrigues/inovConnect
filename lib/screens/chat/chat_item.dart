@@ -173,6 +173,7 @@ class ChatItem extends StatelessWidget {
         switch(newStatus) {
           case 3:
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (context) {
                 return ExampleDialog(
@@ -184,6 +185,7 @@ class ChatItem extends StatelessWidget {
             break;
           case 4:
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (context) {
                 return ExampleDialog(
@@ -195,6 +197,7 @@ class ChatItem extends StatelessWidget {
             break;
           default:
             showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (context) {
                 return ExampleDialog(

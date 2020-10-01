@@ -298,21 +298,23 @@ class _SignupState extends State<Signup> {
         .registerUser(name, email, password, ra, _courseSelection)
         .then((resp) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(
-              message: 'E-mail de confirmação enviado. Obrigado!',
-              redirWidget: Signin(),
-            );
-          });
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return ExampleDialog(
+            message: 'E-mail de confirmação enviado. Obrigado!',
+            redirWidget: Signin(),
+          );
+        });
     }).catchError((err) {
       String error = err.toString();
       List<dynamic> message = error.split(': ');
       showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(message: message[message.length - 1]);
-          });
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return ExampleDialog(message: message[message.length - 1]);
+        });
     });
   }
 }

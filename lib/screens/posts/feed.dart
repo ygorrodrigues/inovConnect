@@ -31,20 +31,21 @@ class _FeedState extends State<Feed> {
             icon: Icon(Icons.filter_list),
             onPressed: () {
               showDialog(
-                  context: context,
-                  builder: (context) {
-                    return FilterDialog(
-                        message: 'Escolha seus filtros!',
-                        onSelectedOkDialog: (valuesOfDialog) {
-                          if (typeSelected != valuesOfDialog[0] ||
-                              categorySelected != valuesOfDialog[1]) {
-                            setState(() {
-                              typeSelected = valuesOfDialog[0];
-                              categorySelected = valuesOfDialog[1];
-                            });
-                          }
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return FilterDialog(
+                    message: 'Escolha seus filtros!',
+                    onSelectedOkDialog: (valuesOfDialog) {
+                      if (typeSelected != valuesOfDialog[0] ||
+                          categorySelected != valuesOfDialog[1]) {
+                        setState(() {
+                          typeSelected = valuesOfDialog[0];
+                          categorySelected = valuesOfDialog[1];
                         });
-                  });
+                      }
+                    });
+                });
             },
           )
         ],

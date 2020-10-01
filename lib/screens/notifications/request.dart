@@ -179,6 +179,7 @@ class RequestItem extends StatelessWidget {
           switch (newStatus) {
             case 3:
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
                   return ExampleDialog(
@@ -190,6 +191,7 @@ class RequestItem extends StatelessWidget {
               break;
             case 4:
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
                   return ExampleDialog(
@@ -201,6 +203,7 @@ class RequestItem extends StatelessWidget {
               break;
             default:
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
                   return ExampleDialog(

@@ -420,6 +420,7 @@ class FormPostState extends State<FormPost> {
       _postsWebClient.saveNewPost(newPost)
         .then((resp) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) {
               return ExampleDialog(
@@ -433,6 +434,7 @@ class FormPostState extends State<FormPost> {
           String error = err.toString();
           List<dynamic> message = error.split(': ');
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) {
               return ExampleDialog(
@@ -444,6 +446,7 @@ class FormPostState extends State<FormPost> {
     }
     else {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return ExampleDialog(

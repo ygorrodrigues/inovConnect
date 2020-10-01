@@ -220,21 +220,25 @@ class DescPost extends StatelessWidget {
   void _addMemberToPost(BuildContext context) {
     _membersWebClient.addMember(_postProjeto.id).then((resp) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(
-              message: 'Solicitação de participação enviada.',
-              redirWidget: BottomTemplate(firstIndex: 1),
-            );
-          });
-    }).catchError((err) {
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return ExampleDialog(
+            message: 'Solicitação de participação enviada.',
+            redirWidget: BottomTemplate(firstIndex: 1),
+          );
+        }
+      );
+    })
+    .catchError((err) {
       String error = err.toString();
       List<dynamic> message = error.split(': ');
       showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(message: message[message.length - 1]);
-          });
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return ExampleDialog(message: message[message.length - 1]);
+        });
     });
   }
 }

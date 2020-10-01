@@ -154,6 +154,7 @@ class _ForgotState extends State<Forgot> {
       String message = resp['message'];
       if(resp['user']) {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return ExampleDialog(
@@ -163,6 +164,7 @@ class _ForgotState extends State<Forgot> {
         });
       }
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return ExampleDialog(
@@ -174,6 +176,7 @@ class _ForgotState extends State<Forgot> {
       String error = err.toString();
       List<dynamic> message = error.split(': ');
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return ExampleDialog(

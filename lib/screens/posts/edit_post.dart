@@ -203,6 +203,7 @@ class _EditPostState extends State<EditPost> {
     _postsWebClient.updatePost(widget.post.id, description, finalStatusSelection)
       .then((resp) {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return ExampleDialog(
@@ -215,6 +216,7 @@ class _EditPostState extends State<EditPost> {
       .catchError((err) {
         String error = err.toString();
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return ExampleDialog(

@@ -137,17 +137,19 @@ class _SigninState extends State<Signin> {
         String error = err.toString();
         List<dynamic> message = error.split(': ');
         showDialog(
-            context: context,
-            builder: (context) {
-              return ExampleDialog(message: message[message.length - 1]);
-            });
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return ExampleDialog(message: message[message.length - 1]);
+          });
       });
     } else {
       showDialog(
-          context: context,
-          builder: (context) {
-            return ExampleDialog(message: 'Digite um RA válido.');
-          });
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return ExampleDialog(message: 'Digite um RA válido.');
+        });
     }
   }
 }
