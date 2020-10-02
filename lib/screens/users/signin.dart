@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/screens/bottom/bottom_template.dart';
@@ -129,7 +129,7 @@ class _SigninState extends State<Signin> {
     if (usuario != '') {
       _webClient.createToken(usuario, senha).then((resp) {
         if (resp['accessToken'] != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
             return BottomTemplate(firstIndex: 1);
           }));
         }
@@ -140,7 +140,7 @@ class _SigninState extends State<Signin> {
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return ExampleDialog(message: message[message.length - 1]);
+            return PopupDialog(message: message[message.length - 1]);
           });
       });
     } else {
@@ -148,7 +148,7 @@ class _SigninState extends State<Signin> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(message: 'Digite um RA válido.');
+          return PopupDialog(message: 'Digite um RA válido.');
         });
     }
   }

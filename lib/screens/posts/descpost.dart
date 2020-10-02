@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/models/post.dart';
-import 'package:inov_connect/screens/bottom/bottom_template.dart';
 import 'package:inov_connect/screens/users/other_profile.dart';
 
 class DescPost extends StatelessWidget {
@@ -223,12 +222,11 @@ class DescPost extends StatelessWidget {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(
+          return PopupDialog(
             message: 'Solicitação de participação enviada.',
-            redirWidget: BottomTemplate(firstIndex: 1),
           );
         }
-      );
+      ).then((value) => Navigator.pop(context));
     })
     .catchError((err) {
       String error = err.toString();
@@ -237,7 +235,7 @@ class DescPost extends StatelessWidget {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(message: message[message.length - 1]);
+          return PopupDialog(message: message[message.length - 1]);
         });
     });
   }

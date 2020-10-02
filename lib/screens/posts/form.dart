@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/http/webclients/posts_webclient.dart';
 import 'package:inov_connect/http/webclients/types_and_categories.dart';
-import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
 final TypesAndCategoriesWebClient _typesAndCategoriesWebClient = 
   TypesAndCategoriesWebClient();
@@ -423,12 +422,11 @@ class FormPostState extends State<FormPost> {
             barrierDismissible: false,
             context: context,
             builder: (context) {
-              return ExampleDialog(
-                message: 'Publicação criada, verifique suas publicações.',
-                redirWidget: BottomTemplate(firstIndex: 1),
+              return PopupDialog(
+                message: 'Publicação criada, verifique suas publicações.'
               );
             }
-          );
+          ).then((value) => Navigator.pop(context));
         })
         .catchError((err) {
           String error = err.toString();
@@ -437,7 +435,7 @@ class FormPostState extends State<FormPost> {
             barrierDismissible: false,
             context: context,
             builder: (context) {
-              return ExampleDialog(
+              return PopupDialog(
                 message: message[message.length - 1]
               );
             }
@@ -449,7 +447,7 @@ class FormPostState extends State<FormPost> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(
+          return PopupDialog(
             message: 'Selecione categorias diferentes ' +
               'ou digite uma categoria para sua publicação',
           );

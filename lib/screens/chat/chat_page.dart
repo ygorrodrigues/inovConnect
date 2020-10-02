@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/centered_message.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/components/progress.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
 import 'package:inov_connect/screens/users/signin.dart';
@@ -62,10 +62,20 @@ class _ChatPageState extends State<ChatPage> {
           if(snapshot.hasError) {
             Map<String, dynamic> error = snapshot.error;
             if(error['statusCode'] == 401) {
-              return ExampleDialog(
-                message: 'Sessão expirada',
-                redirWidget: Signin(),
-              );
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return PopupDialog(
+                    message: 'Sessão expirada',
+                  );
+                }
+              ).then((value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Signin()
+                )
+              ));
             }
             else print(error);
           }

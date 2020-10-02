@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
-import 'package:inov_connect/screens/users/signin.dart';
 
 class Forgot extends StatefulWidget {
 
@@ -157,17 +156,16 @@ class _ForgotState extends State<Forgot> {
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return ExampleDialog(
+            return PopupDialog(
               message: message,
-              redirWidget: Signin(),
             );
-        });
+        }).then((value) => Navigator.pop(context));
       }
       showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(
+          return PopupDialog(
             message: message
           );
       });
@@ -179,7 +177,7 @@ class _ForgotState extends State<Forgot> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(
+          return PopupDialog(
             message: message[message.length - 1]
           );
         });

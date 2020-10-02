@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/courses.dart';
 import 'package:inov_connect/http/webclients/signup_webclient.dart';
-import 'package:inov_connect/screens/users/signin.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -301,11 +300,10 @@ class _SignupState extends State<Signup> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(
+          return PopupDialog(
             message: 'E-mail de confirmação enviado. Obrigado!',
-            redirWidget: Signin(),
           );
-        });
+        }).then((value) => Navigator.pop(context));
     }).catchError((err) {
       String error = err.toString();
       List<dynamic> message = error.split(': ');
@@ -313,7 +311,7 @@ class _SignupState extends State<Signup> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ExampleDialog(message: message[message.length - 1]);
+          return PopupDialog(message: message[message.length - 1]);
         });
     });
   }

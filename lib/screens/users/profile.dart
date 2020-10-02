@@ -159,8 +159,8 @@ class UserInformation extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           _loginWebClient.removeToken().then((response) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return Signin();
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                              return new Signin();
                             }));
                           });
                         },

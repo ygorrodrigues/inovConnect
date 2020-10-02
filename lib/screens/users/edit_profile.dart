@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/http/webclients/courses.dart';
 import 'package:inov_connect/http/webclients/user_webclient.dart';
-import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
 class EditProfile extends StatefulWidget {
 
@@ -271,12 +270,11 @@ class _EditProfileState extends State<EditProfile> {
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return ExampleDialog(
+            return PopupDialog(
               message: 'Seu perfil foi editado.',
-              redirWidget: BottomTemplate(firstIndex: 0),
             );
           }
-        );
+        ).then((value) => Navigator.pop(context));
       })
       .catchError((err) {
         String error = err.toString();
@@ -284,7 +282,7 @@ class _EditProfileState extends State<EditProfile> {
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return ExampleDialog(
+            return PopupDialog(
               message: error
             );
           }

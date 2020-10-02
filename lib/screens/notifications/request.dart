@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/example_dialog.dart';
+import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
@@ -182,7 +182,7 @@ class RequestItem extends StatelessWidget {
                 barrierDismissible: false,
                 context: context,
                 builder: (context) {
-                  return ExampleDialog(
+                  return PopupDialog(
                     message: 'Usuário aceito na publicação.',
                   );
                 }
@@ -194,7 +194,7 @@ class RequestItem extends StatelessWidget {
                 barrierDismissible: false,
                 context: context,
                 builder: (context) {
-                  return ExampleDialog(
+                  return PopupDialog(
                     message: 'Usuário recusado na publicação.',
                   );
                 }
@@ -206,7 +206,7 @@ class RequestItem extends StatelessWidget {
                 barrierDismissible: false,
                 context: context,
                 builder: (context) {
-                  return ExampleDialog(
+                  return PopupDialog(
                     message: 'Um erro ocorreu...',
                   );
                 }
