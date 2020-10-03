@@ -70,7 +70,10 @@ class _FeedState extends State<Feed> {
                     data.map((dynamic json) => Post.fromJson(json)).toList();
                 if (_postsProjetos.isNotEmpty) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                      left: 8.0,
+                      right: 8.0,
+                    ),
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         final Post post = _postsProjetos[index];
