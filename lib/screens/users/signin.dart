@@ -22,100 +22,114 @@ class _SigninState extends State<Signin> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 30, right: 30, bottom: 0, top: 32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(48.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(16.0),
-                  ),
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                  ),
-                ),
-              ),
-              InovTextField(
-                controller: _controllerRA,
-                inputType: TextInputType.number,
-                icon: Icons.account_box,
-                label: 'RA',
-                padBottom: 16.0,
-              ),
-              InovTextField(
-                controller: _controllerPassword,
-                obscure: true,
-                icon: Icons.lock,
-                label: 'Senha',
-                padBottom: 8.0,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Forgot()));
-                  },
-                  child: Text(
-                    'Esqueci minha senha',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.lightBlue[300],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 72.0, bottom: 16.0),
-                child: ButtonTheme(
-                  height: 80,
-                  minWidth: 300,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0),
-                    ),
-                    onPressed: () {
-                      _loginValidation(context);
-                    },
-                    color: Colors.lightBlue[300],
-                    child: Text(
-                      'Entrar',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
+          alignment: Alignment.center,
+          child: FractionallySizedBox(
+            widthFactor: 0.9,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.15),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16.0),
+                      ),
+                      child: Image.asset(
+                        'assets/images/logo.png',
                       ),
                     ),
                   ),
                 ),
-              ),
-              InkWell(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Ainda não criou sua conta? ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.lightBlue[300],
+                InovTextField(
+                  controller: _controllerRA,
+                  inputType: TextInputType.number,
+                  icon: Icons.account_box,
+                  label: 'RA',
+                  padBottom: 8.0,
+                ),
+                InovTextField(
+                  controller: _controllerPassword,
+                  obscure: true,
+                  icon: Icons.lock,
+                  label: 'Senha',
+                  padBottom: 8.0,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.02
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Criar',
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Forgot()));
+                      },
+                      child: Text(
+                        'Esqueci minha senha',
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.lightBlue[300],
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Signup()));
-                },
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.02,
+                    bottom: MediaQuery.of(context).size.height * 0.02
+                  ),
+                  child: ButtonTheme(
+                    height: 80,
+                    minWidth: 300,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                      ),
+                      onPressed: () {
+                        _loginValidation(context);
+                      },
+                      color: Colors.lightBlue[300],
+                      child: Text(
+                        'Entrar',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Ainda não criou sua conta? ',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.lightBlue[300],
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Criar',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.lightBlue[300],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Signup()));
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
