@@ -48,42 +48,47 @@ class ParticipationItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.60,
-                        child: Text(
-                          '$notification',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.black,
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.60,
+                          child: Text(
+                            '$notification',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        '$title',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Text(
-                          publishDate,
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                            color: Color.fromARGB(255, 69, 90, 100),
+                        Container(
+                          child: Text(
+                            '$title',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Text(
+                            publishDate,
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                              color: Color.fromARGB(255, 69, 90, 100),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

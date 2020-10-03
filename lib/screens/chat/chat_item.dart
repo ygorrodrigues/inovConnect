@@ -65,31 +65,47 @@ class ChatItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            _otherUser(users),
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              '$postTitle',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              _otherUser(users),
                               style: const TextStyle(
-                                fontSize: 14.0,
+                                fontSize: 16.0,
                                 color: Colors.black,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
+                            Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Sobre: ',
+                                    style: const TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Container(
+                                    child: Text(
+                                      postTitle,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

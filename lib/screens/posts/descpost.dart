@@ -101,26 +101,30 @@ class DescPost extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 6.0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            'Título: ',
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: RichText(
+                          maxLines: 10,
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            text: 'Título: ',
                             style: const TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
+                            children: [
+                              TextSpan(
+                                text: _postProjeto.title,
+                                style: const TextStyle(
+                                  fontSize: 22.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal
+                                ),
+                              )
+                            ]
                           ),
-                          Text(
-                            _postProjeto.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     Padding(

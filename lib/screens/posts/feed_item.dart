@@ -15,7 +15,7 @@ class FeedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onDoubleTap: () {
+      onTap: () {
         if(yourId != postProjeto.ownerId) {
           Navigator.push(context,
             MaterialPageRoute(builder: (context) => DescPost(postProjeto)));
@@ -95,29 +95,34 @@ class FeedItem extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                    child: Text(
                       'Título: ',
                       style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.white
                       ),
                     ),
-                    Text(
-                      postProjeto.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
+                  ),
+                  Flexible(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                      child: Text(
+                        postProjeto.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 4.0, 0, 6.0),
