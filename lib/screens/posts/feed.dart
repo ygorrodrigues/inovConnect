@@ -51,65 +51,68 @@ class _FeedState extends State<Feed> {
           )
         ],
       ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        initialData: {},
-        future: widget._postsWebClient.findAll(typeSelected, categorySelected),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              break;
-            case ConnectionState.waiting:
-              return ProgressLoading(message: 'Carregando');
-              break;
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              if (snapshot.hasData) {
-                List<dynamic> data = snapshot.data['data'];
-                _postsProjetos =
-                    data.map((dynamic json) => Post.fromJson(json)).toList();
-                if (_postsProjetos.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0,
-                      right: 8.0,
-                    ),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        final Post post = _postsProjetos[index];
-                        return FeedItem(post, snapshot.data['yourId']);
-                      },
-                      itemCount: _postsProjetos.length,
-                    ),
-                  );
+      body: RefreshIndicator(
+        onRefresh: _updateScreen,
+        child: FutureBuilder<Map<String, dynamic>>(
+          initialData: {},
+          future: widget._postsWebClient.findAll(typeSelected, categorySelected),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                break;
+              case ConnectionState.waiting:
+                return ProgressLoading(message: 'Carregando');
+                break;
+              case ConnectionState.active:
+                break;
+              case ConnectionState.done:
+                if (snapshot.hasData) {
+                  List<dynamic> data = snapshot.data['data'];
+                  _postsProjetos =
+                      data.map((dynamic json) => Post.fromJson(json)).toList();
+                  if (_postsProjetos.isNotEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                      ),
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          final Post post = _postsProjetos[index];
+                          return FeedItem(post, snapshot.data['yourId'], this._feedItemEditCallback);
+                        },
+                        itemCount: _postsProjetos.length,
+                      ),
+                    );
+                  }
+                  return CenteredMessage('No posts found',
+                      icon: Icons.warning);
                 }
-                return CenteredMessage('No posts found',
-                    icon: Icons.warning);
-              }
-              break;
-          }
-          if (snapshot.hasError) {
-            Map<String, dynamic> error = snapshot.error;
-            if (error['statusCode'] == 401) {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return PopupDialog(
-                    message: 'Sessão expirada',
-                  );
-                }
-              ).then((value) => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Signin()
-                )
-              ));
-            } else
-              print(error);
-          }
-          return CenteredMessage('Unknown error', icon: Icons.close);
-        },
+                break;
+            }
+            if (snapshot.hasError) {
+              Map<String, dynamic> error = snapshot.error;
+              if (error['statusCode'] == 401) {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return PopupDialog(
+                      message: 'Sessão expirada',
+                    );
+                  }
+                ).then((value) => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Signin()
+                  )
+                ));
+              } else
+                print(error);
+            }
+            return CenteredMessage('Unknown error', icon: Icons.close);
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue[300],
@@ -117,9 +120,19 @@ class _FeedState extends State<Feed> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return FormPost();
-          }));
+          })).then((value) => value == 'Ok' ? setState((){}) : null);
         },
       ),
     );
+  }
+
+  void _feedItemEditCallback() {
+    setState(() {});
+  }
+
+  Future<Null> _updateScreen() async {
+    await Future.delayed(Duration(microseconds: 500));
+    setState(() {});
+    return null;
   }
 }

@@ -22,70 +22,80 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.lightBlue[300],
         title: Text('Conversas')
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: widget._chatsWebClient.listChats(),
-        builder: (context, snapshot) {
-          switch(snapshot.connectionState) {
-            case ConnectionState.none:
-              break;
-            case ConnectionState.waiting:
-              return ProgressLoading(message: 'Carregando');
-              break;
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              if (snapshot.hasData) {
-                _myData = snapshot.data;
-                if (snapshot.data.isNotEmpty) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      final Map<String, dynamic> item = _myData[index];
-                      return ChatItem(
-                        chatId: item['id'],
-                        yourId: item['yourId'],
-                        memberId: item['member']['id'],
-                        memberUserId: item['member']['user_id'],
-                        image: 'assets/images/personIcon76.jpg',
-                        postTitle: item['post_title'],
-                        users: item['users'],
-                        callback: this.chatsCallback
-                      );
-                    },
-                    itemCount: _myData.length,
-                  );                  
+      body: RefreshIndicator(
+        onRefresh: _updateScreen,
+        child: FutureBuilder<List<dynamic>>(
+          future: widget._chatsWebClient.listChats(),
+          builder: (context, snapshot) {
+            switch(snapshot.connectionState) {
+              case ConnectionState.none:
+                break;
+              case ConnectionState.waiting:
+                return ProgressLoading(message: 'Carregando');
+                break;
+              case ConnectionState.active:
+                break;
+              case ConnectionState.done:
+                if (snapshot.hasData) {
+                  _myData = snapshot.data;
+                  if (snapshot.data.isNotEmpty) {
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final Map<String, dynamic> item = _myData[index];
+                        return ChatItem(
+                          chatId: item['id'],
+                          yourId: item['yourId'],
+                          memberId: item['member']['id'],
+                          memberUserId: item['member']['user_id'],
+                          image: 'assets/images/personIcon76.jpg',
+                          postTitle: item['post_title'],
+                          users: item['users'],
+                          callback: this.chatsCallback
+                        );
+                      },
+                      itemCount: _myData.length,
+                    );                  
+                  }
+                  return CenteredMessage('No chat found...',
+                      icon: Icons.warning);
                 }
-                return CenteredMessage('No chat found...',
-                    icon: Icons.warning);
-              }
-              break;
-          }
-          if(snapshot.hasError) {
-            Map<String, dynamic> error = snapshot.error;
-            if(error['statusCode'] == 401) {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return PopupDialog(
-                    message: 'Sessão expirada',
-                  );
-                }
-              ).then((value) => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Signin()
-                )
-              ));
+                break;
             }
-            else print(error);
+            if(snapshot.hasError) {
+              Map<String, dynamic> error = snapshot.error;
+              if(error['statusCode'] == 401) {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return PopupDialog(
+                      message: 'Sessão expirada',
+                    );
+                  }
+                ).then((value) => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Signin()
+                  )
+                ));
+              }
+              else print(error);
+            }
+            return CenteredMessage('Unknown error...', icon: Icons.close);
           }
-          return CenteredMessage('Unknown error...', icon: Icons.close);
-        }
+        ),
       )
     );
   }
 
-  void chatsCallback() {
+  Future<Null> _updateScreen() async {
+    await Future.delayed(Duration(microseconds: 500));
+    setState(() {});
+    return null;
+  }
+
+  void chatsCallback() async {
+    await Future.delayed(Duration(microseconds: 500));
     setState(() {});
   }
 }

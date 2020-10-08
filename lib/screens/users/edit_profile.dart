@@ -263,6 +263,7 @@ class _EditProfileState extends State<EditProfile> {
       widget.description : _controllerDescription.text;
     final String finalCourseSelection = _courseSelection == null ?
       widget.courseId.toString() : _courseSelection;
+    FocusScope.of(context).requestFocus(FocusNode());
     
     _userWebCliente.updateUserData(name, description, finalCourseSelection)
       .then((resp) {
@@ -274,7 +275,7 @@ class _EditProfileState extends State<EditProfile> {
               message: 'Seu perfil foi editado.',
             );
           }
-        ).then((value) => Navigator.pop(context));
+        ).then((value) => Navigator.pop(context, 'Ok'));
       })
       .catchError((err) {
         String error = err.toString();

@@ -197,7 +197,8 @@ class _EditPostState extends State<EditPost> {
     final String description = _controllerDescription.text == '' ?
       widget.post.description : _controllerDescription.text;
     final String finalStatusSelection = _statusSelection == null ?
-      widget.post.postStatusId.toString() : _statusSelection;
+      _findStatusId() : _statusSelection;
+    FocusScope.of(context).requestFocus(FocusNode());
 
     _postsWebClient.updatePost(widget.post.id, description, finalStatusSelection)
       .then((resp) {
@@ -209,7 +210,7 @@ class _EditPostState extends State<EditPost> {
               message: 'Sua publicação foi editada.',
             );
           }
-        ).then((value) => Navigator.pop(context));
+        ).then((value) => Navigator.pop(context, 'Ok'));
       })
       .catchError((err) {
         String error = err.toString();
@@ -223,5 +224,15 @@ class _EditPostState extends State<EditPost> {
           }
         );
       });
+  }
+
+  String _findStatusId() {
+    String status;
+    _dropdownStatus.forEach((element) {
+      if(element['name'] == widget.post.postStatus) {
+        status = element['id'].toString();
+      }
+    });
+    return status;
   }
 }

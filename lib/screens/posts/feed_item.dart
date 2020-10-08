@@ -6,9 +6,11 @@ import 'package:inov_connect/screens/posts/descpost_profile.dart';
 class FeedItem extends StatelessWidget {
   final Post postProjeto;
   final int yourId;
+  final Function callback;
   const FeedItem(
     this.postProjeto,
-    this.yourId
+    this.yourId,
+    this.callback
   );
   final String image = 'assets/images/personIcon64.jpg';
 
@@ -22,7 +24,8 @@ class FeedItem extends StatelessWidget {
         }
         else {
           Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DescPostProfile(postProjeto)));
+            MaterialPageRoute(builder: (context) => DescPostProfile(postProjeto)))
+            .then((value) => value == 'Ok' ? callback() : null);
         }
       },
       child: Card(
@@ -68,30 +71,33 @@ class FeedItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 4.0),
-                        child: Text(
-                          postProjeto.username,
-                          style: const TextStyle(
-                            fontSize: 24.0,
-                            color: Colors.white,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 4.0),
+                          child: Text(
+                            postProjeto.username,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 24.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                        child: Text(
-                          postProjeto.creationDate,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.white,
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                          child: Text(
+                            postProjeto.creationDate,
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

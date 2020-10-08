@@ -193,7 +193,7 @@ class DescPostProfile extends StatelessWidget {
                               post: _postProjeto,
                             ),
                           ),
-                        );
+                        ).then((value) => value == 'Ok' ? Navigator.pop(context, 'Ok') : null);
                       },
                       color: Color.fromARGB(255, 2, 136, 209),
                       child: Text(

@@ -402,6 +402,7 @@ class FormPostState extends State<FormPost> {
       int.parse(_firstCategorySelection) : 0;
     int secondCategorySelected = _secondCategorySelection != null ?
       int.parse(_secondCategorySelection) : 0;
+    FocusScope.of(context).requestFocus(FocusNode());
 
     final int sumOfCategories = firstCategorySelected + secondCategorySelected;
 
@@ -426,7 +427,7 @@ class FormPostState extends State<FormPost> {
                 message: 'Publicação criada, verifique suas publicações.'
               );
             }
-          ).then((value) => Navigator.pop(context));
+          ).then((value) => Navigator.pop(context, 'Ok'));
         })
         .catchError((err) {
           String error = err.toString();

@@ -62,10 +62,11 @@ class _ProfileState extends State<Profile> {
                           projects: _nProjects,
                           studyGroups: _nStudyGroups,
                           doubts: _nDoubts,
+                          callback: _editAndCreationCallback,
                         );
                       }
                       final Post post = _userPosts[index - 1];
-                      return FeedItem(post, _userData['id']);
+                      return FeedItem(post, _userData['id'], _editAndCreationCallback);
                     },
                     itemCount: _userPosts.length + 1,
                   );
@@ -104,6 +105,10 @@ class _ProfileState extends State<Profile> {
     }
     return count;
   }
+
+  void _editAndCreationCallback() {
+    setState(() {});
+  }
 }
 
 class UserInformation extends StatelessWidget {
@@ -111,11 +116,13 @@ class UserInformation extends StatelessWidget {
   final int projects;
   final int studyGroups;
   final int doubts;
+  final Function callback;
   const UserInformation({
     this.userInfo,
     this.projects,
     this.studyGroups,
-    this.doubts
+    this.doubts,
+    this.callback
   });
 
   @override
@@ -145,7 +152,8 @@ class UserInformation extends StatelessWidget {
                               name: userInfo['name'],
                               description: userInfo['description'],
                               courseId: userInfo['course']['id'],
-                            )));
+                            ))
+                          ).then((value) => value == 'Ok' ? callback() : null);
                         },
                         child: Text(
                           'Editar',
@@ -320,7 +328,8 @@ class UserInformation extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FormPost()));
+                  MaterialPageRoute(builder: (context) => FormPost()))
+                .then((value) => value == 'Ok' ? callback() : null);
               }
             ),
           ),
