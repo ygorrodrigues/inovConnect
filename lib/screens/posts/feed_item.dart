@@ -162,8 +162,11 @@ class FeedItem extends StatelessWidget {
 
   String _mountCategoriesString() {
     String categories = ' ';
-    for(dynamic category in postProjeto.categories) {
-      categories += category['name'] + ' ';
+    for(int i = 0; i < postProjeto.categories.length; i++) {
+      if(i != postProjeto.categories.length - 1)
+        categories += postProjeto.categories[i]['name'] + ', ';
+      else
+        categories += postProjeto.categories[i]['name'];
     }
     return categories;
   }

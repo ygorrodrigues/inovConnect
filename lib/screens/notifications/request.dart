@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
-import 'package:inov_connect/screens/bottom/bottom_template.dart';
 
 class RequestItem extends StatelessWidget {
   final MembersWebClient _membersWebClient = MembersWebClient();
@@ -171,47 +170,53 @@ class RequestItem extends StatelessWidget {
   void _changeMemberStatus(BuildContext context, int newStatus) {
     _membersWebClient.changeMemberStatus(memberId, newStatus)
       .then((resp) {
-        if(newStatus == 2) {
-          Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => BottomTemplate(firstIndex: 3)));
-        }
-        else {
-          switch (newStatus) {
-            case 3:
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return PopupDialog(
-                    message: 'Usuário aceito na publicação.',
-                  );
-                }
-              );
-              callback();
-              break;
-            case 4:
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return PopupDialog(
-                    message: 'Usuário recusado na publicação.',
-                  );
-                }
-              );
-              callback();
-              break;
-            default:
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return PopupDialog(
-                    message: 'Um erro ocorreu...',
-                  );
-                }
-              );
-          }
+        switch (newStatus) {
+          case 2:
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return PopupDialog(
+                  message: 'Usuário enviado para o chat.',
+                );
+              }
+            );
+            callback();
+            break;
+          case 3:
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return PopupDialog(
+                  message: 'Usuário aceito na publicação.',
+                );
+              }
+            );
+            callback();
+            break;
+          case 4:
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return PopupDialog(
+                  message: 'Usuário recusado na publicação.',
+                );
+              }
+            );
+            callback();
+            break;
+          default:
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return PopupDialog(
+                  message: 'Um erro ocorreu...',
+                );
+              }
+            );
         }
       })
       .catchError((err) {

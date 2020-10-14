@@ -136,6 +136,7 @@ class _FeedState extends State<Feed> {
           setState(() {
             showLimit = _postsProjetos.length;
             endOfPosts = true;
+            updatingScreen = false;
           });
         }
       })
@@ -161,7 +162,7 @@ class _FeedState extends State<Feed> {
     _postsProjetos = [];
     endOfPosts = false;
     updatingScreen = true;
-    controller.jumpTo(controller.position.minScrollExtent);
+    // controller.jumpTo(controller.position.minScrollExtent);
     _updatePostsData();
   }
 
