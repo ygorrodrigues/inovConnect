@@ -8,13 +8,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PostsWebClient{
 
-  Future<Map<String, dynamic>> findAll(int typeId, int categoryId) async{
+  Future<Map<String, dynamic>> findAll(int typeId, int categoryId, int pageN) async{
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
     String type = typeId.toString();
     String category = categoryId.toString();
+    String page = pageN.toString();
 
-    var uri = filtered_posts_url + '?type=$type&category=$category';
+    var uri = filtered_posts_url + '?page=$page&type=$type&category=$category';
     final Response response =
       await client.get(
         uri,
