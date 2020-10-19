@@ -95,7 +95,11 @@ class OtherUserInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * 0.02,
+        left: 8.0,
+        right: 8.0
+      ),
       child: Column(
         children: [
           Container(

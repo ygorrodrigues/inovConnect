@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:inov_connect/http/webclient.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -45,7 +46,8 @@ class LoginWebClient{
           print('Erro ao contactar o servidor');
         });
 
-      if(response.statusCode == 500) {
+      if(response.statusCode != 200) {
+        removeToken();
         throw Exception('Sessão finalizada');
       }
     }

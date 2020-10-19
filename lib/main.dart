@@ -31,16 +31,14 @@ class InovConnect extends StatelessWidget {
                 ),
                 home: Signin()
               );
-            } 
-            else {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                theme: ThemeData(
-                  scaffoldBackgroundColor: Colors.grey[50],
-                ),
-                home: BottomTemplate(firstIndex: 1)
-              );
             }
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                scaffoldBackgroundColor: Colors.grey[50],
+              ),
+              home: BottomTemplate(firstIndex: 1)
+            );
             break;
         }
           return Signin();
