@@ -162,8 +162,17 @@ class _FeedState extends State<Feed> {
     _postsProjetos = [];
     endOfPosts = false;
     updatingScreen = true;
-    // controller.jumpTo(controller.position.minScrollExtent);
     _updatePostsData();
+    _scrollToTop();
+  }
+
+  void _scrollToTop() {
+    var future = new Future.delayed(const Duration(milliseconds: 10));
+    future.then((value) => controller.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut
+    ));
   }
 
   void _scrollListener() {

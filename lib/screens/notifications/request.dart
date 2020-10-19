@@ -180,8 +180,7 @@ class RequestItem extends StatelessWidget {
                   message: 'Usuário enviado para o chat.',
                 );
               }
-            );
-            callback();
+            ).then((value) => callback());
             break;
           case 3:
             showDialog(
@@ -192,8 +191,7 @@ class RequestItem extends StatelessWidget {
                   message: 'Usuário aceito na publicação.',
                 );
               }
-            );
-            callback();
+            ).then((value) => callback());
             break;
           case 4:
             showDialog(
@@ -204,8 +202,7 @@ class RequestItem extends StatelessWidget {
                   message: 'Usuário recusado na publicação.',
                 );
               }
-            );
-            callback();
+            ).then((value) => callback());
             break;
           default:
             showDialog(
