@@ -26,7 +26,11 @@ class _SignupState extends State<Signup> {
   List<Map> _dropdownCourses = [
     {'id': 0, 'name': 'Selecione seu curso'}
   ];
-  List<String> _emailOptions = ['@unisanta.br', '@alunos.unisanta.br'];
+  List<Map> _emailOptions = [
+    {'id': 0, 'name': '@alunos.unisanta.br'},
+    {'id': 1, 'name': '@unisanta.br'}
+  ];
+  String _emailSelection = '0';
 
   @override
   void initState() {
@@ -96,7 +100,7 @@ class _SignupState extends State<Signup> {
                         ),
                         child: DropdownButton<String>(
                           isExpanded: true,
-                          value: dropdownEmail,
+                          value: _emailSelection,
                           icon: Icon(Icons.keyboard_arrow_down),
                           style: TextStyle(
                             fontSize: 16,
@@ -104,15 +108,15 @@ class _SignupState extends State<Signup> {
                           ),
                           onChanged: (String newValue) {
                             setState(() {
-                              dropdownEmail = newValue;
+                              _emailSelection = newValue;
                             });
                           },
                           items: _emailOptions
-                              .map<DropdownMenuItem<String>>((String value) {
+                              .map<DropdownMenuItem<String>>((Map map) {
                             return DropdownMenuItem<String>(
-                                value: value,
+                                value: map['id'].toString(),
                                 child: Text(
-                                  value,
+                                  map['name'],
                                   overflow: TextOverflow.ellipsis,
                                 ));
                           }).toList(),
@@ -289,7 +293,7 @@ class _SignupState extends State<Signup> {
 
   void _signupValidation(BuildContext context) {
     final String name = _controllerName.text;
-    final String email = _controllerEmail.text + dropdownEmail;
+    final String email = _controllerEmail.text + _emailOptions[int.parse(_emailSelection)]['name'];
     final String password = _controllerPassword.text;
     final String ra = _controllerRA.text;
 

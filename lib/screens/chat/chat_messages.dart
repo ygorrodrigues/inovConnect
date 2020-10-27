@@ -122,13 +122,18 @@ class _ChatMessagesState extends State<ChatMessages> {
                           'assets/images/personIcon64.jpg',
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0, 0, 0, 0),
-                        child: Text(
-                          widget.contact,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                      Flexible(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.03
+                          ),
+                          child: Text(
+                            widget.contact,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
                           ),
                         ),
                       ),

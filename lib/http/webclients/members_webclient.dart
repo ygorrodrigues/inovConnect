@@ -79,4 +79,24 @@ class MembersWebClient {
         print('Erro -> $err');
       });
   }
+
+  Future<Map<String, dynamic>> listMembers(int postId) async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    var uri = get_members_url + '?post=$postId';
+    final Response response = await client.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+    );
+    try {
+      Map<String, dynamic> resp = jsonDecode(response.body);
+      return resp;
+    }
+    catch(e) {
+      throw Exception(e);
+    }
+  }
 }
