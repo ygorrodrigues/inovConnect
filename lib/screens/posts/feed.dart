@@ -184,7 +184,6 @@ class _FeedState extends State<Feed> {
       }
       else {
         page++;
-        print(page);
         _updatePostsData();
       }
     }

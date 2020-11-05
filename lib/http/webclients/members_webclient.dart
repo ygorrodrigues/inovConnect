@@ -58,6 +58,35 @@ class MembersWebClient {
     }
   }
 
+  Future<Map<String, dynamic>> listNewNotifications() async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+
+    final Response response = await client.get(
+      list_notifications_url,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+    )
+      .timeout(Duration(seconds: 5))
+      .catchError((err){
+        print('Erro -> $err');
+      });
+
+    if(response.statusCode > 300) {
+      throw jsonDecode(response.body);
+    }
+      
+    Map<String, dynamic> data = jsonDecode(response.body);
+    try{
+      return data;
+    }
+    catch(e){
+      throw Exception(e);
+    }
+  }
+
   Future<void> changeMemberStatus(int memberId, int newStatusId) async {
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
@@ -98,5 +127,27 @@ class MembersWebClient {
     catch(e) {
       throw Exception(e);
     }
+  }
+
+  Future<void> updateNotifications(List ownerNotifications, List memberNotifications) async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    final String updateNotificationsJson = jsonEncode({
+      'ownerNotifications': ownerNotifications,
+      'memberNotifications': memberNotifications,
+    });
+
+    client.patch(
+      update_notifications_url,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+      body: updateNotificationsJson
+    )
+      .timeout(Duration(seconds: 5))
+      .catchError((err){
+        print('Erro -> $err');
+      });
   }
 }

@@ -17,12 +17,14 @@ class ChatMessages extends StatefulWidget {
   final int yourId;
   final String contact;
   final int contactId;
+  final String role;
   const ChatMessages({
     Key key,
     this.chatId,
     this.yourId,
     this.contact,
-    this.contactId
+    this.contactId,
+    this.role
   }) : super(key: key);
 
   @override
@@ -223,7 +225,7 @@ class _ChatMessagesState extends State<ChatMessages> {
   void _sendMessage() {
     if(_controllerMessage.text.length > 0) {
       _chatsWebClient.sendMessage(
-        widget.chatId, _controllerMessage.text
+        widget.chatId, _controllerMessage.text, widget.role
       )
         .catchError((err) {
           print(err);

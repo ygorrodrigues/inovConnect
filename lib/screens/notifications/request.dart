@@ -14,7 +14,8 @@ class RequestItem extends StatelessWidget {
     this.title,
     this.notification,
     this.status,
-    this.callback
+    this.callback,
+    this.highlight,
   }) : super(key: key);
 
   final int memberId;
@@ -25,11 +26,16 @@ class RequestItem extends StatelessWidget {
   final String notification;
   final String status;
   final Function callback;
+  final bool highlight;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: highlight ? Colors.red : Colors.white,
+          width: 4
+        ),
         borderRadius: BorderRadius.circular(
           12.0,
         ),

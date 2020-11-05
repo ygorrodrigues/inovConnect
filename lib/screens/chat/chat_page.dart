@@ -38,6 +38,7 @@ class _ChatPageState extends State<ChatPage> {
               case ConnectionState.done:
                 if (snapshot.hasData) {
                   _myData = snapshot.data;
+                  
                   if (snapshot.data.isNotEmpty) {
                     return ListView.builder(
                       itemBuilder: (context, index) {
@@ -50,6 +51,8 @@ class _ChatPageState extends State<ChatPage> {
                           image: 'assets/images/personIcon76.jpg',
                           postTitle: item['post_title'],
                           users: item['users'],
+                          highlight: item['yourId'] == item['member']['user_id']
+                            ? !item['member_notified'] : !item['owner_notified'],
                           callback: this.chatsCallback
                         );
                       },

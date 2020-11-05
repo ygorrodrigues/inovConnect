@@ -27,3 +27,7 @@ const String messages_url = '$url/messages';
 const String post_status_url = '$url/posts-status';
 const String other_user_info_url = '$url/other-user/profile';
 const String get_members_url = '$url/members-of-post';
+const String list_notifications_url = '$url/list-notifications';
+const String update_notifications_url = '$url/notifications-seen-update';
+const String list_chats_notifications_url = '$url/chats-notifications';
+const String update_chats_notifications_url = '$url/chats-notifications-update';

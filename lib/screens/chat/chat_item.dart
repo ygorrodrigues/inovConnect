@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/popup_dialog.dart';
+import 'package:inov_connect/http/webclients/chats_webclient.dart';
 import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/screens/chat/chat_messages.dart';
 
 class ChatItem extends StatelessWidget {
   final MembersWebClient _membersWebClient = MembersWebClient();
+  final ChatsWebClient _chatsWebClient = ChatsWebClient();
 
   ChatItem({
     Key key,
@@ -15,6 +17,7 @@ class ChatItem extends StatelessWidget {
     this.image,
     this.users,
     this.postTitle,
+    this.highlight,
     this.callback
   }) : super(key: key);
 
@@ -26,15 +29,18 @@ class ChatItem extends StatelessWidget {
   final List users;
   final String postTitle;
   final Function callback;
+  final bool highlight;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        _updateNotificationOfChat();
         Navigator.push(context,
           MaterialPageRoute(builder: (context) => ChatMessages(
             chatId: chatId,
             yourId: yourId,
+            role: yourId == memberId ? 'member': 'owner',
             contact: _otherUser(users),
             contactId: _otherUserId(yourId),
           )));
@@ -43,6 +49,10 @@ class ChatItem extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
         child: Card(
           shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: highlight ? Colors.red : Colors.white,
+              width: 4
+            ),
             borderRadius: BorderRadius.circular(
               12.0,
             ),
@@ -226,5 +236,10 @@ class ChatItem extends StatelessWidget {
       .catchError((err) {
         print(err);
       });
+  }
+
+  void _updateNotificationOfChat() {
+    String whoToUpdate = yourId == memberId ? 'member' : 'owner';
+    _chatsWebClient.updateChatNotifications(whoToUpdate, chatId);
   }
 }

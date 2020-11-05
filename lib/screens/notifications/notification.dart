@@ -41,6 +41,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 if (snapshot.hasData) {
                   _myData = snapshot.data['data'];
                   _yourId = snapshot.data['yourId'];
+                  _updateNotifications();
                   if (_myData.isNotEmpty) {
                     return ListView.builder(
                       itemBuilder: (context, index) {
@@ -53,6 +54,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             title: item['post']['title'],
                             notification: item['status_message'],
                             status: item['member_status']['name'],
+                            highlight: !item['member_notified'],
                           );
                         }
                         else {
@@ -65,6 +67,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             notification: 'Solicitou a entrada no seu projeto',
                             status: item['member_status']['name'],
                             callback: this.notificationsCallback,
+                            highlight: !item['owner_notified'],
                           );
                         }
                       },
@@ -100,6 +103,23 @@ class _NotificationPageState extends State<NotificationPage> {
           }
         ),
       )
+    );
+  }
+
+  void _updateNotifications() {
+    List ownerNotificationsToUpdate = [];
+    List memberNotificationsToUpdate = [];
+    for(Map item in _myData) {
+      if(!item['owner_notified'] && item['post']['user_id'] == _yourId) {
+        ownerNotificationsToUpdate.add(item['id']);
+      }
+      else if (!item['member_notified'] && item['user']['id'] == _yourId) {
+        memberNotificationsToUpdate.add(item['id']);
+      }
+    }
+    widget._membersWebClient.updateNotifications(
+      ownerNotificationsToUpdate,
+      memberNotificationsToUpdate
     );
   }
 

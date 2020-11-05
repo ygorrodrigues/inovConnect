@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:inov_connect/http/webclients/chats_webclient.dart';
+import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/screens/posts/feed.dart';
 import 'package:inov_connect/screens/chat/chat_page.dart';
 import 'package:inov_connect/screens/users/profile.dart';
@@ -19,11 +23,31 @@ class BottomTemplate extends StatefulWidget {
 
 class _BottomTemplateState extends State<BottomTemplate> {
   int _currentIndex = 0;
+  MembersWebClient _membersWebClient = MembersWebClient();
+  ChatsWebClient _chatsWebClient = ChatsWebClient();
+  int _numberOfNotifications = 0;
+  int _numberOfChatNotifications = 0;
+  Timer verificationTimer;
 
   @override
   void initState() {
-    _currentIndex = this.widget.firstIndex;
     super.initState();
+    _currentIndex = this.widget.firstIndex;
+    _verifyNotifications();
+    _verifyChatNotifications();
+    verificationTimer = Timer.periodic(
+      new Duration(seconds: 2),
+      (_) {
+        _verifyNotifications();
+        _verifyChatNotifications();
+      }
+    );
+  }
+
+  @override
+  void dispose() {
+    verificationTimer.cancel();
+    super.dispose();
   }
 
   final List<Widget> _children = [
@@ -37,6 +61,48 @@ class _BottomTemplateState extends State<BottomTemplate> {
   {
     setState(() {
       _currentIndex = index;
+    });
+  }
+
+  void _verifyNotifications() {
+    _membersWebClient.listNewNotifications()
+    .then((data) {
+      int n = 0;
+      for (var i = 0; i < data['data'].length; i++) {
+        Map<String,dynamic> item = data['data'][i];
+        if(!item['owner_notified'] 
+          && item['post']['user_id'] == data['yourId']) {
+            n++;
+          }
+        else if (!item['member_notified']
+          && item['user']['id'] == data['yourId']) {
+            n++;
+          }
+      }
+      setState(() {
+        _numberOfNotifications = n;
+      });
+    });
+  }
+
+  void _verifyChatNotifications() {
+    _chatsWebClient.listChatsNotifications()
+    .then((data) {
+      int n = 0;
+      for (var i = 0; i < data.length; i++) {
+        Map<String,dynamic> item = data[i];
+        if(!item['member_notified']
+          && item['member']['user_id'] == item['yourId']) {
+            n++;
+          }
+        else if (!item['owner_notified']
+          && item['member']['user_id'] != item['yourId']) {
+            n++;
+          }
+      }
+      setState(() {
+        _numberOfChatNotifications = n;
+      });
     });
   }
 
@@ -59,11 +125,67 @@ class _BottomTemplateState extends State<BottomTemplate> {
             title: Text('Feed'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: _numberOfNotifications != 0 
+              ? Stack(
+                children: [
+                  new Icon(Icons.notifications),
+                  new Positioned(
+                    right: 0,
+                    child: new Container(
+                      padding: EdgeInsets.all(1),
+                      decoration: new BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: new Text(
+                        '$_numberOfNotifications',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  )
+                ],
+              )
+              : Icon(Icons.notifications),
             title: Text('Notificações'),
           ),
           BottomNavigationBarItem(
-            icon:   Icon(Icons.chat),
+            icon: _numberOfChatNotifications != 0 
+              ? Stack(
+                children: [
+                  new Icon(Icons.chat),
+                  new Positioned(
+                    right: 0,
+                    child: new Container(
+                      padding: EdgeInsets.all(1),
+                      decoration: new BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: new Text(
+                        '$_numberOfChatNotifications',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  )
+                ],
+              )
+              : Icon(Icons.chat),
             title: Text('Chats'),
           ),
         ],

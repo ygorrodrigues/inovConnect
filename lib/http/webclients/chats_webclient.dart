@@ -35,9 +35,10 @@ class ChatsWebClient {
     }
   }
 
-  Future<Map<String, dynamic>> sendMessage(int chatId, String message) async {
+  Future<Map<String, dynamic>> sendMessage(int chatId, String message, String role) async {
     final String messageJson = jsonEncode({
       'message': message,
+      'role': role
     });
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
@@ -85,5 +86,55 @@ class ChatsWebClient {
       throw Exception(e);
     }
   }
+
+  Future<List<dynamic>> listChatsNotifications() async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    final Response response = await client.get(
+      list_chats_notifications_url,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+    )
+      .timeout(Duration(seconds: 5))
+        .catchError((err){
+          print('Erro -> $err');
+        });
+
+    if(response.statusCode > 300) {
+      throw jsonDecode(response.body);
+    }
+    
+    List<dynamic> data = jsonDecode(response.body);
+    try{
+      return data;
+    }
+    catch(e){
+      throw Exception('Erro');
+    }
+  }
   
+  Future<void> updateChatNotifications(String update, int chatId) async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    final String updateNotificationsJson = jsonEncode({
+      'chatId': chatId,
+      'update': update
+    });
+
+    client.patch(
+      update_chats_notifications_url,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+      body: updateNotificationsJson
+    )
+      .timeout(Duration(seconds: 5))
+      .catchError((err){
+        print('Erro -> $err');
+      });
+  }
+
 }
