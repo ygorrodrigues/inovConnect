@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/http/webclients/chats_webclient.dart';
-import 'package:inov_connect/http/webclients/members_webclient.dart';
 import 'package:inov_connect/screens/chat/chat_messages.dart';
 
 class ChatItem extends StatelessWidget {
-  final MembersWebClient _membersWebClient = MembersWebClient();
   final ChatsWebClient _chatsWebClient = ChatsWebClient();
 
   ChatItem({
@@ -40,10 +37,16 @@ class ChatItem extends StatelessWidget {
           MaterialPageRoute(builder: (context) => ChatMessages(
             chatId: chatId,
             yourId: yourId,
-            role: yourId == memberId ? 'member': 'owner',
+            memberId: memberId,
+            memberUserId: memberUserId,
             contact: _otherUser(users),
             contactId: _otherUserId(yourId),
-          )));
+          ))
+        ).then((value) {
+          if(value == 'OK') {
+            callback();
+          }
+        });
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
@@ -120,55 +123,6 @@ class ChatItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                memberUserId != yourId ?
-                Row(
-                  children: <Widget>[
-                    Text('Participação: '),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
-                      child: ButtonTheme(
-                        height: 15,
-                        minWidth: 90,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          onPressed: () {
-                            _changeMemberStatus(context, 4);
-                          },
-                          color: Color.fromARGB(255, 241, 78, 78),
-                          child: Text(
-                            'Recusar',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    ButtonTheme(
-                      height: 15,
-                      minWidth: 90,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        onPressed: () {
-                          _changeMemberStatus(context, 3);
-                        },
-                        color: Color.fromARGB(255, 71, 198, 83),
-                        child: Text(
-                          'Aceitar',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ) : Container()
               ],
             ),
           ),
@@ -193,53 +147,8 @@ class ChatItem extends StatelessWidget {
     return 0;
   }
 
-  void _changeMemberStatus(BuildContext context, int newStatus) {
-    _membersWebClient.changeMemberStatus(memberId, newStatus)
-      .then((resp) {
-        switch(newStatus) {
-          case 3:
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return PopupDialog(
-                  message: 'Usuário aceito na publicação.',
-                );
-              }
-            );
-            callback();
-            break;
-          case 4:
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return PopupDialog(
-                  message: 'Usuário recusado na publicação.',
-                );
-              }
-            );
-            callback();
-            break;
-          default:
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return PopupDialog(
-                  message: 'Um erro ocorreu...',
-                );
-              }
-            );
-        }
-      })
-      .catchError((err) {
-        print(err);
-      });
-  }
-
   void _updateNotificationOfChat() {
-    String whoToUpdate = yourId == memberId ? 'member' : 'owner';
+    String whoToUpdate = yourId == memberUserId ? 'member' : 'owner';
     _chatsWebClient.updateChatNotifications(whoToUpdate, chatId);
   }
 }
