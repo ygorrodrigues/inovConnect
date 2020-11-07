@@ -3,13 +3,18 @@ import 'package:inov_connect/components/popup_dialog.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 
-class Forgot extends StatefulWidget {
+class ChangeEmail extends StatefulWidget {
+
+  final String usuario;
+  const ChangeEmail({
+    this.usuario
+  });
 
   @override
-  _ForgotState createState() => _ForgotState();
+  _ChangeEmailState createState() => _ChangeEmailState();
 }
 
-class _ForgotState extends State<Forgot> {
+class _ChangeEmailState extends State<ChangeEmail> {
   List<Map> _emailOptions = [
     {'id': 0, 'name': '@alunos.unisanta.br'},
     {'id': 1, 'name': '@unisanta.br'}
@@ -32,7 +37,7 @@ class _ForgotState extends State<Forgot> {
                   bottom: 64.0,
                 ),
                 child: Text(
-                  'Preencha os campos abaixo, um e-mail será enviado para você.',
+                  'Preencha o campo abaixo com um novo email, o email de confirmação será enviado para você em seguida.',
                   style: TextStyle(
                     fontSize: 24.0,
                     color: Colors.white,
@@ -106,11 +111,11 @@ class _ForgotState extends State<Forgot> {
                       borderRadius: BorderRadius.circular(40.0),
                     ),
                     onPressed: () {
-                      _sendEmail(context);
+                      _changeEmail(context);
                     },
                     color: Colors.white,
                     child: Text(
-                      'Recuperar',
+                      'Modificar',
                       style: TextStyle(
                         fontSize: 24,
                         color: Colors.lightBlue[300],
@@ -119,35 +124,6 @@ class _ForgotState extends State<Forgot> {
                   ),
                 ),
               ),
-              Stack(
-                children: <Widget>[
-                  Text(
-                    'Você já tem uma conta? ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 176.0,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Entrar',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
         ),
@@ -155,19 +131,25 @@ class _ForgotState extends State<Forgot> {
     );
   }
 
-  void _sendEmail(BuildContext context) {
+  void _changeEmail(BuildContext context) {
     final String email = _controllerEmail.text + _emailOptions[int.parse(_emailSelection)]['name'];
-    _loginWebClient.resetPassword(email).then((resp) {
-      String message = resp['message'];
-      if(resp['user']) {
+    _loginWebClient.changeEmail(email, widget.usuario)
+      .then((resp) {
         showDialog(
           barrierDismissible: false,
           context: context,
           builder: (context) {
             return PopupDialog(
-              message: message,
+              message: 'Email modificado e email de confirmação enviado!',
             );
         }).then((value) => Navigator.pop(context));
+    })
+    .catchError((err) {
+      String error = err.toString();
+      print(error);
+      String message = 'Erro desconhecido.';
+      if(error.contains('Email')) {
+        message = 'Email de aluno incorreto!';
       }
       showDialog(
         barrierDismissible: false,
@@ -175,18 +157,6 @@ class _ForgotState extends State<Forgot> {
         builder: (context) {
           return PopupDialog(
             message: message
-          );
-      });
-    })
-    .catchError((err) {
-      String error = err.toString();
-      List<dynamic> message = error.split(': ');
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return PopupDialog(
-            message: message[message.length - 1]
           );
         });
     });

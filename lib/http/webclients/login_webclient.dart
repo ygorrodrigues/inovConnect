@@ -29,7 +29,60 @@ class LoginWebClient{
       return resp;
     }
     catch(e){
-      throw Exception(resp['message']);
+      throw (resp['message']);
+    }
+  }
+
+  Future<String> changeEmail(String email, String usuario) async {
+    final String userDataJson = jsonEncode({
+      'email': email,
+      'usuario': usuario
+    });
+    final Response response =
+      await client.patch(
+        change_email_url, 
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: userDataJson
+      )
+      .timeout(Duration(seconds: 5))
+      .catchError((err) {
+        throw Exception('Tente novamente mais tarde');
+      });
+
+    try{
+      Map<String, dynamic> resp = jsonDecode(response.body);
+      return resp['email'];
+    }
+    catch(e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<String> resendConfirmationEmail(String email) async {
+    final String userDataJson = jsonEncode({
+      'email': email,
+    });
+    final Response response =
+      await client.post(
+        resend_confirmation_url, 
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: userDataJson
+      )
+      .timeout(Duration(seconds: 5))
+      .catchError((err) {
+        throw Exception('Tente novamente mais tarde');
+      });
+
+    try{
+      Map<String, dynamic> resp = jsonDecode(response.body);
+      return resp['name'];
+    }
+    catch(e) {
+      throw Exception(e);
     }
   }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inov_connect/components/popup_dialog.dart';
+import 'package:inov_connect/components/popup_email_confimation.dart';
 import 'package:inov_connect/components/text_field.dart';
 import 'package:inov_connect/http/webclients/login_webclient.dart';
 import 'package:inov_connect/screens/bottom/bottom_template.dart';
+import 'package:inov_connect/screens/users/change_email.dart';
 import 'package:inov_connect/screens/users/forgot.dart';
 import 'package:inov_connect/screens/users/signup.dart';
 
@@ -148,14 +150,45 @@ class _SigninState extends State<Signin> {
           }));
         }
       }).catchError((err) {
-        String error = err.toString();
-        List<dynamic> message = error.split(': ');
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) {
-            return PopupDialog(message: message[message.length - 1]);
+        String fullMessage = err.toString();
+        if(fullMessage.contains('Confirme')) {
+          String message = fullMessage.substring(
+            fullMessage.indexOf('Confirme'),
+            fullMessage.indexOf('^') - 1
+          );
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return PopupDialogEmailConfirmation(
+                message: message
+              );
+            }
+          ).then((value) {
+            if(value == 'MODIFICAR') {
+              Navigator.push(context,
+                MaterialPageRoute(
+                  builder: (context) => ChangeEmail(
+                    usuario: usuario
+                  )
+                )
+              );
+            }
+            else if(value == 'REENVIAR') {
+              String email = message.split(' - ')[1];
+              _webClient.resendConfirmationEmail(email);
+            }
           });
+        }
+        else {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return PopupDialog(message: fullMessage);
+            }
+          );
+        }
       });
     } else {
       showDialog(
