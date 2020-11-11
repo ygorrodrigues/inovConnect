@@ -43,9 +43,7 @@ class ChatItem extends StatelessWidget {
             contactId: _otherUserId(yourId),
           ))
         ).then((value) {
-          if(value == 'OK') {
-            callback();
-          }
+          callback();
         });
       },
       child: Padding(
